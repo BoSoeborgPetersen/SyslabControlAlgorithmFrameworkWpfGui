@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="SyslabControlAlgorithmFrameworkWpfGui.View.ExternalViewUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ViewModel="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.ViewModel"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <ViewModel:ExternalViewViewModel />
+    </UserControl.DataContext>
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Content="Start Algorithm" Command="{Binding StartAlgorithmCommand}"/>
+            <Button Grid.Column="1" Content="Stop Algorithm" Command="{Binding StopAlgorithmCommand}"/>
+            <Button Grid.Column="2" Content="Restart Algorithm" Command="{Binding RestartAlgorithmCommand}"/>
+            <Button Grid.Column="3" Content="Pause Algorithm" Command="{Binding PauseAlgorithmCommand}"/>
+            <Button Grid.Column="4" Content="Resume Algorithm" Command="{Binding ResumeAlgorithmCommand}"/>
+        </Grid>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="Algorithm Names">
+                <ListView ItemsSource="{Binding AlgorithmNames}" SelectedItem="{Binding SelectedAlgorithmName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Header="Run Interval Millis">
+                <TextBlock Text="{Binding RunIntervalMillis}"/>
+            </GroupBox>
+        </Grid>
+        <UniformGrid>
+            <GroupBox Header="Control Parameter Names">
+                <ListView ItemsSource="{Binding ControlParameterNames}" SelectedItem="{Binding SelectedControlParameterName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
+            <GroupBox Header="Control Parameter">
+                <TextBox Text="{Binding ControlParameter}"/>
+            </GroupBox>
+            <GroupBox Header="Control Output Names">
+                <ListView ItemsSource="{Binding ControlOutputNames}" SelectedItem="{Binding SelectedControlOutputName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
+            <GroupBox Header="Control Output">
+                <TextBlock Text="{Binding ControlOutput}"/>
+            </GroupBox>
+        </UniformGrid>
+    </DockPanel>
+</UserControl>

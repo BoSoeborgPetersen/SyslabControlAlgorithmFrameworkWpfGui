@@ -1,0 +1,19 @@
+﻿<Window x:Class="SyslabControlAlgorithmFrameworkWpfGui.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ViewModel="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.ViewModel"
+        xmlns:View="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.View"
+        Height="600" Width="1200"
+        Title="Syslab Control Algorithm Framework WPF GUI">
+    <Window.DataContext>
+        <ViewModel:MainViewModel />
+    </Window.DataContext>
+    <TabControl>
+        <TabItem Header="External View">
+            <View:ExternalViewUserControl/>
+        </TabItem>
+        <TabItem Header="Network Discovery">
+            <View:NetworkDiscoveryUserControl/>
+        </TabItem>
+    </TabControl>
+</Window>
