@@ -15,5 +15,8 @@
         <TabItem Header="Network Discovery">
             <View:NetworkDiscoveryUserControl/>
         </TabItem>
+        <TabItem Header="Message Exchange">
+            <View:MessageExchangeUserControl/>
+        </TabItem>
     </TabControl>
 </Window>

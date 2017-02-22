@@ -92,5 +92,11 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         {
             return ((ArrayList)client.Request("getCurrentAddresses")).Cast<string>().ToList();
         }
+
+        // TODO: Debug.
+        public List<string> getPreviousMessages()
+        {
+            return ((ArrayList)client.Request("getPreviousMessages")).Cast<string>().ToList();
+        }
     }
 }

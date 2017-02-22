@@ -90,6 +90,7 @@
     <Compile Include="Serialization\StringSerializerBase.cs" />
     <Compile Include="ViewModel\ExternalViewViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\MessageExchangeViewModel.cs" />
     <Compile Include="ViewModel\NetworkDiscoveryViewModel.cs" />
     <Compile Include="View\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -107,6 +108,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="View\MessageExchangeUserControl.xaml.cs">
+      <DependentUpon>MessageExchangeUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\NetworkDiscoveryUserControl.xaml.cs">
       <DependentUpon>NetworkDiscoveryUserControl.xaml</DependentUpon>
     </Compile>
@@ -117,6 +121,10 @@
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MessageExchangeUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\NetworkDiscoveryUserControl.xaml">
       <SubType>Designer</SubType>
