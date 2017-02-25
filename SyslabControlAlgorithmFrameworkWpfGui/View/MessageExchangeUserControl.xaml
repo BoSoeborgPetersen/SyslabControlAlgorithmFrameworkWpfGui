@@ -11,8 +11,17 @@
         <ViewModel:MessageExchangeViewModel />
     </UserControl.DataContext>
     <UniformGrid>
-        <GroupBox Header="Previous Messages">
-            <ListView ItemsSource="{Binding PreviousMessages}"/>
+        <GroupBox Header="Previous Messages 1">
+            <ListView ItemsSource="{Binding PreviousMessages1}"/>
+        </GroupBox>
+        <GroupBox Header="Previous Messages 2">
+            <ListView ItemsSource="{Binding PreviousMessages2}"/>
+        </GroupBox>
+        <GroupBox Header="Previous Messages 3">
+            <ListView ItemsSource="{Binding PreviousMessages3}"/>
+        </GroupBox>
+        <GroupBox Header="Previous Messages 4">
+            <ListView ItemsSource="{Binding PreviousMessages4}"/>
         </GroupBox>
     </UniformGrid>
 </UserControl>

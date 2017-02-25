@@ -11,8 +11,17 @@
         <ViewModel:NetworkDiscoveryViewModel />
     </UserControl.DataContext>
     <UniformGrid>
-        <GroupBox Header="Current Addresses">
-            <ListView ItemsSource="{Binding CurrentAddresses}"/>
+        <GroupBox Header="Current Addresses 1">
+            <ListView ItemsSource="{Binding CurrentAddresses1}"/>
+        </GroupBox>
+        <GroupBox Header="Current Addresses 2">
+            <ListView ItemsSource="{Binding CurrentAddresses2}"/>
+        </GroupBox>
+        <GroupBox Header="Current Addresses 3">
+            <ListView ItemsSource="{Binding CurrentAddresses3}"/>
+        </GroupBox>
+        <GroupBox Header="Current Addresses 4">
+            <ListView ItemsSource="{Binding CurrentAddresses4}"/>
         </GroupBox>
     </UniformGrid>
 </UserControl>

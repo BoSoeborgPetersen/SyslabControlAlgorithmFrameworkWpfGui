@@ -9,7 +9,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
     public class ExternalViewViewModel : ViewModelBase
     {
-        private ExternalViewClient client = ExternalViewClient.Instance;
+        private ExternalViewClient client = ExternalViewClient.Instance("185.118.251.66", 5521);
 
         private object controlParameter;
         private string selectedAlgorithmName;

@@ -76,7 +76,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
             if (name == "java.util.Vector") return "System.Collections.ArrayList";
             if (name == "java.lang.Double") return "System.Double";
             if (name == "java.lang.Integer") return "System.Int32";
-            
+            if (name == "java.lang.Boolean") return "System.Boolean";
+            //if (name == "risoe.syslab.model.CompositeMeasurement") return "CompositeMeasurement";
+
             else
                 return null;
         }

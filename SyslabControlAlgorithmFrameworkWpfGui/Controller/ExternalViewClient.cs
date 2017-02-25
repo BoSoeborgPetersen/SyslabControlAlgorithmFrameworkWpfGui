@@ -11,14 +11,23 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 {
     public class ExternalViewClient
     {
-        private static ExternalViewClient instance = new ExternalViewClient();
-        private CommunicationClient client = CommunicationFactory.GetCommunicationClient(MiddlewareType.YAMI4, SerializationType.JsonNewtonsoft, "localhost", 5531);
+        private static Dictionary<string, ExternalViewClient> instances = new Dictionary<string, ExternalViewClient>();
+        private CommunicationClient client;
 
         private Dictionary<string, Type> parameterNamesAndTypes = new Dictionary<string, Type>();
 
-        public static ExternalViewClient Instance => instance;
+        public static ExternalViewClient Instance(string hostname, int port)
+        {
+            if (!instances.ContainsKey(hostname))
+                instances.Add(hostname, new ExternalViewClient(CommunicationFactory.GetCommunicationClient(MiddlewareType.YAMI4, SerializationType.JsonNewtonsoft, hostname, port)));
 
-        private ExternalViewClient() { }
+            return instances[hostname];
+        }
+
+        private ExternalViewClient(CommunicationClient client)
+        {
+            this.client = client;
+        }
 
         public List<string> getControlAlgorithmNames() => 
             ((ArrayList)client.Request("getControlAlgorithmNames")).Cast<string>().ToList();
