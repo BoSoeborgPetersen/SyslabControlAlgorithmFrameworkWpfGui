@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using SyslabControlAlgorithmFrameworkWpfGui.Controller;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -9,24 +11,32 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
     public class ExternalViewViewModel : ViewModelBase
     {
-        private ExternalViewClient client = ExternalViewClient.Instance("185.118.251.66", 5521);
+        private List<ExternalViewClient> clients = new List<ExternalViewClient>(){
+            ExternalViewClient.Instance("185.118.251.66", 5531),
+            ExternalViewClient.Instance("185.118.251.66", 5532),
+            ExternalViewClient.Instance("185.118.251.66", 5521), 
+            ExternalViewClient.Instance("185.118.251.66", 5522)};
+        private ExternalViewClient selectedClient;
 
         private object controlParameter;
         private string selectedAlgorithmName;
         private string selectedControlParameterName;
         private string selectedControlOutputName;
 
-        public ObservableCollection<string> AlgorithmNames => new ObservableCollection<string>(client.getControlAlgorithmNames());
-        public string SelectedAlgorithmName { get { return selectedAlgorithmName; } set { setSelectedAlgorithmName(value); } }
-        public int RunIntervalMillis => client.getControlAlgorithmRunIntervalMillis(SelectedAlgorithmName);
+        public ObservableCollection<ExternalViewClient> Clients => new ObservableCollection<ExternalViewClient>(clients);
+        public ExternalViewClient SelectedClient { get { return selectedClient; } set { SetSelectedClient(value); } }
 
-        public ObservableCollection<string> ControlParameterNames => new ObservableCollection<string>(client.getControlParameterNames(SelectedAlgorithmName));
-        public string SelectedControlParameterName { get { return selectedControlParameterName; } set { setSelectedControlParameterNames(value); } }
-        public object ControlParameter { get { return client.getControlParameter(SelectedAlgorithmName, SelectedControlParameterName); } set { setControlParameter(value); } }
+        public ObservableCollection<string> AlgorithmNames => new ObservableCollection<string>(selectedClient.getControlAlgorithmNames());
+        public string SelectedAlgorithmName { get { return selectedAlgorithmName; } set { SetSelectedAlgorithmName(value); } }
+        public int RunIntervalMillis => selectedClient.getControlAlgorithmRunIntervalMillis(SelectedAlgorithmName);
 
-        public ObservableCollection<string> ControlOutputNames => new ObservableCollection<string>(client.getControlOutputNames(SelectedAlgorithmName));
-        public string SelectedControlOutputName { get { return selectedControlOutputName; } set { setSelectedControlOutputName(value); } }
-        public object ControlOutput => client.getControlOutput(SelectedAlgorithmName, ControlOutputNames[0]);
+        public ObservableCollection<string> ControlParameterNames => new ObservableCollection<string>(selectedClient.getControlParameterNames(SelectedAlgorithmName).OrderBy(x => x));
+        public string SelectedControlParameterName { get { return selectedControlParameterName; } set { SetSelectedControlParameterName(value); } }
+        public object ControlParameter { get { return selectedClient.getControlParameter(SelectedAlgorithmName, SelectedControlParameterName); } set { SetControlParameter(value); } }
+
+        public ObservableCollection<string> ControlOutputNames => new ObservableCollection<string>(selectedClient.getControlOutputNames(SelectedAlgorithmName).OrderBy(x => x));
+        public string SelectedControlOutputName { get { return selectedControlOutputName; } set { SetSelectedControlOutputName(value); } }
+        public object ControlOutput => printObject(selectedClient.getControlOutput(SelectedAlgorithmName, SelectedControlOutputName));
 
         public ICommand StartAlgorithmCommand { get; }
         public ICommand StopAlgorithmCommand { get; }
@@ -36,15 +46,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public ExternalViewViewModel()
         {
-            selectedAlgorithmName = AlgorithmNames.FirstOrDefault();
-
-            //ControlParameterNames = new ObservableCollection<string>(client.getControlParameterNames(AlgorithmNames[0]));
-            selectedControlParameterName = ControlParameterNames.FirstOrDefault();
-            //controlParameter = client.getControlParameter(AlgorithmNames[0], ControlParameterNames[0]);
-
-            //ControlOutputNames = new ObservableCollection<string>(client.getControlOutputNames(AlgorithmNames[0]));
-            selectedControlOutputName = ControlOutputNames.FirstOrDefault();
-            //ControlOutput = client.getControlOutput(AlgorithmNames[0], ControlOutputNames[0]);
+            SetSelectedClient(clients.FirstOrDefault());
 
             StartAlgorithmCommand = new RelayCommand(StartAlgorithm);
             StopAlgorithmCommand = new RelayCommand(StopAlgorithm);
@@ -53,18 +55,34 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             ResumeAlgorithmCommand = new RelayCommand(ResumeAlgorithm);
         }
 
-        private void setSelectedAlgorithmName(string value)
+        private void SetSelectedClient(ExternalViewClient value)
+        {
+            if (value != null && selectedClient != value)
+            {
+                selectedClient = value;
+                RaisePropertyChanged(nameof(AlgorithmNames));
+                SetSelectedAlgorithmName(AlgorithmNames.FirstOrDefault());
+            }
+        }
+
+        private void SetSelectedAlgorithmName(string value)
         {
             if (value != null && selectedAlgorithmName != value)
             {
                 selectedAlgorithmName = value;
                 RaisePropertyChanged(nameof(RunIntervalMillis));
                 RaisePropertyChanged(nameof(ControlParameterNames));
+                selectedControlParameterName = ControlParameterNames.FirstOrDefault();
+                RaisePropertyChanged(nameof(SelectedControlParameterName));
+                RaisePropertyChanged(nameof(ControlParameter));
                 RaisePropertyChanged(nameof(ControlOutputNames));
+                selectedControlOutputName = ControlOutputNames.FirstOrDefault();
+                RaisePropertyChanged(nameof(SelectedControlOutputName));
+                RaisePropertyChanged(nameof(ControlOutput));
             }
         }
 
-        private void setSelectedControlParameterNames(string value)
+        private void SetSelectedControlParameterName(string value)
         {
             if (value != null && selectedControlParameterName != value)
             {
@@ -73,7 +91,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             }
         }
 
-        private void setSelectedControlOutputName(string value)
+        private void SetSelectedControlOutputName(string value)
         {
             if (value != null && selectedControlOutputName != value)
             {
@@ -82,39 +100,44 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             }
         }
 
-        private void setControlParameter(object value)
+        private void SetControlParameter(object value)
         {
             if (controlParameter != value)
             {
                 controlParameter = value;
 
-                client.setControlParameter(SelectedAlgorithmName, SelectedControlParameterName, value);
+                selectedClient.setControlParameter(SelectedAlgorithmName, SelectedControlParameterName, value);
             }
         }
 
         private void StartAlgorithm()
         {
-            client.StartAlgorithm(SelectedAlgorithmName);
+            selectedClient.StartAlgorithm(SelectedAlgorithmName);
         }
 
         private void StopAlgorithm()
         {
-            client.StopAlgorithm(SelectedAlgorithmName);
+            selectedClient.StopAlgorithm(SelectedAlgorithmName);
         }
 
         private void RestartAlgorithm()
         {
-            client.RestartAlgorithm(SelectedAlgorithmName);
+            selectedClient.RestartAlgorithm(SelectedAlgorithmName);
         }
 
         private void PauseAlgorithm()
         {
-            client.PauseAlgorithm(SelectedAlgorithmName);
+            selectedClient.PauseAlgorithm(SelectedAlgorithmName);
         }
 
         private void ResumeAlgorithm()
         {
-            client.ResumeAlgorithm(SelectedAlgorithmName);
+            selectedClient.ResumeAlgorithm(SelectedAlgorithmName);
+        }
+
+        private string printObject(object o)
+        {
+            return o == null ? "Null" : o.Equals("") ? "Empty String" : !(o is ArrayList) ? o.ToString() : "[" + string.Join(", ", (o as ArrayList).ToArray()) + "]";
         }
     }
 }

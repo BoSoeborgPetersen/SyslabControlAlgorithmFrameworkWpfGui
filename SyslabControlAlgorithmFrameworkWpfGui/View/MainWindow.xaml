@@ -15,8 +15,17 @@
         <TabItem Header="Network Discovery">
             <View:NetworkDiscoveryUserControl/>
         </TabItem>
+        <TabItem Header="Service Discovery">
+            <View:ServiceDiscoveryUserControl/>
+        </TabItem>
         <TabItem Header="Message Exchange">
             <View:MessageExchangeUserControl/>
+        </TabItem>
+        <TabItem Header="SCADA">
+            <View:ScadaUserControl/>
+        </TabItem>
+        <TabItem Header="Generic Based">
+            <View:GenericBasedUserControl/>
         </TabItem>
     </TabControl>
 </Window>

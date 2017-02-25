@@ -11,38 +11,24 @@
         <ViewModel:ExternalViewViewModel />
     </UserControl.DataContext>
     <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Button Content="Start Algorithm" Command="{Binding StartAlgorithmCommand}"/>
-            <Button Grid.Column="1" Content="Stop Algorithm" Command="{Binding StopAlgorithmCommand}"/>
-            <Button Grid.Column="2" Content="Restart Algorithm" Command="{Binding RestartAlgorithmCommand}"/>
-            <Button Grid.Column="3" Content="Pause Algorithm" Command="{Binding PauseAlgorithmCommand}"/>
-            <Button Grid.Column="4" Content="Resume Algorithm" Command="{Binding ResumeAlgorithmCommand}"/>
-        </Grid>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        <GroupBox DockPanel.Dock="Top" Header="Client Names">
+            <ListView ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+        </GroupBox>
+        <UniformGrid DockPanel.Dock="Top" Rows="1">
             <GroupBox Header="Algorithm Names">
                 <ListView ItemsSource="{Binding AlgorithmNames}" SelectedItem="{Binding SelectedAlgorithmName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
-            <GroupBox Grid.Column="1" Header="Run Interval Millis">
+            <GroupBox Header="Run Interval Millis">
                 <TextBlock Text="{Binding RunIntervalMillis}"/>
             </GroupBox>
-        </Grid>
+        </UniformGrid>
+        <UniformGrid DockPanel.Dock="Top" Rows="1">
+            <Button Content="Start Algorithm" Command="{Binding StartAlgorithmCommand}"/>
+            <Button Content="Stop Algorithm" Command="{Binding StopAlgorithmCommand}"/>
+            <Button Content="Restart Algorithm" Command="{Binding RestartAlgorithmCommand}"/>
+            <Button Content="Pause Algorithm" Command="{Binding PauseAlgorithmCommand}"/>
+            <Button Content="Resume Algorithm" Command="{Binding ResumeAlgorithmCommand}"/>
+        </UniformGrid>
         <UniformGrid>
             <GroupBox Header="Control Parameter Names">
                 <ListView ItemsSource="{Binding ControlParameterNames}" SelectedItem="{Binding SelectedControlParameterName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
@@ -23,7 +24,20 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public NetworkDiscoveryViewModel()
         {
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
 
+                while (true)
+                {
+                    RaisePropertyChanged(() => CurrentAddresses1);
+                    RaisePropertyChanged(() => CurrentAddresses2);
+                    RaisePropertyChanged(() => CurrentAddresses3);
+                    RaisePropertyChanged(() => CurrentAddresses4);
+
+                    Thread.Sleep(1000);
+                }
+            }).Start();
         }
     }
 }

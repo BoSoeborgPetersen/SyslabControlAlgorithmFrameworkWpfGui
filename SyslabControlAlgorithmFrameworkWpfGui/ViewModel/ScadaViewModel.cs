@@ -10,30 +10,30 @@ using System.Threading.Tasks;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
-    public class MessageExchangeViewModel : ViewModelBase
+    public class ScadaViewModel : ViewModelBase
     {
         private ExternalViewClient client1 = ExternalViewClient.Instance("185.118.251.66", 5531);
         private ExternalViewClient client2 = ExternalViewClient.Instance("185.118.251.66", 5532);
         private ExternalViewClient client3 = ExternalViewClient.Instance("185.118.251.66", 5521);
         private ExternalViewClient client4 = ExternalViewClient.Instance("185.118.251.66", 5522);
 
-        public ObservableCollection<string> PreviousMessages1 => new ObservableCollection<string>(client1.getPreviousMessages());
-        public ObservableCollection<string> PreviousMessages2 => new ObservableCollection<string>(client2.getPreviousMessages());
-        public ObservableCollection<string> PreviousMessages3 => new ObservableCollection<string>(client3.getPreviousMessages());
-        public ObservableCollection<string> PreviousMessages4 => new ObservableCollection<string>(client4.getPreviousMessages());
+        public ObservableCollection<string> PreviousRequests1 => new ObservableCollection<string>(client1.getPreviousRequests());
+        public ObservableCollection<string> PreviousRequests2 => new ObservableCollection<string>(client2.getPreviousRequests());
+        public ObservableCollection<string> PreviousRequests3 => new ObservableCollection<string>(client3.getPreviousRequests());
+        public ObservableCollection<string> PreviousRequests4 => new ObservableCollection<string>(client4.getPreviousRequests());
 
-        public MessageExchangeViewModel()
+        public ScadaViewModel()
         {
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
 
-                while(true)
+                while (true)
                 {
-                    RaisePropertyChanged(() => PreviousMessages1);
-                    RaisePropertyChanged(() => PreviousMessages2);
-                    RaisePropertyChanged(() => PreviousMessages3);
-                    RaisePropertyChanged(() => PreviousMessages4);
+                    RaisePropertyChanged(() => PreviousRequests1);
+                    RaisePropertyChanged(() => PreviousRequests2);
+                    RaisePropertyChanged(() => PreviousRequests3);
+                    RaisePropertyChanged(() => PreviousRequests4);
 
                     Thread.Sleep(1000);
                 }

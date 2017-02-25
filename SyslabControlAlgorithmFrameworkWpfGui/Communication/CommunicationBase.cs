@@ -63,6 +63,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
 
             if (name == "String") return "java.lang.String";
             if (name == "Double") return "java.lang.Double";
+            if (name == "Boolean") return "java.lang.Boolean";
 
             else
                 return null;
@@ -77,7 +78,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
             if (name == "java.lang.Double") return "System.Double";
             if (name == "java.lang.Integer") return "System.Int32";
             if (name == "java.lang.Boolean") return "System.Boolean";
-            //if (name == "risoe.syslab.model.CompositeMeasurement") return "CompositeMeasurement";
+            if (name == "java.lang.String") return "System.String";
+            if (name == "risoe.syslab.model.CompositeMeasurement") return "SyslabControlAlgorithmFrameworkWpfGui.Model.CompositeMeasurement";
 
             else
                 return null;
