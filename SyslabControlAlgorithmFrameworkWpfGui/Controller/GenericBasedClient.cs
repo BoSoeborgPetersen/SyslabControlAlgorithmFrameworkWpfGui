@@ -52,7 +52,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             object value = client.Request("resource", deviceName, resourceName);
 
             if (!parameterNamesAndTypes.ContainsKey(resourceName))
-                parameterNamesAndTypes.Add(resourceName, value.GetType() ?? null);
+                parameterNamesAndTypes.Add(resourceName, value?.GetType());
 
             return value;
         }

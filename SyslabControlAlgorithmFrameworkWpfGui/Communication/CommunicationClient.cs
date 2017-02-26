@@ -94,7 +94,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
                             serializedParamTypes[i] = MaybeConvertToJavaType(parameters[i].GetType().Name);
 
                         string guid = Guid.NewGuid().ToString();
-                        StringSerializedParametersDTO paramDTO = new StringSerializedParametersDTO("request", serializedParams, serializedParamTypes, guid);
+                        StringSerializedParametersDTO paramDTO = new StringSerializedParametersDTO() { ResourceName = "request", SerializedParameters = serializedParams, ParameterTypeNames = serializedParamTypes, Guid = guid };
                         string serializedParamDTO = serializer.SerializeToString(paramDTO);
 
                         try
@@ -164,7 +164,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
                             serializedParamTypes[i] = MaybeConvertToJavaType(parameters[i].GetType().Name);
 
                         string guid = Guid.NewGuid().ToString();
-                        BinarySerializedParametersDTO paramDTO = new BinarySerializedParametersDTO("request", serializedParams, serializedParamTypes, guid);
+                        BinarySerializedParametersDTO paramDTO = new BinarySerializedParametersDTO() { ResourceName = "request", SerializedParameters = serializedParams, ParameterTypeNames = serializedParamTypes, Guid = guid };
                         byte[] serializedParamDTO = serializer.SerializeToByte(paramDTO);
 
                         try
@@ -249,7 +249,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
                     for (int i = 0; i < parameters.Length; i++)
                         serializedParamTypes[i] = MaybeConvertToJavaType(parameters[i].GetType().Name);
 
-                    StringSerializedParametersDTO paramDTO = new StringSerializedParametersDTO("push", serializedParams, serializedParamTypes, guid);
+                    StringSerializedParametersDTO paramDTO = new StringSerializedParametersDTO() { ResourceName = "push", SerializedParameters = serializedParams, ParameterTypeNames = serializedParamTypes, Guid = guid };
                     string serializedParamDTO = serializer.SerializeToString(paramDTO);
                     serializedParamDTO = ScrambleEscapedXmlTags(serializedParamDTO);
                     serializedParamDTO = AppendSerializationNumber(serializedParamDTO, serializationNumber);
@@ -268,7 +268,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
                     for (int i = 0; i < parameters.Length; i++)
                         serializedParamTypes[i] = MaybeConvertToJavaType(parameters[i].GetType().Name);
 
-                    BinarySerializedParametersDTO paramDTO = new BinarySerializedParametersDTO("push", serializedParams, serializedParamTypes, guid);
+                    BinarySerializedParametersDTO paramDTO = new BinarySerializedParametersDTO() { ResourceName = "push", SerializedParameters = serializedParams, ParameterTypeNames = serializedParamTypes, Guid = guid };
                     byte[] serializedParamDTO = serializer.SerializeToByte(paramDTO);
                     serializedParamDTO = AppendSerializationNumber(serializedParamDTO, serializationNumber);
                     if (priority == -1)

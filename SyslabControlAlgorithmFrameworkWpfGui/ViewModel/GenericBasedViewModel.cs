@@ -32,7 +32,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public ObservableCollection<string> ResourceNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => (x.Contains("get") || x.Contains("is") || x.Contains("has")) && !x.Contains("[") && !x.Contains("hashcode")).OrderBy(x => x));
         public string SelectedResourceName { get { return selectedResourceName; } set { SetSelectedResourceName(value); } }
-        public object Resource { get { return selectedClient.Resource(SelectedDeviceName, SelectedResourceName); } }
+        public object Resource { get { return printObject(selectedClient.Resource(SelectedDeviceName, SelectedResourceName)); } }
 
         public ObservableCollection<string> ControlNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => !x.Contains("get") && !x.Contains("is") && !x.Contains("has") && !x.Contains("[")).OrderBy(x => x));
         public string SelectedControlName { get { return selectedControlName; } set { SetSelectedControlName(value); } }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Model
 {
-    public class CompositeMeasurement : CompositeData
+    public class MeasurementItem : ModelBase
     {
-        public double value { get; set; }
+        public MeasurementName name { get; set; }
+        public CompositeMeasurement measurement { get; set; }
     }
 }

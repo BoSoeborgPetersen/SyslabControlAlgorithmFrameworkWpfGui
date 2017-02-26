@@ -1,5 +1,7 @@
+using SyslabControlAlgorithmFrameworkWpfGui.Model.Devices;
 using SyslabControlAlgorithmFrameworkWpfGui.Serialization;
 using System;
+using System.Collections.Generic;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
 {
@@ -72,7 +74,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
         protected string MaybeConvertFromJavaType(string name)
         {
             if (!talkToJava) return name;
-            
+
             if (name == "java.util.ArrayList") return "System.Collections.ArrayList";
             if (name == "java.util.Vector") return "System.Collections.ArrayList";
             if (name == "java.lang.Double") return "System.Double";
@@ -80,7 +82,16 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
             if (name == "java.lang.Boolean") return "System.Boolean";
             if (name == "java.lang.String") return "System.String";
             if (name == "risoe.syslab.model.CompositeMeasurement") return "SyslabControlAlgorithmFrameworkWpfGui.Model.CompositeMeasurement";
-
+            if (name == "risoe.syslab.model.CompositeBoolean") return "SyslabControlAlgorithmFrameworkWpfGui.Model.CompositeBoolean";
+            if (name == "risoe.syslab.model.iec61850.DELV") return "SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850.DELV";
+            if (name == "risoe.syslab.model.iec61850.PNPL") return "SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850.PNPL";
+            if (name == "risoe.syslab.model.iec61850.GPSL") return "SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850.GPSL";
+            if (name == "risoe.syslab.model.devices.GMode") return "SyslabControlAlgorithmFrameworkWpfGui.Model.Devices.GMode";
+            if (name == "[Lrisoe.syslab.model.devices.GMode;") return "System.Collections.Generic.List`1[SyslabControlAlgorithmFrameworkWpfGui.Model.Devices.GMode]";
+            if (name == "risoe.syslab.model.devices.RMode") return "SyslabControlAlgorithmFrameworkWpfGui.Model.Devices.RMode";
+            if (name == "[Lrisoe.syslab.model.devices.RMode;") return "System.Collections.Generic.List`1[SyslabControlAlgorithmFrameworkWpfGui.Model.Devices.RMode]";
+            if (name == "risoe.syslab.model.CapabilityDescription") return "SyslabControlAlgorithmFrameworkWpfGui.Model.CapabilityDescription";
+            if (name == "risoe.syslab.model.Flexibility") return "SyslabControlAlgorithmFrameworkWpfGui.Model.Flexibility";
             else
                 return null;
         }

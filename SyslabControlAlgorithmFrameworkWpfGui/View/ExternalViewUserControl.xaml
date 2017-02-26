@@ -40,7 +40,9 @@
                 <ListView ItemsSource="{Binding ControlOutputNames}" SelectedItem="{Binding SelectedControlOutputName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control Output">
-                <TextBlock Text="{Binding ControlOutput}"/>
+                <ScrollViewer>
+                    <TextBlock Text="{Binding ControlOutput}"/>
+                </ScrollViewer>
             </GroupBox>
         </UniformGrid>
     </DockPanel>

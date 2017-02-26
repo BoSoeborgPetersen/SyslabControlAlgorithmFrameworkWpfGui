@@ -22,13 +22,17 @@
                 <ListView ItemsSource="{Binding ResourceNames}" SelectedItem="{Binding SelectedResourceName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Resource">
-                <TextBlock Text="{Binding Resource}"/>
+                <ScrollViewer>
+                    <TextBlock Text="{Binding Resource}"/>
+                </ScrollViewer>
             </GroupBox>
             <GroupBox Header="Control Names">
                 <ListView ItemsSource="{Binding ControlNames}" SelectedItem="{Binding SelectedControlName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control">
-                <TextBlock Text="{Binding Control}"/>
+                <ScrollViewer>
+                    <TextBlock Text="{Binding Control}"/>
+                </ScrollViewer>
             </GroupBox>
         </UniformGrid>
     </DockPanel>
