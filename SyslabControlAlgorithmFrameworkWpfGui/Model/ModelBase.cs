@@ -15,6 +15,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model
 
         protected string Indent(object input)
         {
+            if (input == null) return "Error";
             return input.ToString().Replace("\n", "\n  ");
         }
 

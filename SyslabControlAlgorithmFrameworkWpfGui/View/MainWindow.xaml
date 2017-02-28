@@ -1,8 +1,9 @@
-﻿<Window x:Class="SyslabControlAlgorithmFrameworkWpfGui.View.MainWindow"
+﻿<Controls:MetroWindow x:Class="SyslabControlAlgorithmFrameworkWpfGui.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ViewModel="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.ViewModel"
         xmlns:View="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.View"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Height="600" Width="1200"
         Title="Syslab Control Algorithm Framework WPF GUI">
     <Window.DataContext>
@@ -12,20 +13,5 @@
         <TabItem Header="External View">
             <View:ExternalViewUserControl/>
         </TabItem>
-        <TabItem Header="Network Discovery">
-            <View:NetworkDiscoveryUserControl/>
-        </TabItem>
-        <TabItem Header="Service Discovery">
-            <View:ServiceDiscoveryUserControl/>
-        </TabItem>
-        <TabItem Header="Message Exchange">
-            <View:MessageExchangeUserControl/>
-        </TabItem>
-        <TabItem Header="SCADA">
-            <View:ScadaUserControl/>
-        </TabItem>
-        <TabItem Header="Generic Based">
-            <View:GenericBasedUserControl/>
-        </TabItem>
     </TabControl>
-</Window>
+</Controls:MetroWindow>

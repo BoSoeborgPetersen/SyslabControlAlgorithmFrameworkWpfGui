@@ -4,7 +4,8 @@
              xmlns:ViewModel="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.ViewModel"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.View"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
@@ -34,7 +35,17 @@
                 <ListView ItemsSource="{Binding ControlParameterNames}" SelectedItem="{Binding SelectedControlParameterName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control Parameter">
-                <TextBox Text="{Binding ControlParameter}"/>
+                <ContentControl Content="{Binding ControlParameter}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type sys:Boolean}" >
+                            <Controls:ToggleSwitchButton IsChecked="{Binding DataContext.ControlParameter, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Center" Margin="5" Padding="5" Width="80"/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type sys:Double}" >
+                            <TextBox Text="{Binding .}"/>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+                <!--<TextBox Text="{Binding ControlParameter}"/>-->
             </GroupBox>
             <GroupBox Header="Control Output Names">
                 <ListView ItemsSource="{Binding ControlOutputNames}" SelectedItem="{Binding SelectedControlOutputName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>

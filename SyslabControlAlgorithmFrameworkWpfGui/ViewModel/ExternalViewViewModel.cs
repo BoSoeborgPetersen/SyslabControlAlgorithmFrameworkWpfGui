@@ -12,6 +12,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
     public class ExternalViewViewModel : ViewModelBase
     {
         private List<ExternalViewClient> clients = new List<ExternalViewClient>(){
+            ExternalViewClient.Instance("192.168.0.10", 5531),
             ExternalViewClient.Instance("185.118.251.66", 5531),
             ExternalViewClient.Instance("185.118.251.66", 5532),
             ExternalViewClient.Instance("185.118.251.66", 5521), 

@@ -13,6 +13,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
     public class GenericBasedViewModel : ViewModelBase
     {
         private List<GenericBasedClient> clients = new List<GenericBasedClient>(){
+            GenericBasedClient.Instance("192.168.0.10", 9000),
             GenericBasedClient.Instance("185.118.251.66", 9031),
             GenericBasedClient.Instance("185.118.251.66", 9032),
             GenericBasedClient.Instance("185.118.251.66", 9021),
@@ -30,7 +31,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public ObservableCollection<string> DeviceNames => new ObservableCollection<string>(selectedClient.DeviceNames());
         public string SelectedDeviceName { get { return selectedDeviceName; } set { SetSelectedDeviceName(value); } }
 
-        public ObservableCollection<string> ResourceNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => (x.Contains("get") || x.Contains("is") || x.Contains("has")) && !x.Contains("[") && !x.Contains("hashcode")).OrderBy(x => x));
+        public ObservableCollection<string> ResourceNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => (x.Contains("get") || x.Contains("is") || x.Contains("has")) && !x.Contains("[") && !x.Contains("hashcode") && !x.Contains("getClass")).OrderBy(x => x));
         public string SelectedResourceName { get { return selectedResourceName; } set { SetSelectedResourceName(value); } }
         public object Resource { get { return printObject(selectedClient.Resource(SelectedDeviceName, SelectedResourceName)); } }
 
@@ -96,7 +97,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         private string printObject(object o)
         {
-            return o == null ? "Null" : o.Equals("") ? "Empty String" : !(o is ArrayList) ? o.ToString() : "[" + string.Join(", ", (o as ArrayList).ToArray()) + "]";
+            if (o is string) return o.ToString();
+            if (o is ArrayList) return "[" + string.Join(", ", (o as ArrayList).ToArray()) + "]";
+            if (o is IEnumerable) return "[" + string.Join(", ", ((IEnumerable<Object>)o).ToArray()) + "]";
+            return o == null ? "Null" : o.Equals("") ? "Empty String" : o.ToString();
         }
     }
 }

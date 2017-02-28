@@ -118,7 +118,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
                             {
                                 StringSerializedResultDTO resultDTO = (StringSerializedResultDTO) serializer.Deserialize(serializedResultDTO, typeof(StringSerializedResultDTO));
                                 string serializedResult = resultDTO.SerializedResult;
-                                object result = serializer.Deserialize(serializedResult, Type.GetType(MaybeConvertFromJavaType(resultDTO.ResultTypeName), true, false));
+                                object result = resultDTO.ResultTypeName == null ? null : serializer.Deserialize(serializedResult, Type.GetType(MaybeConvertFromJavaType(resultDTO.ResultTypeName), true, false));
                                 return result;
                             }
                             catch (Exception e)

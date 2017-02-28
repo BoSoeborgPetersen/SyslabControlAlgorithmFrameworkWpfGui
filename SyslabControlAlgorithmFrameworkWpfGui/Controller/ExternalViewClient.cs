@@ -48,7 +48,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         {
             var result = client.Request("getControlParameterNames", algorithmName);
 
-            return result == null ? new List<string>() : ((ArrayList)result).Cast<string>().ToList();
+            return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
         public object getControlParameter(string algorithmName, string parameterName)
@@ -81,7 +81,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         {
             var result = client.Request("getControlOutputNames", algorithmName);
 
-            return result == null ? new List<string>() : ((ArrayList)result).Cast<string>().ToList();
+            return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
         public object getControlOutput(string algorithmName, string outputName) => 
@@ -114,32 +114,44 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
         public List<string> getCurrentAddresses()
         {
-            return ((ArrayList)client.Request("getCurrentAddresses")).Cast<string>().ToList();
+            var result = client.Request("getCurrentAddresses");
+
+            return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
         public List<string> getTypes()
         {
-            return ((ArrayList)client.Request("getTypes")).Cast<string>().ToList();
+            var result = client.Request("getTypes");
+
+            return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
         public List<string> getRoles()
         {
-            return ((ArrayList)client.Request("getRoles")).Cast<string>().ToList();
+            var result = client.Request("getRoles");
+
+            return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
         public List<string> getServices()
         {
-            return ((ArrayList)client.Request("getServices")).Cast<string>().ToList();
+            var result = client.Request("getServices");
+
+            return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
         public List<string> getPreviousMessages()
         {
-            return ((ArrayList)client.Request("getPreviousMessages")).Cast<string>().ToList();
+            var result = client.Request("getPreviousMessages");
+
+            return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
         public List<string> getPreviousRequests()
         {
-            return ((ArrayList)client.Request("getPreviousRequests")).Cast<string>().ToList();
+            var result = client.Request("getPreviousRequests");
+
+            return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
         public override string ToString()

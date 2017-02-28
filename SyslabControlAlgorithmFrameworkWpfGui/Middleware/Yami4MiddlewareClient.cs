@@ -43,7 +43,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
                 return Unpackstring(data);
             }
 
-            throw new Exception("YAMI4RawClient: Req-Rep string failed!");
+            return null;
         }
 
         public byte[] Request(byte[] request) => Request(request, defaultPriority);
@@ -61,7 +61,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
                 return UnpackBinary(data);
             }
 
-            throw new Exception("YAMI4RawClient: Req-Rep binary failed!");
+            return null;
         }
 
         public void Push(string push)
