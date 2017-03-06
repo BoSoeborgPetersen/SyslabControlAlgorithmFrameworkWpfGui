@@ -12,12 +12,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
     public class GenericBasedViewModel : ViewModelBase
     {
-        private List<GenericBasedClient> clients = new List<GenericBasedClient>(){
-            GenericBasedClient.Instance("192.168.0.10", 9000),
-            GenericBasedClient.Instance("185.118.251.66", 9031),
-            GenericBasedClient.Instance("185.118.251.66", 9032),
-            GenericBasedClient.Instance("185.118.251.66", 9021),
-            GenericBasedClient.Instance("185.118.251.66", 9022)};
+        private IEnumerable<GenericBasedClient> clients = MyConfiguration.GenericBasedClients();
         private GenericBasedClient selectedClient;
 
         private object control;

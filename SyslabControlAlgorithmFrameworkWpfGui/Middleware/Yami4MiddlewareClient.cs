@@ -34,7 +34,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
         {
             OutgoingMessage message = agent.Send(serverURI, stringReqRepName, "", PackMessage(request), priority);
 
-            message.WaitForCompletion();
+            message.WaitForCompletion(5000);
 
             if (message.State == OutgoingMessage.MessageState.REPLIED)
             {
@@ -52,7 +52,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
         {
             OutgoingMessage message = agent.Send(serverURI, binaryReqRepName, "", PackMessage(request), priority);
 
-            message.WaitForCompletion();
+            message.WaitForCompletion(5000);
 
             if (message.State == OutgoingMessage.MessageState.REPLIED)
             {

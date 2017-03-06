@@ -64,6 +64,12 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0\lib\net45\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -83,6 +89,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\Configuration.cs" />
     <Compile Include="Controller\GenericBasedClient.cs" />
     <Compile Include="Debug\DebugProgram.cs" />
     <Compile Include="Middleware\MiddlewareTypeHelper.cs" />
@@ -153,6 +160,7 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MessageExchangeViewModel.cs" />
     <Compile Include="ViewModel\NetworkDiscoveryViewModel.cs" />
+    <Compile Include="ViewModel\PlottingViewModel.cs" />
     <Compile Include="ViewModel\ScadaViewModel.cs" />
     <Compile Include="ViewModel\ServiceDiscoveryViewModel.cs" />
     <Compile Include="View\App.xaml.cs">
@@ -181,6 +189,9 @@
     <Compile Include="View\NetworkDiscoveryUserControl.xaml.cs">
       <DependentUpon>NetworkDiscoveryUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PlottingUserControl.xaml.cs">
+      <DependentUpon>PlottingUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ScadaUserControl.xaml.cs">
       <DependentUpon>ScadaUserControl.xaml</DependentUpon>
     </Compile>
@@ -208,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\NetworkDiscoveryUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PlottingUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -12,11 +12,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
     public class MessageExchangeViewModel : ViewModelBase
     {
-        private ExternalViewClient client1 = ExternalViewClient.Instance("192.168.0.10", 5531);
-        //private ExternalViewClient client1 = ExternalViewClient.Instance("185.118.251.66", 5531);
-        private ExternalViewClient client2 = ExternalViewClient.Instance("185.118.251.66", 5532);
-        private ExternalViewClient client3 = ExternalViewClient.Instance("185.118.251.66", 5521);
-        private ExternalViewClient client4 = ExternalViewClient.Instance("185.118.251.66", 5522);
+        private ExternalViewClient client1 = MyConfiguration.ExternalViewClient(1);
+        private ExternalViewClient client2 = MyConfiguration.ExternalViewClient(2);
+        private ExternalViewClient client3 = MyConfiguration.ExternalViewClient(3);
+        private ExternalViewClient client4 = MyConfiguration.ExternalViewClient(4);
 
         public ObservableCollection<string> PreviousMessages1 => new ObservableCollection<string>(client1.getPreviousMessages());
         public ObservableCollection<string> PreviousMessages2 => new ObservableCollection<string>(client2.getPreviousMessages());

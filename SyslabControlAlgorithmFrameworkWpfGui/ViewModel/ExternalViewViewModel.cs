@@ -11,12 +11,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
     public class ExternalViewViewModel : ViewModelBase
     {
-        private List<ExternalViewClient> clients = new List<ExternalViewClient>(){
-            ExternalViewClient.Instance("192.168.0.10", 5531),
-            ExternalViewClient.Instance("185.118.251.66", 5531),
-            ExternalViewClient.Instance("185.118.251.66", 5532),
-            ExternalViewClient.Instance("185.118.251.66", 5521), 
-            ExternalViewClient.Instance("185.118.251.66", 5522)};
+        private IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
         private ExternalViewClient selectedClient;
 
         private object controlParameter;
@@ -37,7 +32,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public ObservableCollection<string> ControlOutputNames => new ObservableCollection<string>(selectedClient.getControlOutputNames(SelectedAlgorithmName).OrderBy(x => x));
         public string SelectedControlOutputName { get { return selectedControlOutputName; } set { SetSelectedControlOutputName(value); } }
-        public object ControlOutput => printObject(selectedClient.getControlOutput(SelectedAlgorithmName, SelectedControlOutputName));
+        public object ControlOutput => printObjectIfComplexType(selectedClient.getControlOutput(SelectedAlgorithmName, SelectedControlOutputName));
 
         public ICommand StartAlgorithmCommand { get; }
         public ICommand StopAlgorithmCommand { get; }
@@ -136,9 +131,12 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             selectedClient.ResumeAlgorithm(SelectedAlgorithmName);
         }
 
-        private string printObject(object o)
+        private object printObjectIfComplexType(object o)
         {
-            return o == null ? "Null" : o.Equals("") ? "Empty String" : !(o is ArrayList) ? o.ToString() : "[" + string.Join(", ", (o as ArrayList).ToArray()) + "]";
+            return o == null ? "Null" : 
+                o.Equals("") ? "Empty String" : 
+                (o is ArrayList) ? "[" + string.Join(", ", (o as ArrayList).ToArray()) + "]" : 
+                o;
         }
     }
 }

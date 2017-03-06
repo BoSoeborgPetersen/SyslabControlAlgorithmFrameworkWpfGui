@@ -57,8 +57,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
             object value = client.Request("getControlParameter", algorithmName, parameterName);
 
-            if (!parameterNamesAndTypes.ContainsKey(parameterName))
-                parameterNamesAndTypes.Add(parameterName, value.GetType() ?? null);
+            if (value != null && !parameterNamesAndTypes.ContainsKey(parameterName))
+                parameterNamesAndTypes.Add(parameterName, value.GetType());
 
             return value;
         }
