@@ -91,7 +91,6 @@
   <ItemGroup>
     <Compile Include="Controller\Configuration.cs" />
     <Compile Include="Controller\GenericBasedClient.cs" />
-    <Compile Include="Debug\DebugProgram.cs" />
     <Compile Include="Middleware\MiddlewareTypeHelper.cs" />
     <Compile Include="Model\CapabilityDescription.cs" />
     <Compile Include="Model\Composite2DArray.cs" />
