@@ -17,6 +17,11 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         private ExternalViewClient client3 = MyConfiguration.ExternalViewClient(3);
         private ExternalViewClient client4 = MyConfiguration.ExternalViewClient(4);
 
+        public string Name1 => "Client (" + client1.Hostname + ")";
+        public string Name2 => "Client (" + client2.Hostname + ")";
+        public string Name3 => "Client (" + client3.Hostname + ")";
+        public string Name4 => "Client (" + client4.Hostname + ")";
+
         public ObservableCollection<string> Types1 => new ObservableCollection<string>(client1.getTypes());
         public ObservableCollection<string> Types2 => new ObservableCollection<string>(client2.getTypes());
         public ObservableCollection<string> Types3 => new ObservableCollection<string>(client3.getTypes());

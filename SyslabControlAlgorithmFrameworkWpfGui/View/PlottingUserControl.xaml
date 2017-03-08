@@ -16,16 +16,16 @@
             <TextBlock Text="{Binding TotalActivePower}"/>
         </GroupBox>
         <UniformGrid>
-            <GroupBox Header="Chart 1">
+            <GroupBox Header="{Binding Name1}">
                 <oxy:PlotView Model="{Binding Chart1}"/>
             </GroupBox>
-            <GroupBox Header="Chart 2">
+            <GroupBox Header="{Binding Name2}">
                 <oxy:PlotView Model="{Binding Chart2}"/>
             </GroupBox>
-            <GroupBox Header="Chart 3">
+            <GroupBox Header="{Binding Name3}">
                 <oxy:PlotView Model="{Binding Chart3}"/>
             </GroupBox>
-            <GroupBox Header="Chart 4">
+            <GroupBox Header="{Binding Name4}">
                 <oxy:PlotView Model="{Binding Chart4}"/>
             </GroupBox>
         </UniformGrid>

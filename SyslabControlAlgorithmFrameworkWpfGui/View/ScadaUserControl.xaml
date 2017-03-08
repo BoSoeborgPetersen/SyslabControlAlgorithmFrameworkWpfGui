@@ -11,16 +11,16 @@
         <ViewModel:ScadaViewModel />
     </UserControl.DataContext>
     <UniformGrid>
-        <GroupBox Header="Previous Requests 1">
+        <GroupBox Header="{Binding Name1}">
             <ListView ItemsSource="{Binding PreviousRequests1}"/>
         </GroupBox>
-        <GroupBox Header="Previous Requests 2">
+        <GroupBox Header="{Binding Name2}">
             <ListView ItemsSource="{Binding PreviousRequests2}"/>
         </GroupBox>
-        <GroupBox Header="Previous Requests 3">
+        <GroupBox Header="{Binding Name3}">
             <ListView ItemsSource="{Binding PreviousRequests3}"/>
         </GroupBox>
-        <GroupBox Header="Previous Requests 4">
+        <GroupBox Header="{Binding Name4}">
             <ListView ItemsSource="{Binding PreviousRequests4}"/>
         </GroupBox>
     </UniformGrid>

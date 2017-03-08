@@ -13,7 +13,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
     {
         private static Dictionary<string, GenericBasedClient> instances = new Dictionary<string, GenericBasedClient>();
         private CommunicationClient client;
-        private string hostname;
+        public string Hostname { get; private set; }
         private int port;
 
         private Dictionary<string, Type> parameterNamesAndTypes = new Dictionary<string, Type>();
@@ -28,7 +28,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
         private GenericBasedClient(string hostname, int port, CommunicationClient client)
         {
-            this.hostname = hostname;
+            this.Hostname = hostname;
             this.port = port;
             this.client = client;
         }
@@ -71,7 +71,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
         public override string ToString()
         {
-            return "Client [hostname: " + hostname + ", port: " + port + "]";
+            return "Client [hostname: " + Hostname + ", port: " + port + "]";
         }
     }
 }

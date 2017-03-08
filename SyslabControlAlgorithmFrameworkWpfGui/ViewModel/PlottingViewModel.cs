@@ -28,7 +28,12 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         private CompositeMeasurement activePower2;
         private CompositeMeasurement activePower3;
         private CompositeMeasurement activePower4;
-        
+
+        public string Name1 => "Client (" + client1gb.Hostname + ")";
+        public string Name2 => "Client (" + client2gb.Hostname + ")";
+        public string Name3 => "Client (" + client3gb.Hostname + ")";
+        public string Name4 => "Client (" + client4gb.Hostname + ")";
+
         public PlotModel Chart1 { get; private set; } = new PlotModel();
         private LineSeries Chart1Series1 = new LineSeries();
         private LineSeries Chart1Series2 = new LineSeries();

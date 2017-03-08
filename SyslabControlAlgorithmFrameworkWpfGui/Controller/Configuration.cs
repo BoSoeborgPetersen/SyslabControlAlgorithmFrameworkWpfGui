@@ -10,7 +10,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
     public class MyConfiguration
     {
         // Config.
-        private static TestSetupType setupType = TestSetupType.Risø;
+        private static TestSetupType setupType = TestSetupType.Duevej;
         private static int replaceUnitNumber = 1;
 
         private static string hostname = Dns.GetHostName();
