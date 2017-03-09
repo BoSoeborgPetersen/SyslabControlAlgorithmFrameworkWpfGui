@@ -12,20 +12,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
     public class MessageExchangeViewModel : ViewModelBase
     {
-        private ExternalViewClient client1 = MyConfiguration.ExternalViewClient(1);
-        private ExternalViewClient client2 = MyConfiguration.ExternalViewClient(2);
-        private ExternalViewClient client3 = MyConfiguration.ExternalViewClient(3);
-        private ExternalViewClient client4 = MyConfiguration.ExternalViewClient(4);
+        private IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
 
-        public string Name1 => "Client (" + client1.Hostname + ")";
-        public string Name2 => "Client (" + client2.Hostname + ")";
-        public string Name3 => "Client (" + client3.Hostname + ")";
-        public string Name4 => "Client (" + client4.Hostname + ")";
-
-        public ObservableCollection<string> PreviousMessages1 => new ObservableCollection<string>(client1.getPreviousMessages());
-        public ObservableCollection<string> PreviousMessages2 => new ObservableCollection<string>(client2.getPreviousMessages());
-        public ObservableCollection<string> PreviousMessages3 => new ObservableCollection<string>(client3.getPreviousMessages());
-        public ObservableCollection<string> PreviousMessages4 => new ObservableCollection<string>(client4.getPreviousMessages());
+        public Dictionary<string, List<string>> ClientData => 
+            clients.ToDictionary(x => "Client (" + x.Hostname + ")", x => x.getPreviousMessages());
 
         public MessageExchangeViewModel()
         {
@@ -35,12 +25,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
                 while(true)
                 {
-                    RaisePropertyChanged(() => PreviousMessages1);
-                    RaisePropertyChanged(() => PreviousMessages2);
-                    RaisePropertyChanged(() => PreviousMessages3);
-                    RaisePropertyChanged(() => PreviousMessages4);
+                    RaisePropertyChanged(() => ClientData);
 
-                    Thread.Sleep(1000);
+                    Thread.Sleep(10000);
                 }
             }).Start();
         }

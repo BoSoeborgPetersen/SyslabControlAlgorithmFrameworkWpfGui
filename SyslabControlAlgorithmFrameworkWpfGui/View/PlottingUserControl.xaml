@@ -15,19 +15,19 @@
         <GroupBox DockPanel.Dock="Bottom" Header="Total">
             <TextBlock Text="{Binding TotalActivePower}"/>
         </GroupBox>
-        <UniformGrid>
-            <GroupBox Header="{Binding Name1}">
-                <oxy:PlotView Model="{Binding Chart1}"/>
-            </GroupBox>
-            <GroupBox Header="{Binding Name2}">
-                <oxy:PlotView Model="{Binding Chart2}"/>
-            </GroupBox>
-            <GroupBox Header="{Binding Name3}">
-                <oxy:PlotView Model="{Binding Chart3}"/>
-            </GroupBox>
-            <GroupBox Header="{Binding Name4}">
-                <oxy:PlotView Model="{Binding Chart4}"/>
-            </GroupBox>
-        </UniformGrid>
+        <ItemsControl ItemsSource="{Binding ClientData}">                           
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="2" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <GroupBox Header="{Binding Key}">
+                        <oxy:PlotView Model="{Binding Value}"/>
+                    </GroupBox>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </DockPanel>
 </UserControl>

@@ -12,28 +12,12 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
     public class ServiceDiscoveryViewModel : ViewModelBase
     {
-        private ExternalViewClient client1 = MyConfiguration.ExternalViewClient(1);
-        private ExternalViewClient client2 = MyConfiguration.ExternalViewClient(2);
-        private ExternalViewClient client3 = MyConfiguration.ExternalViewClient(3);
-        private ExternalViewClient client4 = MyConfiguration.ExternalViewClient(4);
+        private IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
 
-        public string Name1 => "Client (" + client1.Hostname + ")";
-        public string Name2 => "Client (" + client2.Hostname + ")";
-        public string Name3 => "Client (" + client3.Hostname + ")";
-        public string Name4 => "Client (" + client4.Hostname + ")";
-
-        public ObservableCollection<string> Types1 => new ObservableCollection<string>(client1.getTypes());
-        public ObservableCollection<string> Types2 => new ObservableCollection<string>(client2.getTypes());
-        public ObservableCollection<string> Types3 => new ObservableCollection<string>(client3.getTypes());
-        public ObservableCollection<string> Types4 => new ObservableCollection<string>(client4.getTypes());
-        public ObservableCollection<string> Roles1 => new ObservableCollection<string>(client1.getRoles());
-        public ObservableCollection<string> Roles2 => new ObservableCollection<string>(client2.getRoles());
-        public ObservableCollection<string> Roles3 => new ObservableCollection<string>(client3.getRoles());
-        public ObservableCollection<string> Roles4 => new ObservableCollection<string>(client4.getRoles());
-        public ObservableCollection<string> Services1 => new ObservableCollection<string>(client1.getServices());
-        public ObservableCollection<string> Services2 => new ObservableCollection<string>(client2.getServices());
-        public ObservableCollection<string> Services3 => new ObservableCollection<string>(client3.getServices());
-        public ObservableCollection<string> Services4 => new ObservableCollection<string>(client4.getServices());
+        public Dictionary<string, Tuple<IEnumerable<string>, IEnumerable<string>, IEnumerable<string>>> ClientData =>
+            clients.ToDictionary(
+                x => "Client (" + x.Hostname + ")",
+                x => new Tuple<IEnumerable<string>, IEnumerable<string>, IEnumerable<string>>(x.getTypes(), x.getRoles(), x.getServices()));
 
         public ServiceDiscoveryViewModel()
         {
@@ -43,20 +27,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
                 while (true)
                 {
-                    RaisePropertyChanged(() => Types1);
-                    RaisePropertyChanged(() => Types2);
-                    RaisePropertyChanged(() => Types3);
-                    RaisePropertyChanged(() => Types4);
-                    RaisePropertyChanged(() => Roles1);
-                    RaisePropertyChanged(() => Roles2);
-                    RaisePropertyChanged(() => Roles3);
-                    RaisePropertyChanged(() => Roles4);
-                    RaisePropertyChanged(() => Services1);
-                    RaisePropertyChanged(() => Services2);
-                    RaisePropertyChanged(() => Services3);
-                    RaisePropertyChanged(() => Services4);
+                    RaisePropertyChanged(() => ClientData);
 
-                    Thread.Sleep(1000);
+                    Thread.Sleep(10000);
                 }
             }).Start();
         }

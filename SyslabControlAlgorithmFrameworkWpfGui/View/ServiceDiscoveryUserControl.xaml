@@ -10,58 +10,28 @@
     <UserControl.DataContext>
         <ViewModel:ServiceDiscoveryViewModel />
     </UserControl.DataContext>
-    <UniformGrid>
-        <GroupBox Header="{Binding Name1}">
-            <DockPanel>
-                <Expander DockPanel.Dock="Top" Header="Services" IsExpanded="True">
-                    <ListView ItemsSource="{Binding Services1}"/>
-                </Expander>
-                <Expander DockPanel.Dock="Top" Header="Roles">
-                    <ListView ItemsSource="{Binding Roles1}"/>
-                </Expander>
-                <Expander Header="Types" IsExpanded="True">
-                    <ListView ItemsSource="{Binding Types1}"/>
-                </Expander>
-            </DockPanel>
-        </GroupBox>
-        <GroupBox Header="{Binding Name2}">
-            <DockPanel>
-                <Expander DockPanel.Dock="Top" Header="Services" IsExpanded="True">
-                    <ListView ItemsSource="{Binding Services2}"/>
-                </Expander>
-                <Expander DockPanel.Dock="Top" Header="Roles">
-                    <ListView ItemsSource="{Binding Roles2}"/>
-                </Expander>
-                <Expander Header="Types" IsExpanded="True">
-                    <ListView ItemsSource="{Binding Types2}"/>
-                </Expander>
-            </DockPanel>
-        </GroupBox>
-        <GroupBox Header="{Binding Name3}">
-            <DockPanel>
-                <Expander DockPanel.Dock="Top" Header="Services" IsExpanded="True">
-                    <ListView ItemsSource="{Binding Services3}"/>
-                </Expander>
-                <Expander DockPanel.Dock="Top" Header="Roles">
-                    <ListView ItemsSource="{Binding Roles3}"/>
-                </Expander>
-                <Expander Header="Types" IsExpanded="True">
-                    <ListView ItemsSource="{Binding Types3}"/>
-                </Expander>
-            </DockPanel>
-        </GroupBox>
-        <GroupBox Header="{Binding Name4}">
-            <DockPanel>
-                <Expander DockPanel.Dock="Top" Header="Services" IsExpanded="True">
-                    <ListView ItemsSource="{Binding Services4}"/>
-                </Expander>
-                <Expander DockPanel.Dock="Top" Header="Roles">
-                    <ListView ItemsSource="{Binding Roles4}"/>
-                </Expander>
-                <Expander Header="Types" IsExpanded="True">
-                    <ListView ItemsSource="{Binding Types4}"/>
-                </Expander>
-            </DockPanel>
-        </GroupBox>
-    </UniformGrid>
+    <ItemsControl ItemsSource="{Binding ClientData}">                           
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Rows="2" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <GroupBox Header="{Binding Key}">
+                    <DockPanel>
+                        <Expander DockPanel.Dock="Top" Header="Services" IsExpanded="True">
+                            <ListView ItemsSource="{Binding Value.Item3}"/>
+                        </Expander>
+                        <Expander DockPanel.Dock="Top" Header="Roles">
+                            <ListView ItemsSource="{Binding Value.Item2}"/>
+                        </Expander>
+                        <Expander Header="Types" IsExpanded="True">
+                            <ListView ItemsSource="{Binding Value.Item1}"/>
+                        </Expander>
+                    </DockPanel>
+                </GroupBox>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </UserControl>

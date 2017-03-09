@@ -17,48 +17,23 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
     {
         private double time = 0;
 
-        private ExternalViewClient client1ex = MyConfiguration.ExternalViewClient(1);
+        private ExternalViewClient externalViewClient = MyConfiguration.ExternalViewClients().SingleOrDefault(x => x.Hostname.Equals("10.42.241.5"));
 
-        private GenericBasedClient client1gb = MyConfiguration.GenericBasedClient(1);
-        private GenericBasedClient client2gb = MyConfiguration.GenericBasedClient(2);
-        private GenericBasedClient client3gb = MyConfiguration.GenericBasedClient(3);
-        private GenericBasedClient client4gb = MyConfiguration.GenericBasedClient(4);
+        private IEnumerable<GenericBasedClient> genericBasedClients = MyConfiguration.GenericBasedClients();
+        public Dictionary<string, PlotModel> ClientData { get; private set; } = new Dictionary<string, PlotModel>();
 
-        private CompositeMeasurement activePower1;
-        private CompositeMeasurement activePower2;
-        private CompositeMeasurement activePower3;
-        private CompositeMeasurement activePower4;
-
-        public string Name1 => "Client (" + client1gb.Hostname + ")";
-        public string Name2 => "Client (" + client2gb.Hostname + ")";
-        public string Name3 => "Client (" + client3gb.Hostname + ")";
-        public string Name4 => "Client (" + client4gb.Hostname + ")";
-
-        public PlotModel Chart1 { get; private set; } = new PlotModel();
-        private LineSeries Chart1Series1 = new LineSeries();
-        private LineSeries Chart1Series2 = new LineSeries();
-        public PlotModel Chart2 { get; private set; } = new PlotModel();
-        private LineSeries Chart2Series1 = new LineSeries();
-        private LineSeries Chart2Series2 = new LineSeries();
-        public PlotModel Chart3 { get; private set; } = new PlotModel();
-        private LineSeries Chart3Series1 = new LineSeries();
-        private LineSeries Chart3Series2 = new LineSeries();
-        public PlotModel Chart4 { get; private set; } = new PlotModel();
-        private LineSeries Chart4Series1 = new LineSeries();
-        private LineSeries Chart4Series2 = new LineSeries();
-
-        public double TotalActivePower => (activePower1?.value ?? 0) + (activePower2?.value ?? 0) + (activePower3?.value ?? 0) + (activePower4?.value ?? 0);
+        private Dictionary<GenericBasedClient, CompositeMeasurement> activePowers = new Dictionary<GenericBasedClient, CompositeMeasurement>();
+        public double TotalActivePower => activePowers.Sum(x => x.Value?.value ?? 0);
 
         public PlottingViewModel()
         {
-            Chart1.Series.Add(Chart1Series1);
-            Chart1.Series.Add(Chart1Series2);
-            Chart2.Series.Add(Chart2Series1);
-            Chart2.Series.Add(Chart2Series2);
-            Chart3.Series.Add(Chart3Series1);
-            Chart3.Series.Add(Chart3Series2);
-            Chart4.Series.Add(Chart4Series1);
-            Chart4.Series.Add(Chart4Series2);
+            ClientData = genericBasedClients.ToDictionary(x => "Client (" + x.Hostname + ")", x =>
+            {
+                var model = new PlotModel();
+                model.Series.Add(new LineSeries());
+                model.Series.Add(new LineSeries());
+                return model;
+            });
 
             new Thread(() =>
             {
@@ -68,15 +43,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 {
                     time++;
 
-                    GetDataPoint1();
-                    GetDataPoint2();
-                    GetDataPoint3();
-                    GetDataPoint4();
+                    GetDataPoints();
 
-                    RaisePropertyChanged(() => Chart1);
-                    RaisePropertyChanged(() => Chart2);
-                    RaisePropertyChanged(() => Chart3);
-                    RaisePropertyChanged(() => Chart4);
+                    RaisePropertyChanged(() => ClientData);
                     RaisePropertyChanged(() => TotalActivePower);
 
                     Thread.Sleep(1000);
@@ -84,52 +53,25 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             }).Start();
         }
 
-        public void GetDataPoint1()
+        public void GetDataPoints()
         {
-            activePower1 = (CompositeMeasurement)client1gb.Resource("genset1", "getACActivePower");
-            if (activePower1 != null)
+            int i = 0;
+            foreach (var client in genericBasedClients)
             {
-                Chart1Series1.Points.Add(new DataPoint(time, activePower1.value));
-            }
-            double setpoint = (double)(client1ex.getControlParameter("FlexibilityAlgorithm", "setP1") ?? default(double));
-            Chart1Series2.Points.Add(new DataPoint(time, setpoint));
-            Chart1.InvalidatePlot(true);
-        }
+                var activePower = (CompositeMeasurement)client.Resource("", "getACActivePower");
+                if (activePowers.ContainsKey(client)) activePowers.Remove(client);
+                activePowers.Add(client, activePower);
+                if (activePower != null)
+                {
+                    (ClientData.ElementAt(i).Value.Series[0] as LineSeries).Points.Add(new DataPoint(time, activePower.value));
+                }
+                double setpoint = client.Hostname.Equals("10.42.241.5") ? (double)(externalViewClient.getControlOutput("DumploadControlAlgorithm", "setP") ?? default(double)) :
+                    (double)(externalViewClient.getControlOutput("FlexibilityAlgorithm", "setP1") ?? default(double));
+                (ClientData.ElementAt(i).Value.Series[1] as LineSeries).Points.Add(new DataPoint(time, setpoint));
+                ClientData.ElementAt(i).Value.InvalidatePlot(true);
 
-        public void GetDataPoint2()
-        {
-            activePower2 = (CompositeMeasurement)client2gb.Resource("pv117", "getACActivePower");
-            if (activePower2 != null)
-            {
-                Chart2Series1.Points.Add(new DataPoint(time, activePower2.value));
+                i++;
             }
-            double setpoint = (double)(client1ex.getControlParameter("FlexibilityAlgorithm", "setP2") ?? default(double));
-            Chart2Series2.Points.Add(new DataPoint(time, setpoint));
-            Chart2.InvalidatePlot(true);
-        }
-
-        public void GetDataPoint3()
-        {
-            activePower3 = (CompositeMeasurement)client3gb.Resource("load1", "getACActivePower");
-            if (activePower3 != null)
-            {
-                Chart3Series1.Points.Add(new DataPoint(time, activePower3.value));
-            }
-            double setpoint = (double)(client1ex.getControlParameter("FlexibilityAlgorithm", "setP3") ?? default(double));
-            Chart3Series2.Points.Add(new DataPoint(time, setpoint));
-            Chart3.InvalidatePlot(true);
-        }
-
-        public void GetDataPoint4()
-        {
-            activePower4 = (CompositeMeasurement)client4gb.Resource("batt1", "getACActivePower");
-            if (activePower4 != null)
-            {
-                Chart4Series1.Points.Add(new DataPoint(time, activePower4.value));
-            }
-            double setpoint = (double)(client1ex.getControlParameter("FlexibilityAlgorithm", "setP4") ?? default(double));
-            Chart4Series2.Points.Add(new DataPoint(time, setpoint));
-            Chart4.InvalidatePlot(true);
         }
     }
 }

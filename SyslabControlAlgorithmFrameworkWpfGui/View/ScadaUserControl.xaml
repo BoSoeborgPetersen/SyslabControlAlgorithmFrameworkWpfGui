@@ -10,18 +10,18 @@
     <UserControl.DataContext>
         <ViewModel:ScadaViewModel />
     </UserControl.DataContext>
-    <UniformGrid>
-        <GroupBox Header="{Binding Name1}">
-            <ListView ItemsSource="{Binding PreviousRequests1}"/>
-        </GroupBox>
-        <GroupBox Header="{Binding Name2}">
-            <ListView ItemsSource="{Binding PreviousRequests2}"/>
-        </GroupBox>
-        <GroupBox Header="{Binding Name3}">
-            <ListView ItemsSource="{Binding PreviousRequests3}"/>
-        </GroupBox>
-        <GroupBox Header="{Binding Name4}">
-            <ListView ItemsSource="{Binding PreviousRequests4}"/>
-        </GroupBox>
-    </UniformGrid>
+    <ItemsControl ItemsSource="{Binding ClientData}">                           
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Rows="2" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <GroupBox Header="{Binding Key}">
+                    <ListView ItemsSource="{Binding Value}"/>
+                </GroupBox>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </UserControl>

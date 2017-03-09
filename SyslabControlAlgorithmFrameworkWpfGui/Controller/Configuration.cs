@@ -10,7 +10,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
     public class MyConfiguration
     {
         // Config.
-        private static TestSetupType setupType = TestSetupType.Duevej;
+        private static TestSetupType setupType = TestSetupType.Risø;
         private static int replaceUnitNumber = 1;
 
         private static string hostname = Dns.GetHostName();
@@ -33,18 +33,24 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         private static List<Tuple<string, int>> genericBasedConnectionInfoRisø = new List<Tuple<string, int>>()
         {
             new Tuple<string, int>("10.42.241.2", 9000),
+            new Tuple<string, int>("10.42.241.3", 9000),
             new Tuple<string, int>("10.42.241.5", 9000),
             new Tuple<string, int>("10.42.241.7", 9000),
-            new Tuple<string, int>("10.42.241.12", 9000), 
-            new Tuple<string, int>("10.42.241.3", 9000)
+            new Tuple<string, int>("10.42.241.10", 9000),
+            new Tuple<string, int>("10.42.241.12", 9000),
+            new Tuple<string, int>("10.42.241.16", 9000),
+            new Tuple<string, int>("10.42.241.24", 9000)
         };
         private static List<Tuple<string, int>> externalViewConnectionInfoRisø= new List<Tuple<string, int>>()
         {
             new Tuple<string, int>("10.42.241.2", 5531),
+            new Tuple<string, int>("10.42.241.3", 5531), 
             new Tuple<string, int>("10.42.241.5", 5531),
             new Tuple<string, int>("10.42.241.7", 5531),
-            new Tuple<string, int>("10.42.241.12", 5531), 
-            new Tuple<string, int>("10.42.241.3", 5531)
+            new Tuple<string, int>("10.42.241.10", 5531),
+            new Tuple<string, int>("10.42.241.12", 5531),
+            new Tuple<string, int>("10.42.241.16", 5531),
+            new Tuple<string, int>("10.42.241.24", 5531)
         };
 
         public static IEnumerable<GenericBasedClient> GenericBasedClients()
@@ -72,26 +78,26 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
                 yield return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
         }
 
-        public static GenericBasedClient GenericBasedClient(int number)
-        {
-            if (setupType == TestSetupType.Risø)
-                return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoRisø.ElementAt(number - 1).Item1, genericBasedConnectionInfoRisø.ElementAt(number - 1).Item2);
-            else if (setupType == TestSetupType.RisøAndLocal)
-                if (replaceUnitNumber == number)
-                    return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
-                else
-                    return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoRisø.ElementAt(number - 1).Item1, genericBasedConnectionInfoRisø.ElementAt(number - 1).Item2);
-            else if (setupType == TestSetupType.Duevej)
-                return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item1, genericBasedConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item2);
-            else if (setupType == TestSetupType.DuevejAndLocal)
-                if (replaceUnitNumber == number)
-                    return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
-                else
-                    return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item1, genericBasedConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item2);
-            else if (setupType == TestSetupType.LocalOnly)
-                return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
-            return null;
-        }
+        //public static GenericBasedClient GenericBasedClient(int number)
+        //{
+        //    if (setupType == TestSetupType.Risø)
+        //        return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoRisø.ElementAt(number - 1).Item1, genericBasedConnectionInfoRisø.ElementAt(number - 1).Item2);
+        //    else if (setupType == TestSetupType.RisøAndLocal)
+        //        if (replaceUnitNumber == number)
+        //            return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
+        //        else
+        //            return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoRisø.ElementAt(number - 1).Item1, genericBasedConnectionInfoRisø.ElementAt(number - 1).Item2);
+        //    else if (setupType == TestSetupType.Duevej)
+        //        return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item1, genericBasedConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item2);
+        //    else if (setupType == TestSetupType.DuevejAndLocal)
+        //        if (replaceUnitNumber == number)
+        //            return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
+        //        else
+        //            return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item1, genericBasedConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item2);
+        //    else if (setupType == TestSetupType.LocalOnly)
+        //        return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
+        //    return null;
+        //}
 
         public static IEnumerable<ExternalViewClient> ExternalViewClients()
         {
@@ -118,26 +124,26 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
                 yield return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
         }
 
-        public static ExternalViewClient ExternalViewClient(int number)
-        {
-            if (setupType == TestSetupType.Risø)
-                return Controller.ExternalViewClient.Instance(externalViewConnectionInfoRisø.ElementAt(number - 1).Item1, externalViewConnectionInfoRisø.ElementAt(number - 1).Item2);
-            else if (setupType == TestSetupType.RisøAndLocal)
-                if (replaceUnitNumber == number)
-                    return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
-                else
-                    return Controller.ExternalViewClient.Instance(externalViewConnectionInfoRisø.ElementAt(number - 1).Item1, externalViewConnectionInfoRisø.ElementAt(number - 1).Item2);
-            else if (setupType == TestSetupType.Duevej)
-                return Controller.ExternalViewClient.Instance(externalViewConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item1, externalViewConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item2);
-            else if (setupType == TestSetupType.DuevejAndLocal)
-                if (replaceUnitNumber == number)
-                    return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
-                else
-                    return Controller.ExternalViewClient.Instance(externalViewConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item1, externalViewConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item2);
-            else if (setupType == TestSetupType.LocalOnly)
-                return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
-            return null;
-        }
+        //public static ExternalViewClient ExternalViewClient(int number)
+        //{
+        //    if (setupType == TestSetupType.Risø)
+        //        return Controller.ExternalViewClient.Instance(externalViewConnectionInfoRisø.ElementAt(number - 1).Item1, externalViewConnectionInfoRisø.ElementAt(number - 1).Item2);
+        //    else if (setupType == TestSetupType.RisøAndLocal)
+        //        if (replaceUnitNumber == number)
+        //            return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
+        //        else
+        //            return Controller.ExternalViewClient.Instance(externalViewConnectionInfoRisø.ElementAt(number - 1).Item1, externalViewConnectionInfoRisø.ElementAt(number - 1).Item2);
+        //    else if (setupType == TestSetupType.Duevej)
+        //        return Controller.ExternalViewClient.Instance(externalViewConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item1, externalViewConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item2);
+        //    else if (setupType == TestSetupType.DuevejAndLocal)
+        //        if (replaceUnitNumber == number)
+        //            return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
+        //        else
+        //            return Controller.ExternalViewClient.Instance(externalViewConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item1, externalViewConnectionInfoDuevejTestSetup.ElementAt(number - 1).Item2);
+        //    else if (setupType == TestSetupType.LocalOnly)
+        //        return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
+        //    return null;
+        //}
     }
 
     enum TestSetupType
