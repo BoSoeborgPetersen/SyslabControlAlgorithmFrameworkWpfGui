@@ -33,14 +33,14 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 var model = new PlotModel();
                 model.Series.Add(new LineSeries());
                 model.Series.Add(new LineSeries());
-                model.Axes.Add(new OxyPlot.Axes.LinearAxis()
-                {
-                    Position = AxisPosition.Bottom,
-                    MaximumRange = 60,
-                    Key = "xAxis",
-                    MajorGridlineStyle = LineStyle.Solid,
-                    MinorGridlineStyle = LineStyle.Dot,
-                });
+                //model.Axes.Add(new OxyPlot.Axes.LinearAxis()
+                //{
+                //    Position = AxisPosition.Bottom,
+                //    MaximumRange = 60,
+                //    Key = "xAxis",
+                //    MajorGridlineStyle = LineStyle.Solid,
+                //    MinorGridlineStyle = LineStyle.Dot,
+                //});
                 return model;
             });
 
@@ -64,6 +64,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public void GetDataPoints()
         {
+            //genericBasedClients.Single(x => x.Hostname.Equals("10.42.241.10")).Control("-", "setPacLimit", time % 5);
+
             int i = 0;
             foreach (var client in genericBasedClients)
             {
@@ -72,11 +74,17 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 activePowers.Add(client, activePower);
                 if (activePower != null)
                 {
-                    (ClientData.ElementAt(i).Value.Series[0] as LineSeries).Points.Add(new DataPoint(time, activePower.value));
+                    var series1 = ClientData.ElementAt(i).Value.Series[0] as LineSeries;
+                    series1.Points.Add(new DataPoint(time, activePower.value));
+                    if (series1.Points.Count > 60) series1.Points.RemoveAt(0);
                 }
                 double setpoint = client.Hostname.Equals("10.42.241.5") ? (double)(externalViewClient.getControlOutput("DumploadControlAlgorithm", "setP") ?? default(double)) :
                     (double)(externalViewClient.getControlOutput("FlexibilityAlgorithm", "setP1") ?? default(double));
-                (ClientData.ElementAt(i).Value.Series[1] as LineSeries).Points.Add(new DataPoint(time, setpoint));
+
+                var series2 = ClientData.ElementAt(i).Value.Series[1] as LineSeries;
+                series2.Points.Add(new DataPoint(time, setpoint));
+                if (series2.Points.Count > 60) series2.Points.RemoveAt(0);
+
                 ClientData.ElementAt(i).Value.InvalidatePlot(true);
 
                 i++;

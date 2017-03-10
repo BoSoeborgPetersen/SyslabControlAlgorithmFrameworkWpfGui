@@ -15,7 +15,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         private IEnumerable<GenericBasedClient> clients = MyConfiguration.GenericBasedClients();
         private GenericBasedClient selectedClient;
 
-        private object control;
+        //private object control;
         private string selectedDeviceName;
         private string selectedResourceName;
         private string selectedControlName;
@@ -82,12 +82,12 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         // TODO
         private void SetControl(object value)
         {
-            if (control != value)
-            {
-                control = value;
+            //if (control != value)
+            //{
+            //    control = value;
 
-                selectedClient.Control(SelectedDeviceName, SelectedControlName, value);
-            }
+            //    selectedClient.Control(SelectedDeviceName, SelectedControlName, value);
+            //}
         }
 
         private string printObject(object o)
