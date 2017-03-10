@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using OxyPlot;
+using OxyPlot.Axes;
 using OxyPlot.Series;
 using SyslabControlAlgorithmFrameworkWpfGui.Controller;
 using SyslabControlAlgorithmFrameworkWpfGui.Model;
@@ -32,6 +33,14 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 var model = new PlotModel();
                 model.Series.Add(new LineSeries());
                 model.Series.Add(new LineSeries());
+                model.Axes.Add(new OxyPlot.Axes.LinearAxis()
+                {
+                    Position = AxisPosition.Bottom,
+                    MaximumRange = 60,
+                    Key = "xAxis",
+                    MajorGridlineStyle = LineStyle.Solid,
+                    MinorGridlineStyle = LineStyle.Dot,
+                });
                 return model;
             });
 
