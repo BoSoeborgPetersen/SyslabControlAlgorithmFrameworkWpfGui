@@ -33,7 +33,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         private static List<Tuple<string, int>> genericBasedConnectionInfoRisø = new List<Tuple<string, int>>()
         {
             new Tuple<string, int>("10.42.241.2", 9000),
-            new Tuple<string, int>("10.42.241.3", 9000),
+            //new Tuple<string, int>("10.42.241.3", 9000),
             new Tuple<string, int>("10.42.241.5", 9000),
             new Tuple<string, int>("10.42.241.7", 9000),
             new Tuple<string, int>("10.42.241.10", 9000),
@@ -44,7 +44,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         private static List<Tuple<string, int>> externalViewConnectionInfoRisø= new List<Tuple<string, int>>()
         {
             new Tuple<string, int>("10.42.241.2", 5531),
-            new Tuple<string, int>("10.42.241.3", 5531), 
+            //new Tuple<string, int>("10.42.241.3", 5531), 
             new Tuple<string, int>("10.42.241.5", 5531),
             new Tuple<string, int>("10.42.241.7", 5531),
             new Tuple<string, int>("10.42.241.10", 5531),
