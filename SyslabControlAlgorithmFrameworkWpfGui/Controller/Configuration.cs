@@ -10,7 +10,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
     public class MyConfiguration
     {
         // Config.
-        private static TestSetupType setupType = TestSetupType.Risø;
+        private static TestSetupType setupType = TestSetupType.RisøAndLocal;
         private static int replaceUnitNumber = 1;
 
         private static string hostname = Dns.GetHostName();
@@ -32,8 +32,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         };
         private static List<Tuple<string, int>> genericBasedConnectionInfoRisø = new List<Tuple<string, int>>()
         {
-            new Tuple<string, int>("10.42.241.2", 9000),
-            //new Tuple<string, int>("10.42.241.3", 9000),
+            //new Tuple<string, int>("10.42.241.2", 9000),
+            new Tuple<string, int>("10.42.241.3", 9000),
             new Tuple<string, int>("10.42.241.5", 9000),
             new Tuple<string, int>("10.42.241.7", 9000),
             new Tuple<string, int>("10.42.241.10", 9000),
@@ -43,8 +43,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         };
         private static List<Tuple<string, int>> externalViewConnectionInfoRisø= new List<Tuple<string, int>>()
         {
-            new Tuple<string, int>("10.42.241.2", 5531),
-            //new Tuple<string, int>("10.42.241.3", 5531), 
+            //new Tuple<string, int>("10.42.241.2", 5531),
+            new Tuple<string, int>("10.42.241.3", 5531), 
             new Tuple<string, int>("10.42.241.5", 5531),
             new Tuple<string, int>("10.42.241.7", 5531),
             new Tuple<string, int>("10.42.241.10", 5531),
@@ -55,25 +55,24 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
         public static IEnumerable<GenericBasedClient> GenericBasedClients()
         {
-            int i = 1;
             if (setupType == TestSetupType.Risø)
                 foreach (var entry in genericBasedConnectionInfoRisø)
                     yield return Controller.GenericBasedClient.Instance(entry.Item1, entry.Item2);
             else if (setupType == TestSetupType.RisøAndLocal)
+            {
+                yield return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
                 foreach (var entry in genericBasedConnectionInfoRisø)
-                    if (replaceUnitNumber == i++)
-                        yield return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
-                    else
-                        yield return Controller.GenericBasedClient.Instance(entry.Item1, entry.Item2);
+                    yield return Controller.GenericBasedClient.Instance(entry.Item1, entry.Item2);
+            }
             else if (setupType == TestSetupType.Duevej)
                 foreach (var entry in genericBasedConnectionInfoDuevejTestSetup)
                     yield return Controller.GenericBasedClient.Instance(entry.Item1, entry.Item2);
             else if (setupType == TestSetupType.DuevejAndLocal)
+            {
+                yield return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
                 foreach (var entry in genericBasedConnectionInfoDuevejTestSetup)
-                    if (replaceUnitNumber == i++)
-                        yield return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
-                    else
-                        yield return Controller.GenericBasedClient.Instance(entry.Item1, entry.Item2);
+                    yield return Controller.GenericBasedClient.Instance(entry.Item1, entry.Item2);
+            }
             else if (setupType == TestSetupType.LocalOnly)
                 yield return Controller.GenericBasedClient.Instance(genericBasedConnectionInfoLocalOnly.Item1, genericBasedConnectionInfoLocalOnly.Item2);
         }
@@ -101,25 +100,24 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
         public static IEnumerable<ExternalViewClient> ExternalViewClients()
         {
-            int i = 1;
             if (setupType == TestSetupType.Risø)
                 foreach (var entry in externalViewConnectionInfoRisø)
                     yield return Controller.ExternalViewClient.Instance(entry.Item1, entry.Item2);
             else if (setupType == TestSetupType.RisøAndLocal)
+            {
+                yield return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
                 foreach (var entry in externalViewConnectionInfoRisø)
-                    if (replaceUnitNumber == i++)
-                        yield return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
-                    else
-                        yield return Controller.ExternalViewClient.Instance(entry.Item1, entry.Item2);
+                    yield return Controller.ExternalViewClient.Instance(entry.Item1, entry.Item2);
+            }
             else if (setupType == TestSetupType.Duevej)
                 foreach (var entry in externalViewConnectionInfoDuevejTestSetup)
                     yield return Controller.ExternalViewClient.Instance(entry.Item1, entry.Item2);
             else if (setupType == TestSetupType.DuevejAndLocal)
+            {
+                yield return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
                 foreach (var entry in externalViewConnectionInfoDuevejTestSetup)
-                    if (replaceUnitNumber == i++)
-                        yield return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
-                    else
-                        yield return Controller.ExternalViewClient.Instance(entry.Item1, entry.Item2);
+                    yield return Controller.ExternalViewClient.Instance(entry.Item1, entry.Item2);
+            }
             else if (setupType == TestSetupType.LocalOnly)
                 yield return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2);
         }
