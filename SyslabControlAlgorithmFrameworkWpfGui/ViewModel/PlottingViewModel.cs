@@ -18,31 +18,21 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
     {
         private double time = 0;
 
-        private ExternalViewClient externalViewClient = MyConfiguration.ExternalViewClients().SingleOrDefault(x => x.Hostname.Equals("10.42.241.5"));
-
         private IEnumerable<GenericBasedClient> genericBasedClients = MyConfiguration.GenericBasedClients();
-        public Dictionary<string, PlotModel> ClientData { get; private set; } = new Dictionary<string, PlotModel>();
+        public PlotModel ClientData { get; private set; }
 
         private Dictionary<GenericBasedClient, CompositeMeasurement> activePowers = new Dictionary<GenericBasedClient, CompositeMeasurement>();
-        public double TotalActivePower => activePowers.Sum(x => x.Value?.value ?? 0);
+        private double totalActivePower => activePowers.Sum(x => x.Value?.value ?? 0);
 
         public PlottingViewModel()
         {
-            ClientData = genericBasedClients.ToDictionary(x => "Client (" + x.Hostname + ")", x =>
+            ClientData = new PlotModel();
+
+            foreach (var client in genericBasedClients)
             {
-                var model = new PlotModel();
-                model.Series.Add(new LineSeries());
-                model.Series.Add(new LineSeries());
-                //model.Axes.Add(new OxyPlot.Axes.LinearAxis()
-                //{
-                //    Position = AxisPosition.Bottom,
-                //    MaximumRange = 60,
-                //    Key = "xAxis",
-                //    MajorGridlineStyle = LineStyle.Solid,
-                //    MinorGridlineStyle = LineStyle.Dot,
-                //});
-                return model;
-            });
+                ClientData.Series.Add(new LineSeries());
+            }
+            ClientData.Series.Add(new LineSeries());
 
             new Thread(() =>
             {
@@ -55,7 +45,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                     GetDataPoints();
 
                     RaisePropertyChanged(() => ClientData);
-                    RaisePropertyChanged(() => TotalActivePower);
 
                     Thread.Sleep(1000);
                 }
@@ -64,8 +53,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public void GetDataPoints()
         {
-            //genericBasedClients.Single(x => x.Hostname.Equals("10.42.241.10")).Control("-", "setPacLimit", time % 5);
-
             int i = 0;
             foreach (var client in genericBasedClients)
             {
@@ -74,21 +61,19 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 activePowers.Add(client, activePower);
                 if (activePower != null)
                 {
-                    var series1 = ClientData.ElementAt(i).Value.Series[0] as LineSeries;
-                    series1.Points.Add(new DataPoint(time, activePower.value));
-                    if (series1.Points.Count > 60) series1.Points.RemoveAt(0);
+                    var series = ClientData.Series[i] as LineSeries;
+                    series.Points.Add(new DataPoint(time, activePower.value));
+                    if (series.Points.Count > 60) series.Points.RemoveAt(0);
                 }
-                double setpoint = client.Hostname.Equals("10.42.241.5") ? (double)(externalViewClient.getControlOutput("DumploadControlAlgorithm", "setP") ?? default(double)) :
-                    (double)(externalViewClient.getControlOutput("FlexibilityAlgorithm", "setP1") ?? default(double));
-
-                var series2 = ClientData.ElementAt(i).Value.Series[1] as LineSeries;
-                series2.Points.Add(new DataPoint(time, setpoint));
-                if (series2.Points.Count > 60) series2.Points.RemoveAt(0);
-
-                ClientData.ElementAt(i).Value.InvalidatePlot(true);
 
                 i++;
             }
+            
+            var totalSeries = ClientData.Series[i] as LineSeries;
+            totalSeries.Points.Add(new DataPoint(time, totalActivePower));
+            if (totalSeries.Points.Count > 60) totalSeries.Points.RemoveAt(0);
+
+            ClientData.InvalidatePlot(true);
         }
     }
 }

@@ -66,6 +66,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
             if (name == "String") return "java.lang.String";
             if (name == "Double") return "java.lang.Double";
             if (name == "Boolean") return "java.lang.Boolean";
+            if (name == "Object[]") return "[Ljava.lang.Object;";
 
             else
                 return null;
@@ -155,7 +156,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
             if (name == "risoe.syslab.model.CapabilityDescription") return "SyslabControlAlgorithmFrameworkWpfGui.Model.CapabilityDescription";
             if (name == "risoe.syslab.model.RequirementDescription") return "SyslabControlAlgorithmFrameworkWpfGui.Model.RequirementDescription";
             if (name == "risoe.syslab.model.Flexibility") return "SyslabControlAlgorithmFrameworkWpfGui.Model.Flexibility";
-            if (name == "risoe.syslab.model.FlexibilityExecutions") return "SyslabControlAlgorithmFrameworkWpfGui.Model.FlexibilityExecutions";
+            if (name == "risoe.syslab.model.flexibility.FlexibilityExecutionsLoadShifting") return "SyslabControlAlgorithmFrameworkWpfGui.Model.FlexibilityExecutions";
 
             else
                 return null;

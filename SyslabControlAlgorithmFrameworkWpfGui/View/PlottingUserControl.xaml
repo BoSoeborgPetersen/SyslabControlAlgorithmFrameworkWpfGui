@@ -11,23 +11,7 @@
     <UserControl.DataContext>
         <ViewModel:PlottingViewModel />
     </UserControl.DataContext>
-    <DockPanel>
-        <GroupBox DockPanel.Dock="Bottom" Header="Total">
-            <TextBlock Text="{Binding TotalActivePower}"/>
-        </GroupBox>
-        <ItemsControl ItemsSource="{Binding ClientData}">                           
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Rows="2" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <GroupBox Header="{Binding Key}">
-                        <oxy:PlotView Model="{Binding Value}"/>
-                    </GroupBox>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </DockPanel>
+    <GroupBox Header="Active Power">
+        <oxy:PlotView Model="{Binding ClientData}"/>
+    </GroupBox>
 </UserControl>

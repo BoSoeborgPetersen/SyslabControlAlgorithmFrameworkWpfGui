@@ -58,15 +58,13 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         }
 
         // TODO
-        public void Control(string algorithmName, string parameterName, object value)
+        public void Control(string deviceName, string resourceName, params object[] values)
         {
-            return;
-
             //if (parameterNamesAndTypes[parameterName] == null) return;
 
             //value = Convert.ChangeType(value, parameterNamesAndTypes[parameterName], CultureInfo.InvariantCulture);
 
-            //client.Push("control", algorithmName, parameterName, value);
+            client.Push("control", deviceName, resourceName, values);
         }
 
         public override string ToString()
