@@ -26,11 +26,11 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public ObservableCollection<string> DeviceNames => new ObservableCollection<string>(selectedClient.DeviceNames());
         public string SelectedDeviceName { get { return selectedDeviceName; } set { SetSelectedDeviceName(value); } }
 
-        public ObservableCollection<string> ResourceNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => (x.Contains("get") || x.Contains("is") || x.Contains("has")) && !x.Contains("[") && !x.Contains("hashcode") && !x.Contains("getClass")).OrderBy(x => x));
+        public ObservableCollection<string> ResourceNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => (x.Contains("get") || x.Contains("is") || x.Contains("has") || x.Contains("can")) && !x.Contains("[") && !x.Contains("hashcode") && !x.Contains("getClass")).OrderBy(x => x));
         public string SelectedResourceName { get { return selectedResourceName; } set { SetSelectedResourceName(value); } }
         public object Resource { get { return printObject(selectedClient.Resource(SelectedDeviceName, SelectedResourceName)); } }
 
-        public ObservableCollection<string> ControlNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => !x.Contains("get") && !x.Contains("is") && !x.Contains("has") && !x.Contains("[")).OrderBy(x => x));
+        public ObservableCollection<string> ControlNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => !x.Contains("get") && !x.Contains("is") && !x.Contains("has") && !x.Contains("can") && !x.Contains("[") && !x.Contains("notify") && !x.Contains("toString") && !x.Contains("wait")).OrderBy(x => x));
         public string SelectedControlName { get { return selectedControlName; } set { SetSelectedControlName(value); } }
         public object Control { get { return selectedClient.Resource(SelectedDeviceName, SelectedControlName); } set { SetControl(value); } }
 

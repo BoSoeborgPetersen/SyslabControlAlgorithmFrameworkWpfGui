@@ -15,7 +15,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         private IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
 
         public Dictionary<string, List<string>> ClientData =>
-            clients.ToDictionary(x => "Client (" + x.Hostname + ")", x => x.getPreviousRequests());
+            clients.ToDictionary(x => "Client (" + x.Hostname + ")", x => x.getPreviousRequests().OrderByDescending(y => y).ToList());
 
         public ScadaViewModel()
         {

@@ -166,6 +166,7 @@
     <Compile Include="View\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Behaviors\ScrollIntoViewBehavior.cs" />
     <Compile Include="View\Converters\BoolToNullableBoolConverter.cs" />
     <Compile Include="View\ExternalViewUserControl.xaml.cs">
       <DependentUpon>ExternalViewUserControl.xaml</DependentUpon>

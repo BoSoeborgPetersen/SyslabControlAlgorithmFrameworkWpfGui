@@ -15,7 +15,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         private IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
 
         public Dictionary<string, List<string>> ClientData => 
-            clients.ToDictionary(x => "Client (" + x.Hostname + ")", x => x.getPreviousMessages());
+            clients.ToDictionary(x => "Client (" + x.Hostname + ")", x => x.getPreviousMessages().OrderByDescending(y => y).ToList());
 
         public MessageExchangeViewModel()
         {
