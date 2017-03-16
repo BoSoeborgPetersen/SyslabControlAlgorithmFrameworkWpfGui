@@ -31,5 +31,8 @@
         <TabItem Header="Plotting">
             <View:PlottingUserControl/>
         </TabItem>
+        <TabItem Header="Flex Plotting">
+            <View:FlexPlottingUserControl/>
+        </TabItem>
     </TabControl>
 </Controls:MetroWindow>
