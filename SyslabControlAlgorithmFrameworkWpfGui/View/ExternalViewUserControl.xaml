@@ -22,6 +22,9 @@
             <GroupBox Header="Run Interval Millis">
                 <TextBlock Text="{Binding RunIntervalMillis}"/>
             </GroupBox>
+            <GroupBox Header="Algorithm State">
+                <TextBlock Text="{Binding AlgorithmState}"/>
+            </GroupBox>
         </UniformGrid>
         <UniformGrid DockPanel.Dock="Top" Rows="1">
             <Button Content="Start Algorithm" Command="{Binding StartAlgorithmCommand}"/>

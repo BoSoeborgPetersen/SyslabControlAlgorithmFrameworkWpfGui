@@ -24,6 +24,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public ObservableCollection<string> AlgorithmNames => new ObservableCollection<string>(selectedClient.getControlAlgorithmNames());
         public string SelectedAlgorithmName { get { return selectedAlgorithmName; } set { SetSelectedAlgorithmName(value); } }
+        public string AlgorithmState => selectedClient.getControlAlgorithmState(SelectedAlgorithmName);
         public int RunIntervalMillis => selectedClient.getControlAlgorithmRunIntervalMillis(SelectedAlgorithmName);
 
         public ObservableCollection<string> ControlParameterNames => new ObservableCollection<string>(selectedClient.getControlParameterNames(SelectedAlgorithmName).OrderBy(x => x));
@@ -66,6 +67,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             if (value != null && selectedAlgorithmName != value)
             {
                 selectedAlgorithmName = value;
+                RaisePropertyChanged(nameof(AlgorithmState));
                 RaisePropertyChanged(nameof(RunIntervalMillis));
                 RaisePropertyChanged(nameof(ControlParameterNames));
                 selectedControlParameterName = ControlParameterNames.FirstOrDefault();

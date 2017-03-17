@@ -35,6 +35,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
         public List<string> getControlAlgorithmNames() =>
             ((ArrayList)client.Request("getControlAlgorithmNames")).Cast<string>().ToList();
+        public string getControlAlgorithmState(string algorithmName) =>
+            (string)client.Request("getControlAlgorithmState", algorithmName);
 
         public int getControlAlgorithmRunIntervalMillis(string algorithmName) =>
             (int)client.Request("getControlAlgorithmRunIntervalMillis", algorithmName);
