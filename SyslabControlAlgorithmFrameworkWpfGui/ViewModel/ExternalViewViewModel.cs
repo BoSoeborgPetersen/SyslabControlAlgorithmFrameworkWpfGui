@@ -24,6 +24,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public ObservableCollection<string> AlgorithmNames => new ObservableCollection<string>(selectedClient.getControlAlgorithmNames());
         public string SelectedAlgorithmName { get { return selectedAlgorithmName; } set { SetSelectedAlgorithmName(value); } }
+        public bool IsIsolated => selectedClient.isIsolated;
         public string AlgorithmState => selectedClient.getControlAlgorithmState(SelectedAlgorithmName);
         public int RunIntervalMillis => selectedClient.getControlAlgorithmRunIntervalMillis(SelectedAlgorithmName);
 

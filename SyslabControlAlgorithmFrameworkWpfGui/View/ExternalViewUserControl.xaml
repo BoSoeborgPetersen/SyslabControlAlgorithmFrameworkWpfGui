@@ -25,6 +25,9 @@
             <GroupBox Header="Algorithm State">
                 <TextBlock Text="{Binding AlgorithmState}"/>
             </GroupBox>
+            <GroupBox Header="Is Isolated">
+                <TextBlock Text="{Binding IsIsolated}"/>
+            </GroupBox>
         </UniformGrid>
         <UniformGrid DockPanel.Dock="Top" Rows="1">
             <Button Content="Start Algorithm" Command="{Binding StartAlgorithmCommand}"/>
