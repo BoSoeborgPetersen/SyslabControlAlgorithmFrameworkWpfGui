@@ -8,7 +8,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850
 {
     public class TSTP : ModelBase
     {
-        public int nanoseconds { get; set; }
-        public long seconds { get; set; }
+        public int Nanoseconds { get; set; }
+        public long Seconds { get; set; }
     }
 }

@@ -8,10 +8,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850
 {
     public class EVNT : ModelBase
     {
-        public int eventID { get; set; }
-        public int parameter1 { get; set; }
-        public int parameter2 { get; set; }
-        public string reference { get; set; }
-        public TSTP time { get; set; }
+        public int EventID { get; set; }
+        public int Parameter1 { get; set; }
+        public int Parameter2 { get; set; }
+        public string Reference { get; set; }
+        public TSTP Time { get; set; }
     }
 }

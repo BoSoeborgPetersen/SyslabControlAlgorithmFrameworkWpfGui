@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Model.FlexHouse
 {
-    public class SimpleActuator : AbstractActuator
+    public class SimpleActuator : IAbstractActuator
     {
     }
 }

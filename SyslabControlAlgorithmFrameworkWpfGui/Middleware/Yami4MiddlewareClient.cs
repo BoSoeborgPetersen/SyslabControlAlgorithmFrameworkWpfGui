@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
 {
-    public class Yami4MiddlewareClient : MiddlewareClient
+    public class Yami4MiddlewareClient : IMiddlewareClient
     {
         private const int defaultPriority = 0;
         private const string stringReqRepName = "stringreqrep";
@@ -14,8 +14,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
         private const string stringPubSubName = "stringpubsub";
         private const string binaryPubSubName = "binarypubsub";
 
-        private Agent agent;
-        private string serverURI;
+        private readonly Agent agent;
+        private readonly string serverURI;
 
         public Yami4MiddlewareClient(string host, int port)
         {
@@ -28,68 +28,69 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
             agent = new Agent(parameters);
         }
 
-        public string Request(string request) => Request(request, defaultPriority);
-
-        public string Request(string request, int priority)
+        public string Request(string message)
         {
-            OutgoingMessage message = agent.Send(serverURI, stringReqRepName, "", PackMessage(request), priority);
+            return Request(message, defaultPriority);
+        }
 
-            message.WaitForCompletion(1000);
+        public string Request(string message, int priority)
+        {
+            OutgoingMessage outMessage = agent.Send(serverURI, stringReqRepName, "", PackMessage(message), priority);
 
-            if (message.State == OutgoingMessage.MessageState.REPLIED)
+            outMessage.WaitForCompletion(1000);
+
+            if (outMessage.State == OutgoingMessage.MessageState.REPLIED)
             {
-                byte[] data = message.RawReply;
-                message.Close();
+                byte[] data = outMessage.RawReply;
+                outMessage.Close();
                 return Unpackstring(data);
             }
 
             return null;
         }
 
-        public byte[] Request(byte[] request) => Request(request, defaultPriority);
+        public byte[] Request(byte[] message) => Request(message, defaultPriority);
 
-        public byte[] Request(byte[] request, int priority)
+        public byte[] Request(byte[] message, int priority)
         {
-            OutgoingMessage message = agent.Send(serverURI, binaryReqRepName, "", PackMessage(request), priority);
+            OutgoingMessage outMessage = agent.Send(serverURI, binaryReqRepName, "", PackMessage(message), priority);
 
-            message.WaitForCompletion(1000);
+            outMessage.WaitForCompletion(1000);
 
-            if (message.State == OutgoingMessage.MessageState.REPLIED)
+            if (outMessage.State == OutgoingMessage.MessageState.REPLIED)
             {
-                byte[] data = message.RawReply;
-                message.Close();
+                byte[] data = outMessage.RawReply;
+                outMessage.Close();
                 return UnpackBinary(data);
             }
 
             return null;
         }
 
-        public void Push(string push)
+        public void Push(string message)
         {
-            Push(push, defaultPriority);
+            Push(message, defaultPriority);
         }
 
-        public void Push(string push, int priority)
+        public void Push(string message, int priority)
         {
-            agent.SendOneWay(serverURI, stringPushPullName, "", PackMessage(push), priority);
+            agent.SendOneWay(serverURI, stringPushPullName, "", PackMessage(message), priority);
         }
 
-        public void Push(byte[] push)
+        public void Push(byte[] message)
         {
-            Push(push, defaultPriority);
+            Push(message, defaultPriority);
         }
 
-        public void Push(byte[] push, int priority)
+        public void Push(byte[] message, int priority)
         {
-            agent.SendOneWay(serverURI, binaryPushPullName, "", PackMessage(push), priority);
+            agent.SendOneWay(serverURI, binaryPushPullName, "", PackMessage(message), priority);
         }
 
         public void SubscribeString(Action<string> subscribeCallback)
         {
             agent.RegisterObject(stringPubSubName, (object sender, IncomingMessageArgs message) =>
-            {
-                subscribeCallback(UnpackstringMessage(message.Message));
-            });
+                subscribeCallback(UnpackstringMessage(message.Message)));
 
             agent.SendOneWay(serverURI, stringPubSubName, "", null);
         }
@@ -97,9 +98,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
         public void SubscribeBinary(Action<byte[]> subscribeCallback)
         {
             agent.RegisterObject(binaryPubSubName, (object sender, IncomingMessageArgs message) =>
-            {
-                subscribeCallback(UnpackBinaryMessage(message.Message));
-            });
+                subscribeCallback(UnpackBinaryMessage(message.Message)));
 
             agent.SendOneWay(serverURI, binaryPubSubName, "", null);
         }
@@ -112,8 +111,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
         private static RawBinaryDataSource PackMessage(string message)
         {
             byte[] encoded = Encoding.UTF8.GetBytes(message);
-            byte[] padArray = new byte[] { 0x80, 0x80, 0xf0, 0xf0 };
-            int addedLength = (4 - (encoded.Length % 4)) % 4 + 4;
+            var padArray = new byte[] { 0x80, 0x80, 0xf0, 0xf0 };
+            int addedLength = ((4 - (encoded.Length % 4)) % 4) + 4;
+
             Array.Resize(ref encoded, message.Length + addedLength);
             for (int i = 1; i <= addedLength; i++)
                 encoded[encoded.Length - addedLength + (i - 1)] = i > 4 ? (byte)0xff : padArray[i - 1];
@@ -122,8 +122,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
 
         private static RawBinaryDataSource PackMessage(byte[] message)
         {
-            byte[] padArray = new byte[] { 0x80, 0x80, 0xf0, 0xf0 };
-            int addedLength = (4 - (message.Length % 4)) % 4 + 4;
+            var padArray = new byte[] { 0x80, 0x80, 0xf0, 0xf0 };
+            int addedLength = ((4 - (message.Length % 4)) % 4) + 4;
+
             Array.Resize(ref message, message.Length + addedLength);
             for (int i = 1; i <= addedLength; i++)
                 message[message.Length - addedLength + (i - 1)] = i > 4 ? (byte)0xff : padArray[i - 1];

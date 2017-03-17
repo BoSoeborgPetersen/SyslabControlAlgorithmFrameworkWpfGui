@@ -8,7 +8,6 @@ using System.Windows.Interactivity;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.View.Behaviors
 {
-
     public sealed class ScrollIntoViewBehavior : Behavior<ListView>
     {
         protected override void OnAttached()
@@ -25,15 +24,14 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.View.Behaviors
 
         private void ScrollIntoView(object o, SelectionChangedEventArgs e)
         {
-            ListView b = o as ListView;
-            if (b == null) return;
+            if (o is ListView)
+            {
+                var listViewItems = (o as ListView).Items;
+                if (listViewItems.Count == 0) return;
 
-            var listViewItems = b.Items;
-            if (listViewItems.Count == 0) return;
-            ListViewItem item = listViewItems[listViewItems.Count - 1] as ListViewItem;
-
-            //ListViewItem item = (ListViewItem)((ListView)o).ItemContainerGenerator.ContainerFromItem(((ListView)o).Items);
-            if (item != null) item.BringIntoView();
+                //ListViewItem item = (ListViewItem)((ListView)o).ItemContainerGenerator.ContainerFromItem(((ListView)o).Items);
+                if (listViewItems[listViewItems.Count - 1] is ListViewItem item) item.BringIntoView();
+            }
         }
     }
 }

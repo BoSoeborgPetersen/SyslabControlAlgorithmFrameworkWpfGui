@@ -8,7 +8,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.Devices
 {
     public class PVOpMode : ModelBase
     {
-        public int mode { get; set; }
-        public string modeName { get; set; }
+        public int Mode { get; set; }
+        public string ModeName { get; set; }
     }
 }

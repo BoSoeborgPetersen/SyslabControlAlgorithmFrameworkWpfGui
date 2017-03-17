@@ -2,6 +2,6 @@
 {
     public enum SerializationType
     {
-        JsonNewtonsoft
+        JsonNewtonsoft = 0
     }
 }

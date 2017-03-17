@@ -8,10 +8,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model
 {
     public class RequirementDescription : ModelBase
     {
-        public double startupDefer { get; set; }
-        public double freqDeviationMax { get; set; }
-        public double voltDeviationMax { get; set; }
-        public double activePower { get; set; }
-        public double reactivePower { get; set; }
+        public double StartupDefer { get; set; }
+        public double FreqDeviationMax { get; set; }
+        public double VoltDeviationMax { get; set; }
+        public double ActivePower { get; set; }
+        public double ReactivePower { get; set; }
     }
 }

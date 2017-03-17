@@ -11,12 +11,12 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 {
     public class ExternalViewClient
     {
-        private static Dictionary<string, ExternalViewClient> instances = new Dictionary<string, ExternalViewClient>();
-        private CommunicationClient client;
-        public string Hostname { get; private set; }
-        private int port;
+        private static readonly Dictionary<string, ExternalViewClient> instances = new Dictionary<string, ExternalViewClient>();
+        private readonly CommunicationClient client;
+        public string Hostname { get; }
+        private readonly int port;
 
-        private Dictionary<string, Type> parameterNamesAndTypes = new Dictionary<string, Type>();
+        private readonly Dictionary<string, Type> parameterNamesAndTypes = new Dictionary<string, Type>();
 
         public static ExternalViewClient Instance(string hostname, int port)
         {
@@ -33,15 +33,15 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             this.client = client;
         }
 
-        public Boolean isIsolated =>
+        public Boolean IsIsolated =>
             (Boolean)client.Request("isIsolated");
 
-        public List<string> getControlAlgorithmNames() =>
+        public List<string> GetControlAlgorithmNames() =>
             ((ArrayList)client.Request("getControlAlgorithmNames")).Cast<string>().ToList();
-        public string getControlAlgorithmState(string algorithmName) =>
+        public string GetControlAlgorithmState(string algorithmName) =>
             (string)client.Request("getControlAlgorithmState", algorithmName);
 
-        public int getControlAlgorithmRunIntervalMillis(string algorithmName) =>
+        public int GetControlAlgorithmRunIntervalMillis(string algorithmName) =>
             (int)client.Request("getControlAlgorithmRunIntervalMillis", algorithmName);
 
         //public Dictionary<string, object> getControlParameters(string algorithmName)
@@ -49,14 +49,14 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         //    return null;
         //}
 
-        public List<string> getControlParameterNames(string algorithmName)
+        public List<string> GetControlParameterNames(string algorithmName)
         {
             var result = client.Request("getControlParameterNames", algorithmName);
 
             return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
-        public object getControlParameter(string algorithmName, string parameterName)
+        public object GetControlParameter(string algorithmName, string parameterName)
         {
             if (parameterName == null) return null;
 
@@ -68,7 +68,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             return value;
         }
 
-        public void setControlParameter(string algorithmName, string parameterName, object value)
+        public void SetControlParameter(string algorithmName, string parameterName, object value)
         {
             if (parameterNamesAndTypes[parameterName] == null) return;
 
@@ -82,15 +82,17 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         //    return null;
         //}
 
-        public List<string> getControlOutputNames(string algorithmName)
+        public List<string> GetControlOutputNames(string algorithmName)
         {
             var result = client.Request("getControlOutputNames", algorithmName);
 
             return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
-        public object getControlOutput(string algorithmName, string outputName) => 
-            client.Request("getControlOutput", algorithmName, outputName);
+        public object GetControlOutput(string algorithmName, string outputName)
+        {
+            return client.Request("getControlOutput", algorithmName, outputName);
+        }
 
         public void StartAlgorithm(string algorithmName)
         {
@@ -117,42 +119,42 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             client.Push("resumeAlgorithm", algorithmName);
         }
 
-        public List<string> getCurrentAddresses()
+        public List<string> GetCurrentAddresses()
         {
             var result = client.Request("getCurrentAddresses");
 
             return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
-        public List<string> getTypes()
+        public List<string> GetTypes()
         {
             var result = client.Request("getTypes");
 
             return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
-        public List<string> getRoles()
+        public List<string> GetRoles()
         {
             var result = client.Request("getRoles");
 
             return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
-        public List<string> getServices()
+        public List<string> GetServices()
         {
             var result = client.Request("getServices");
 
             return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
-        public List<string> getPreviousMessages()
+        public List<string> GetPreviousMessages()
         {
             var result = client.Request("getPreviousMessages");
 
             return result == null ? new List<string>() { "Error" } : ((ArrayList)result).Cast<string>().ToList();
         }
 
-        public List<string> getPreviousRequests()
+        public List<string> GetPreviousRequests()
         {
             var result = client.Request("getPreviousRequests");
 

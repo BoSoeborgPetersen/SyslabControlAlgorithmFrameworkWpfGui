@@ -8,6 +8,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850
 {
     public class HLTH : ModelBase
     {
-        public int health { get; set; }
+        public int Health { get; set; }
     }
 }

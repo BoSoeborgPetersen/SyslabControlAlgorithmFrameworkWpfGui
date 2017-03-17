@@ -8,6 +8,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model
 {
     public class CompositeMeasurement : CompositeData
     {
-        public double value { get; set; }
+        public double Value { get; set; }
     }
 }

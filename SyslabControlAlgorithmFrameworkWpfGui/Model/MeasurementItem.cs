@@ -8,7 +8,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model
 {
     public class MeasurementItem : ModelBase
     {
-        public MeasurementName name { get; set; }
-        public CompositeMeasurement measurement { get; set; }
+        public MeasurementName Name { get; set; }
+        public CompositeMeasurement Measurement { get; set; }
     }
 }

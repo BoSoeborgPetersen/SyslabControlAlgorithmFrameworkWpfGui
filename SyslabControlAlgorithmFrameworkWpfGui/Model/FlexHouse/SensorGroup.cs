@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Model.FlexHouse
 {
-    public class SensorGroup : Dictionary<string, AbstractSensor>
+    public class SensorGroup : Dictionary<string, IAbstractSensor>
     {
     }
 }

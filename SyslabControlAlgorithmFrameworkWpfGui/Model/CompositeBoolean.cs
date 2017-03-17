@@ -8,6 +8,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model
 {
     public class CompositeBoolean : CompositeData
     {
-        public bool value { get; set; }
+        public bool Value { get; set; }
     }
 }

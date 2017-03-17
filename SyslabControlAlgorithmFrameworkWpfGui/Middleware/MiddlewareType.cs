@@ -2,6 +2,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
 {
     public enum MiddlewareType
     {
-        YAMI4
+        YAMI4 = 0
     }
 }

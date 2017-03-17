@@ -12,10 +12,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
     public class MessageExchangeViewModel : ViewModelBase
     {
-        private IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
+        private readonly IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
 
-        public Dictionary<string, List<string>> ClientData => 
-            clients.ToDictionary(x => "Client (" + x.Hostname + ")", x => x.getPreviousMessages().OrderByDescending(y => y).ToList());
+        public Dictionary<string, List<string>> ClientData { get; } = new Dictionary<string, List<string>>();
 
         public MessageExchangeViewModel()
         {
@@ -25,11 +24,20 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
                 while(true)
                 {
+                    Update();
                     RaisePropertyChanged(() => ClientData);
 
                     Thread.Sleep(10000);
                 }
             }).Start();
+        }
+
+        private void Update()
+        {
+            ClientData.Clear();
+            var newClientData = clients.ToDictionary(x => "Client (" + x.Hostname + ")", x => x.GetPreviousMessages().OrderByDescending(y => y).ToList());
+            foreach (var data in newClientData)
+                ClientData.Add(data.Key, data.Value);
         }
     }
 }

@@ -7,9 +7,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
     public class CommunicationClient : CommunicationBase
     {
         private int serializationNumber;
-        private Serializer serializer;
-        private MiddlewareType middlewareType;
-        private MiddlewareClient middlewareClient;
+        private ISerializer serializer;
+        private readonly MiddlewareType middlewareType;
+        private IMiddlewareClient middlewareClient;
         private bool bypassReceivingSerialization = false;
         private bool bypassSendingSerialization = false;
 
@@ -18,7 +18,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
         {
             this.middlewareType = middlewareType;
 
-            serializationNumber = GetSerializationNumber(serializationType);
+            serializationNumber = GetSerializationNumber();//serializationType);
             serializer = SerializationFactory.GetSerializer(serializationType);
 
             middlewareClient = MiddlewareFactory.GetMiddlewareClient(middlewareType, host, port);
@@ -31,7 +31,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
 
         public void ChangeSerialization(SerializationType serializationType)
         {
-            serializationNumber = GetSerializationNumber(serializationType);
+            serializationNumber = GetSerializationNumber();// serializationType);
             serializer = SerializationFactory.GetSerializer(serializationType);
         }
 
@@ -263,7 +263,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
                     byte[][] serializedParams = new byte[parameters.Length][];
                     for (int i = 0; i< parameters.Length; i++)
                       serializedParams[i] = serializer.SerializeToByte(parameters[i]);
-        
+
                     string[] serializedParamTypes = new string[parameters.Length];
                     for (int i = 0; i < parameters.Length; i++)
                         serializedParamTypes[i] = MaybeConvertToJavaType(parameters[i].GetType().Name);
@@ -281,13 +281,13 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
             }
         }
 
-        public void subscribe(Action<object, string> subscribeCallback)
+        public void Subscribe(Action<object, string> subscribeCallback)
         {
             if (!MiddlewareTypeHelper.SupportsPubSub()) throw new ArgumentException("The middleware does not support Publish-Subscribe!");
 
             middlewareClient.SubscribeString(s =>
                 {
-                    if (s != null && s.Length > 0)
+                    if (!string.IsNullOrEmpty(s))
                     {
                         if (bypassReceivingSerialization)
                         {
@@ -328,7 +328,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
 
             middlewareClient.SubscribeBinary(b =>
             {
-                if (b != null && b.Length > 0)
+                if (b?.Length > 0)
                 {
                     if (bypassReceivingSerialization)
                     {
@@ -367,7 +367,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
             });
         }
 
-        public void shutdown()
+        public void Shutdown()
         {
             middlewareClient.Shutdown();
             middlewareClient = null;

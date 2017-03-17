@@ -8,10 +8,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model
 {
     public class MeasurementName : ModelBase
     {
-        public string server { get; set; }
-        public string unit { get; set; }
-        public string part { get; set; }
-        public MeasurementType type { get; set; }
-        public string name { get; set; }
+        public string Server { get; set; }
+        public string Unit { get; set; }
+        public string Part { get; set; }
+        public MeasurementType Type { get; set; }
+        public string Name { get; set; }
     }
 }

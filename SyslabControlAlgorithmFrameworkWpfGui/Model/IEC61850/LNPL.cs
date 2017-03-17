@@ -8,8 +8,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850
 {
     public class LNPL : ModelBase
     {
-        public string vendor { get; set; }
-        public string softwareRevision { get; set; }
-        public string nodeDescription { get; set; }
+        public string Vendor { get; set; }
+        public string SoftwareRevision { get; set; }
+        public string NodeDescription { get; set; }
     }
 }

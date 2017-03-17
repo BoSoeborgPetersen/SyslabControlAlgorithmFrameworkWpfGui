@@ -8,9 +8,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850
 {
     public class WYEA : ModelBase
     {
-        public CompositeMeasurement phaseA { get; set; }
-        public CompositeMeasurement phaseB { get; set; }
-        public CompositeMeasurement phaseC { get; set; }
-        public CompositeMeasurement neutral { get; set; }
+        public CompositeMeasurement PhaseA { get; set; }
+        public CompositeMeasurement PhaseB { get; set; }
+        public CompositeMeasurement PhaseC { get; set; }
+        public CompositeMeasurement Neutral { get; set; }
     }
 }

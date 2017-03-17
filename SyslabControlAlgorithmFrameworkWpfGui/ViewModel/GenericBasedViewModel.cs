@@ -12,7 +12,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
     public class GenericBasedViewModel : ViewModelBase
     {
-        private IEnumerable<GenericBasedClient> clients = MyConfiguration.GenericBasedClients();
+        private readonly IEnumerable<GenericBasedClient> clients = MyConfiguration.GenericBasedClients();
         private GenericBasedClient selectedClient;
 
         //private object control;
@@ -28,10 +28,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public ObservableCollection<string> ResourceNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => (x.Contains("get") || x.Contains("is") || x.Contains("has") || x.Contains("can")) && !x.Contains("[") && !x.Contains("hashcode") && !x.Contains("getClass")).OrderBy(x => x));
         public string SelectedResourceName { get { return selectedResourceName; } set { SetSelectedResourceName(value); } }
-        public object Resource { get { return printObject(selectedClient.Resource(SelectedDeviceName, SelectedResourceName)); } }
+        public object Resource { get { return PrintObject(selectedClient.Resource(SelectedDeviceName, SelectedResourceName)); } }
 
         public ObservableCollection<string> ControlNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => !x.Contains("get") && !x.Contains("is") && !x.Contains("has") && !x.Contains("can") && !x.Contains("[") && !x.Contains("notify") && !x.Contains("toString") && !x.Contains("wait")).OrderBy(x => x));
-        public string SelectedControlName { get { return selectedControlName; } set { SetSelectedControlName(value); } }
+        public string SelectedControlName { get => selectedControlName; set => SetSelectedControlName(value); }
         public object Control { get { return selectedClient.Resource(SelectedDeviceName, SelectedControlName); } set { SetControl(value); } }
 
         public GenericBasedViewModel()
@@ -90,7 +90,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             //}
         }
 
-        private string printObject(object o)
+        private string PrintObject(object o)
         {
             if (o is string) return o.ToString();
             if (o is ArrayList) return "[" + string.Join(", ", (o as ArrayList).ToArray()) + "]";

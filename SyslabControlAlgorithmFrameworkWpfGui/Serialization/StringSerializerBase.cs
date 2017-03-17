@@ -3,7 +3,7 @@ using System.IO;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Serialization
 {
-    public abstract class stringSerializerBase : SerializerBase
+    public abstract class StringSerializerBase : SerializerBase
     {
         public override byte[] SerializeToByte<T>(T data)
         {
@@ -15,5 +15,4 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Serialization
             throw new IOException(GetType().Name + " should not be used for binary deserialization");
         }
     }
-
 }

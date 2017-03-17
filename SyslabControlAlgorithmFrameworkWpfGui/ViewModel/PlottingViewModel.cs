@@ -18,11 +18,11 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
     {
         private double time = 0;
 
-        private IEnumerable<GenericBasedClient> genericBasedClients = MyConfiguration.GenericBasedClients();
-        public PlotModel ClientData { get; private set; }
+        private readonly IEnumerable<GenericBasedClient> genericBasedClients = MyConfiguration.GenericBasedClients();
+        public PlotModel ClientData { get; }
 
-        private Dictionary<GenericBasedClient, CompositeMeasurement> activePowers = new Dictionary<GenericBasedClient, CompositeMeasurement>();
-        private double totalActivePower => activePowers.Sum(x => x.Value?.value ?? 0);
+        private readonly Dictionary<GenericBasedClient, CompositeMeasurement> activePowers = new Dictionary<GenericBasedClient, CompositeMeasurement>();
+        private double TotalActivePower => activePowers.Sum(x => x.Value?.Value ?? 0);
 
         public PlottingViewModel()
         {
@@ -65,15 +65,15 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 if (activePower != null)
                 {
                     var series = ClientData.Series[i] as LineSeries;
-                    series.Points.Add(new DataPoint(time, activePower.value));
+                    series.Points.Add(new DataPoint(time, activePower.Value));
                     if (series.Points.Count > 60) series.Points.RemoveAt(0);
                 }
 
                 i++;
             }
-            
+
             var totalSeries = ClientData.Series[i] as LineSeries;
-            totalSeries.Points.Add(new DataPoint(time, totalActivePower));
+            totalSeries.Points.Add(new DataPoint(time, TotalActivePower));
             if (totalSeries.Points.Count > 60) totalSeries.Points.RemoveAt(0);
 
             ClientData.InvalidatePlot(true);

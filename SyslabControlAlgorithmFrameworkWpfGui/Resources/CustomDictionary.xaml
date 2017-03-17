@@ -1,6 +1,4 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.View.Converters"
-                    xmlns:local="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.Resources">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--<converters:BoolToNullableBoolConverter x:Key="nullableBooleanConverter" />-->
 </ResourceDictionary>

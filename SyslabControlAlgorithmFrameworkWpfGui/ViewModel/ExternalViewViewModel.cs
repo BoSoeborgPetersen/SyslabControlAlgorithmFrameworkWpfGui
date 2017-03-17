@@ -11,7 +11,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
     public class ExternalViewViewModel : ViewModelBase
     {
-        private IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
+        private readonly IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
         private ExternalViewClient selectedClient;
 
         private object controlParameter;
@@ -22,19 +22,19 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public ObservableCollection<ExternalViewClient> Clients => new ObservableCollection<ExternalViewClient>(clients);
         public ExternalViewClient SelectedClient { get { return selectedClient; } set { SetSelectedClient(value); } }
 
-        public ObservableCollection<string> AlgorithmNames => new ObservableCollection<string>(selectedClient.getControlAlgorithmNames());
+        public ObservableCollection<string> AlgorithmNames => new ObservableCollection<string>(selectedClient.GetControlAlgorithmNames());
         public string SelectedAlgorithmName { get { return selectedAlgorithmName; } set { SetSelectedAlgorithmName(value); } }
-        public bool IsIsolated => selectedClient.isIsolated;
-        public string AlgorithmState => selectedClient.getControlAlgorithmState(SelectedAlgorithmName);
-        public int RunIntervalMillis => selectedClient.getControlAlgorithmRunIntervalMillis(SelectedAlgorithmName);
+        public bool IsIsolated => selectedClient.IsIsolated;
+        public string AlgorithmState => selectedClient.GetControlAlgorithmState(SelectedAlgorithmName);
+        public int RunIntervalMillis => selectedClient.GetControlAlgorithmRunIntervalMillis(SelectedAlgorithmName);
 
-        public ObservableCollection<string> ControlParameterNames => new ObservableCollection<string>(selectedClient.getControlParameterNames(SelectedAlgorithmName).OrderBy(x => x));
+        public ObservableCollection<string> ControlParameterNames => new ObservableCollection<string>(selectedClient.GetControlParameterNames(SelectedAlgorithmName).OrderBy(x => x));
         public string SelectedControlParameterName { get { return selectedControlParameterName; } set { SetSelectedControlParameterName(value); } }
-        public object ControlParameter { get { return selectedClient.getControlParameter(SelectedAlgorithmName, SelectedControlParameterName); } set { SetControlParameter(value); } }
+        public object ControlParameter { get { return selectedClient.GetControlParameter(SelectedAlgorithmName, SelectedControlParameterName); } set { SetControlParameter(value); } }
 
-        public ObservableCollection<string> ControlOutputNames => new ObservableCollection<string>(selectedClient.getControlOutputNames(SelectedAlgorithmName).OrderBy(x => x));
+        public ObservableCollection<string> ControlOutputNames => new ObservableCollection<string>(selectedClient.GetControlOutputNames(SelectedAlgorithmName).OrderBy(x => x));
         public string SelectedControlOutputName { get { return selectedControlOutputName; } set { SetSelectedControlOutputName(value); } }
-        public object ControlOutput => printObjectIfComplexType(selectedClient.getControlOutput(SelectedAlgorithmName, SelectedControlOutputName));
+        public object ControlOutput => PrintObjectIfComplexType(selectedClient.GetControlOutput(SelectedAlgorithmName, SelectedControlOutputName));
 
         public ICommand StartAlgorithmCommand { get; }
         public ICommand StopAlgorithmCommand { get; }
@@ -58,6 +58,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             if (value != null && selectedClient != value)
             {
                 selectedClient = value;
+                RaisePropertyChanged(nameof(IsIsolated));
                 RaisePropertyChanged(nameof(AlgorithmNames));
                 SetSelectedAlgorithmName(AlgorithmNames.FirstOrDefault());
             }
@@ -105,7 +106,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             {
                 controlParameter = value;
 
-                selectedClient.setControlParameter(SelectedAlgorithmName, SelectedControlParameterName, value);
+                selectedClient.SetControlParameter(SelectedAlgorithmName, SelectedControlParameterName, value);
             }
         }
 
@@ -134,11 +135,11 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             selectedClient.ResumeAlgorithm(SelectedAlgorithmName);
         }
 
-        private object printObjectIfComplexType(object o)
+        private object PrintObjectIfComplexType(object o)
         {
-            return o == null ? "Null" : 
-                o.Equals("") ? "Empty String" : 
-                (o is ArrayList) ? "[" + string.Join(", ", (o as ArrayList).ToArray()) + "]" : 
+            return o == null ? "Null" :
+                o.Equals("") ? "Empty String" :
+                (o is ArrayList) ? "[" + string.Join(", ", (o as ArrayList).ToArray()) + "]" :
                 o;
         }
     }

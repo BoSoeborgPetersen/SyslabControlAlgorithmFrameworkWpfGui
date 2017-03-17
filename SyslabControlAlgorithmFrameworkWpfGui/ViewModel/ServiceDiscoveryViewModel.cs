@@ -12,12 +12,12 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
     public class ServiceDiscoveryViewModel : ViewModelBase
     {
-        private IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
+        private readonly IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
 
         public Dictionary<string, Tuple<IEnumerable<string>, IEnumerable<string>, IEnumerable<string>>> ClientData =>
             clients.ToDictionary(
                 x => "Client (" + x.Hostname + ")",
-                x => new Tuple<IEnumerable<string>, IEnumerable<string>, IEnumerable<string>>(x.getTypes(), x.getRoles(), x.getServices()));
+                x => new Tuple<IEnumerable<string>, IEnumerable<string>, IEnumerable<string>>(x.GetTypes(), x.GetRoles(), x.GetServices()));
 
         public ServiceDiscoveryViewModel()
         {

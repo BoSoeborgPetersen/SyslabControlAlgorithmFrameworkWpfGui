@@ -2,14 +2,14 @@
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
 {
-    public class MiddlewareTypeHelper
+    public static class MiddlewareTypeHelper
     {
         public static MiddlewareType GetFromstring(string name)
         {
             MiddlewareType choice = MiddlewareType.YAMI4;
             foreach (MiddlewareType type in Enum.GetValues(typeof(MiddlewareType)))
             {
-                if (name != null && name.ToLower().Contains(Enum.GetName(typeof(MiddlewareType), type).ToLower()))
+                if (name?.ToLower().Contains(Enum.GetName(typeof(MiddlewareType), type).ToLower()) == true)
                     choice = type;
             }
             return choice;

@@ -8,8 +8,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.Devices
 {
     public class GMode : ModelBase
     {
-        public int mode { get; set; }
-        public string description { get; set; }
-        public string abbrev { get; set; }
+        public int Mode { get; set; }
+        public string Description { get; set; }
+        public string Abbrev { get; set; }
     }
 }

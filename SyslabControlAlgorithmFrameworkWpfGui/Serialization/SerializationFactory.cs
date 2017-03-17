@@ -2,9 +2,9 @@
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Serialization
 {
-    public class SerializationFactory
+    public static class SerializationFactory
     {
-        public static Serializer GetSerializer(SerializationType type)
+        public static ISerializer GetSerializer(SerializationType type)
         {
             if (type == SerializationType.JsonNewtonsoft)
             {
@@ -14,5 +14,4 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Serialization
             throw new ArgumentException("Wrong serialization type");
         }
     }
-
 }

@@ -8,6 +8,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.Devices
 {
     public class FlowBatteryPumpState : ModelBase
     {
-        public CompositeStatus status { get; set; }
+        public CompositeStatus Status { get; set; }
     }
 }

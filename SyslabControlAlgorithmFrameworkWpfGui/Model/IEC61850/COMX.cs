@@ -8,8 +8,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850
 {
     public class COMX : ModelBase
     {
-        public double phaseA { get; set; }
-        public double phaseB { get; set; }
-        public double phaseC { get; set; }
+        public double PhaseA { get; set; }
+        public double PhaseB { get; set; }
+        public double PhaseC { get; set; }
     }
 }

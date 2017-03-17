@@ -3,9 +3,9 @@ using SyslabControlAlgorithmFrameworkWpfGui.Serialization;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
 {
-    public class CommunicationFactory
+    public static class CommunicationFactory
     {
-        public static CommunicationClient GetCommunicationClient(MiddlewareType middlewareType, SerializationType serializationType, string host, int port) => 
+        public static CommunicationClient GetCommunicationClient(MiddlewareType middlewareType, SerializationType serializationType, string host, int port) =>
             new CommunicationClient(middlewareType, serializationType, host, port);
     }
 }

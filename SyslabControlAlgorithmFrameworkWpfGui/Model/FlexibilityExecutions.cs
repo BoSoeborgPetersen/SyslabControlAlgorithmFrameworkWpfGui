@@ -8,7 +8,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model
 {
     public class FlexibilityExecutions : ModelBase
     {
-        public long duration { get; set; }
-        public double kwh { get; set; }
+        public long Duration { get; set; }
+        public double Kwh { get; set; }
     }
 }

@@ -8,6 +8,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.Devices
 {
     public class BattOpMode : ModelBase
     {
-        public int mode { get; set; }
+        public int Mode { get; set; }
     }
 }

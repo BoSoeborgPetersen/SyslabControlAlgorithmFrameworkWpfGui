@@ -8,10 +8,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model
 {
     public abstract class CompositeData : ModelBase
     {
-        public long timestampMicros { get; set; }
-        public short timeprecision { get; set; }
-        public byte quality { get; set; }
-        public byte validity { get; set; }
-        public byte source { get; set; }
+        public long TimestampMicros { get; set; }
+        public short Timeprecision { get; set; }
+        public byte Quality { get; set; }
+        public byte Validity { get; set; }
+        public byte Source { get; set; }
     }
 }

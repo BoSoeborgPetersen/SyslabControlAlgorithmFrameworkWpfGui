@@ -8,8 +8,5 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
         public string ResourceName { get; set; }
         public byte[] SerializedResult { get; set; }
         public string ResultTypeName { get; set; }
-
-        //public override string ToString() => 
-        //    "BinarySerializedResultDTO [ResourceName=" + ResourceName + ", SerializedResult=" + SerializedResult + ", ResultTypeName=" + ResultTypeName + ", Guid=" + Guid + "]";
     }
 }

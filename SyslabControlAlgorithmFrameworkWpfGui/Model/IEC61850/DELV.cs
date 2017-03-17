@@ -8,9 +8,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850
 {
     public class DELV : ModelBase
     {
-        public CompositeMeasurement phaseAB { get; set; }
-        public CompositeMeasurement phaseBC { get; set; }
-        public CompositeMeasurement phaseCA { get; set; }
-        public CompositeMeasurement phaseAverage { get; set; }
+        public CompositeMeasurement PhaseAB { get; set; }
+        public CompositeMeasurement PhaseBC { get; set; }
+        public CompositeMeasurement PhaseCA { get; set; }
+        public CompositeMeasurement PhaseAverage { get; set; }
     }
 }

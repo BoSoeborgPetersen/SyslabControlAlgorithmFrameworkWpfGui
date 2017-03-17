@@ -2,7 +2,7 @@
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Serialization
 {
-    public interface Serializer
+    public interface ISerializer
     {
         string SerializerName { get; }
         bool StringNotBinary { get; }

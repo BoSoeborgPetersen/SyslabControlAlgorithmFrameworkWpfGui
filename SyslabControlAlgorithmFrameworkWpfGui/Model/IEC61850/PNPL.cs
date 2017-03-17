@@ -8,9 +8,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850
 {
     public class PNPL : ModelBase
     {
-        public string vendor { get; set; }
-        public string serialNumber { get; set; }
-        public string model { get; set; }
-        public string location { get; set; }
+        public string Vendor { get; set; }
+        public string SerialNumber { get; set; }
+        public string Model { get; set; }
+        public string Location { get; set; }
     }
 }

@@ -11,12 +11,12 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 {
     public class GenericBasedClient
     {
-        private static Dictionary<string, GenericBasedClient> instances = new Dictionary<string, GenericBasedClient>();
-        private CommunicationClient client;
-        public string Hostname { get; private set; }
-        private int port;
+        private static readonly Dictionary<string, GenericBasedClient> instances = new Dictionary<string, GenericBasedClient>();
+        private readonly CommunicationClient client;
+        public string Hostname { get; }
+        private readonly int port;
 
-        private Dictionary<string, Type> parameterNamesAndTypes = new Dictionary<string, Type>();
+        private readonly Dictionary<string, Type> parameterNamesAndTypes = new Dictionary<string, Type>();
 
         public static GenericBasedClient Instance(string hostname, int port)
         {

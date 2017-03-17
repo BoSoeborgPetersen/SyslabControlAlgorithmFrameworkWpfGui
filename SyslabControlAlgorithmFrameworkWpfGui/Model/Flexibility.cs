@@ -8,10 +8,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model
 {
     public class Flexibility : ModelBase
     {
-        public double cost { get; set; }
-        public double activepower { get; set; }
-        public double powerflexibilityUp { get; set; }
-        public double powerflexibilityDown { get; set; }
-        public long time_ms { get; set; }
+        public double Cost { get; set; }
+        public double Activepower { get; set; }
+        public double PowerflexibilityUp { get; set; }
+        public double PowerflexibilityDown { get; set; }
+        public long Time_ms { get; set; }
     }
 }

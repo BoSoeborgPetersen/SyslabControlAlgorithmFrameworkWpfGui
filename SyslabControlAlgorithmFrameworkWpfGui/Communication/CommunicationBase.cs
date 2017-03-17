@@ -9,7 +9,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
     {
         protected bool talkToJava = true;
 
-        protected int GetSerializationNumber(SerializationType serializationType)
+        protected int GetSerializationNumber()//SerializationType serializationType)
         {
             return 10;
             //int i = 0;
@@ -67,7 +67,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
             if (name == "Double") return "java.lang.Double";
             if (name == "Boolean") return "java.lang.Boolean";
             if (name == "Object[]") return "[Ljava.lang.Object;";
-
             else
                 return null;
         }
@@ -157,7 +156,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
             if (name == "risoe.syslab.model.RequirementDescription") return "SyslabControlAlgorithmFrameworkWpfGui.Model.RequirementDescription";
             if (name == "risoe.syslab.model.Flexibility") return "SyslabControlAlgorithmFrameworkWpfGui.Model.Flexibility";
             if (name == "risoe.syslab.model.flexibility.FlexibilityExecutionsLoadShifting") return "SyslabControlAlgorithmFrameworkWpfGui.Model.FlexibilityExecutions";
-
             else
                 return null;
         }

@@ -8,9 +8,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.IEC61850
 {
     public class GPSL : ModelBase
     {
-        public double latitude { get; set; }
-        public double longitude { get; set; }
-        public double altitude { get; set; }
-        public TSTP time { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double Altitude { get; set; }
+        public TSTP Time { get; set; }
     }
 }

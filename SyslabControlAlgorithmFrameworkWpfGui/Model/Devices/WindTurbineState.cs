@@ -8,6 +8,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model.Devices
 {
     public class WindTurbineState : ModelBase
     {
-        public CompositeStatus status { get; set; }
+        public CompositeStatus Status { get; set; }
     }
 }

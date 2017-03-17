@@ -2,7 +2,7 @@ using System;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
 {
-    public interface MiddlewareClient
+    public interface IMiddlewareClient
     {
         string Request(string message);
         byte[] Request(byte[] message);

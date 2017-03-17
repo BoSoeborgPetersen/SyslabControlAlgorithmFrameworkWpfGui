@@ -8,16 +8,16 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Model
 {
     public class CapabilityDescription : ModelBase
     {
-        public bool powerSupplyDecoupled { get; set; }
-        public bool blackstartCapable { get; set; }
-        public bool blackstartReady { get; set; }
-        public double blackstartDelay { get; set; }
-        public double freqDeviation { get; set; }
-        public double voltDeviation { get; set; }
-        public double activePowerMin { get; set; }
-        public double activePowerMax { get; set; }
-        public double reactivePowerMin { get; set; }
-        public double reactivePowerMax { get; set; }
-        public double capacity { get; set; }
+        public bool PowerSupplyDecoupled { get; set; }
+        public bool BlackstartCapable { get; set; }
+        public bool BlackstartReady { get; set; }
+        public double BlackstartDelay { get; set; }
+        public double FreqDeviation { get; set; }
+        public double VoltDeviation { get; set; }
+        public double ActivePowerMin { get; set; }
+        public double ActivePowerMax { get; set; }
+        public double ReactivePowerMin { get; set; }
+        public double ReactivePowerMax { get; set; }
+        public double Capacity { get; set; }
     }
 }
