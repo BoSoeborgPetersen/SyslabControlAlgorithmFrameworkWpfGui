@@ -14,7 +14,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
     {
         private IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
 
-        public Dictionary<string, IOrderedEnumerable<string>> ClientData => clients.ToDictionary(x => "Client (" + x.Hostname + ")", x => x.getCurrentAddresses().OrderBy(y => int.Parse(y.Substring(y.LastIndexOf(".") + 1))));
+        public Dictionary<string, IOrderedEnumerable<string>> ClientData => clients.ToDictionary(x => "Client (" + x.Hostname + ")", x => x.getCurrentAddresses().OrderBy(y => y.Equals("Error") ? 1 : int.Parse(y.Substring(y.LastIndexOf(".") + 1))));
 
         public NetworkDiscoveryViewModel()
         {

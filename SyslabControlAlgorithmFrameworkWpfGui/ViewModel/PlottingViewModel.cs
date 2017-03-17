@@ -35,6 +35,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             ClientData.Series.Add(new LineSeries() { Title = "Total" });
 
             ClientData.LegendBorder = OxyColors.Black;
+            ClientData.LegendBackground = OxyColors.White;
 
             new Thread(() =>
             {
