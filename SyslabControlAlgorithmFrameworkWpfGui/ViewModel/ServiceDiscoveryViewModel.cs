@@ -16,7 +16,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public Dictionary<string, Tuple<IEnumerable<string>, IEnumerable<string>, IEnumerable<string>>> ClientData =>
             clients.ToDictionary(
-                x => "Client (" + x.Hostname + ")",
+                x => x.DisplayName,
                 x => new Tuple<IEnumerable<string>, IEnumerable<string>, IEnumerable<string>>(x.GetTypes(), x.GetRoles(), x.GetServices()));
 
         public ServiceDiscoveryViewModel()

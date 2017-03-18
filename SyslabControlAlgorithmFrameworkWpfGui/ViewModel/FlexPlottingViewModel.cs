@@ -28,7 +28,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public FlexPlottingViewModel()
         {
-            ClientData = genericBasedClients.ToDictionary(x => "Client (" + x.Hostname + ")", x =>
+            ClientData = genericBasedClients.ToDictionary(x => x.DisplayName, x =>
             {
                 var model = new PlotModel();
                 model.Series.Add(new LineSeries());

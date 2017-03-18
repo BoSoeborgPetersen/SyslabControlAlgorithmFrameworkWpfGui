@@ -11,15 +11,17 @@
         <ViewModel:GenericBasedViewModel />
     </UserControl.DataContext>
     <DockPanel>
-        <GroupBox DockPanel.Dock="Top" Header="Client Names">
-            <ListView ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
-        </GroupBox>
-        <GroupBox DockPanel.Dock="Top" Header="Device Names">
-            <ListView ItemsSource="{Binding DeviceNames}" SelectedItem="{Binding SelectedDeviceName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
-        </GroupBox>
+        <UniformGrid DockPanel.Dock="Top" Columns="2">
+            <GroupBox Header="Client Names">
+                <ComboBox ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
+            <GroupBox Header="Device Names">
+                <ComboBox ItemsSource="{Binding DeviceNames}" SelectedItem="{Binding SelectedDeviceName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
+        </UniformGrid>
         <UniformGrid>
             <GroupBox Header="Resource Names">
-                <ListView ItemsSource="{Binding ResourceNames}" SelectedItem="{Binding SelectedResourceName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView ItemsSource="{Binding ResourceNames}" SelectedItem="{Binding SelectedResourceName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Resource">
                 <ScrollViewer>
@@ -30,9 +32,10 @@
                 <ListView ItemsSource="{Binding ControlNames}" SelectedItem="{Binding SelectedControlName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control">
-                <ScrollViewer>
+                <Button Command="{Binding ControlCommand}" Content="Control unit" Width="100" Height="40"/>
+                <!--<ScrollViewer>
                     <TextBlock Text="{Binding Control}"/>
-                </ScrollViewer>
+                </ScrollViewer>-->
             </GroupBox>
         </UniformGrid>
     </DockPanel>

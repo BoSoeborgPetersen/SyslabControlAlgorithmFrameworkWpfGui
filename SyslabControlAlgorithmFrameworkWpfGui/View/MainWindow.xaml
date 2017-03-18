@@ -10,8 +10,8 @@
         <ViewModel:MainViewModel />
     </Window.DataContext>
     <TabControl>
-        <TabItem Header="External View">
-            <View:ExternalViewUserControl/>
+        <TabItem Header="Algorithms">
+            <View:AlgorithmsUserControl/>
         </TabItem>
         <TabItem Header="Network Discovery">
             <View:NetworkDiscoveryUserControl/>

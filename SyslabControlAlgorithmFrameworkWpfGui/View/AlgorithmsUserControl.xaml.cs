@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SyslabControlAlgorithmFrameworkWpfGui.View
 {
     /// <summary>
-    /// Interaction logic for ExternalViewUserControl.xaml
+    /// Interaction logic for AlgorithmsUserControl.xaml
     /// </summary>
-    public partial class ExternalViewUserControl : UserControl
+    public partial class AlgorithmsUserControl : UserControl
     {
-        public ExternalViewUserControl()
+        public AlgorithmsUserControl()
         {
             InitializeComponent();
         }

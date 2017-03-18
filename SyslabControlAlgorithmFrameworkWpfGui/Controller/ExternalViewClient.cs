@@ -14,21 +14,25 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         private static readonly Dictionary<string, ExternalViewClient> instances = new Dictionary<string, ExternalViewClient>();
         private readonly CommunicationClient client;
         public string Hostname { get; }
+        public string Name { get; }
+        public string DisplayName { get; }
         private readonly int port;
 
         private readonly Dictionary<string, Type> parameterNamesAndTypes = new Dictionary<string, Type>();
 
-        public static ExternalViewClient Instance(string hostname, int port)
+        public static ExternalViewClient Instance(string hostname, int port, string name)
         {
             if (!instances.ContainsKey(hostname + ":" + port))
-                instances.Add(hostname + ":" + port, new ExternalViewClient(hostname, port, CommunicationFactory.GetCommunicationClient(MiddlewareType.YAMI4, SerializationType.JsonNewtonsoft, hostname, port)));
+                instances.Add(hostname + ":" + port, new ExternalViewClient(hostname, port, name, CommunicationFactory.GetCommunicationClient(MiddlewareType.YAMI4, SerializationType.JsonNewtonsoft, hostname, port)));
 
             return instances[hostname + ":" + port];
         }
 
-        private ExternalViewClient(string hostname, int port, CommunicationClient client)
+        private ExternalViewClient(string hostname, int port, string name, CommunicationClient client)
         {
-            this.Hostname = hostname;
+            Hostname = hostname;
+            Name = name;
+            DisplayName = String.IsNullOrEmpty(name) ? "Client (" + hostname + ":" + port + ")" : name + " (" + hostname + ":" + port + ")";
             this.port = port;
             this.client = client;
         }
@@ -92,6 +96,11 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         public object GetControlOutput(string algorithmName, string outputName)
         {
             return client.Request("getControlOutput", algorithmName, outputName);
+        }
+
+        public void SwitchIsIsolated()
+        {
+            client.Push("switchIsIsolated");
         }
 
         public void StartAlgorithm(string algorithmName)
@@ -163,7 +172,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
         public override string ToString()
         {
-            return "Client [hostname: " + Hostname + ", port: " + port + "]";
+            return DisplayName;
         }
     }
 }

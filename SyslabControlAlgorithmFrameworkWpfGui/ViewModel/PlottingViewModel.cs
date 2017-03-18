@@ -30,7 +30,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
             foreach (var client in genericBasedClients)
             {
-                ClientData.Series.Add(new LineSeries() { Title = client.Hostname });
+                ClientData.Series.Add(new LineSeries() { Title = client.DisplayName });
             }
             ClientData.Series.Add(new LineSeries() { Title = "Total" });
 

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SyslabControlAlgorithmFrameworkWpfGui.View.ExternalViewUserControl"
+﻿<UserControl x:Class="SyslabControlAlgorithmFrameworkWpfGui.View.AlgorithmsUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ViewModel="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.ViewModel"
@@ -9,13 +9,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
-        <ViewModel:ExternalViewViewModel />
+        <ViewModel:AlgorithmsViewModel />
     </UserControl.DataContext>
     <DockPanel>
-        <GroupBox DockPanel.Dock="Top" Header="Client Names">
-            <ListView ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
-        </GroupBox>
         <UniformGrid DockPanel.Dock="Top" Rows="1">
+            <GroupBox Header="Client Names">
+                <ListView ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
             <GroupBox Header="Algorithm Names">
                 <ListView ItemsSource="{Binding AlgorithmNames}" SelectedItem="{Binding SelectedAlgorithmName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
@@ -26,7 +26,10 @@
                 <TextBlock Text="{Binding AlgorithmState}"/>
             </GroupBox>
             <GroupBox Header="Is Isolated">
-                <TextBlock Text="{Binding IsIsolated}"/>
+                <UniformGrid Columns="1">
+                    <TextBlock Text="{Binding IsIsolated}"/>
+                    <Button Command="{Binding SwitchIsIsolatedCommand}" Content="Switch IsIsolated"/>
+                </UniformGrid>
             </GroupBox>
         </UniformGrid>
         <UniformGrid DockPanel.Dock="Top" Rows="1">

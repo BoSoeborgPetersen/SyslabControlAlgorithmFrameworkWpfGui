@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
-    public class ExternalViewViewModel : ViewModelBase
+    public class AlgorithmsViewModel : ViewModelBase
     {
         private readonly IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
         private ExternalViewClient selectedClient;
@@ -24,9 +24,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public ObservableCollection<string> AlgorithmNames => new ObservableCollection<string>(selectedClient.GetControlAlgorithmNames());
         public string SelectedAlgorithmName { get { return selectedAlgorithmName; } set { SetSelectedAlgorithmName(value); } }
-        public bool IsIsolated => selectedClient.IsIsolated;
-        public string AlgorithmState => selectedClient.GetControlAlgorithmState(SelectedAlgorithmName);
         public int RunIntervalMillis => selectedClient.GetControlAlgorithmRunIntervalMillis(SelectedAlgorithmName);
+        public string AlgorithmState => selectedClient.GetControlAlgorithmState(SelectedAlgorithmName);
+        public bool IsIsolated => selectedClient.IsIsolated;
+        public ICommand SwitchIsIsolatedCommand { get; } = new RelayCommand(SwitchIsIsolated);
 
         public ObservableCollection<string> ControlParameterNames => new ObservableCollection<string>(selectedClient.GetControlParameterNames(SelectedAlgorithmName).OrderBy(x => x));
         public string SelectedControlParameterName { get { return selectedControlParameterName; } set { SetSelectedControlParameterName(value); } }
@@ -42,7 +43,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public ICommand PauseAlgorithmCommand { get; }
         public ICommand ResumeAlgorithmCommand { get; }
 
-        public ExternalViewViewModel()
+        public AlgorithmsViewModel()
         {
             SetSelectedClient(clients.FirstOrDefault());
 
@@ -62,6 +63,11 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 RaisePropertyChanged(nameof(AlgorithmNames));
                 SetSelectedAlgorithmName(AlgorithmNames.FirstOrDefault());
             }
+        }
+
+        private void SwitchIsIsolated()
+        {
+            selectedClient.SwitchIsIsolated();
         }
 
         private void SetSelectedAlgorithmName(string value)

@@ -155,11 +155,12 @@
     <Compile Include="Serialization\Serializer.cs" />
     <Compile Include="Serialization\SerializerBase.cs" />
     <Compile Include="Serialization\StringSerializerBase.cs" />
-    <Compile Include="ViewModel\ExternalViewViewModel.cs" />
+    <Compile Include="ViewModel\AlgorithmsViewModel.cs" />
     <Compile Include="ViewModel\FlexPlottingViewModel.cs" />
     <Compile Include="ViewModel\GenericBasedViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MessageExchangeViewModel.cs" />
+    <Compile Include="ViewModel\Model\Header.cs" />
     <Compile Include="ViewModel\NetworkDiscoveryViewModel.cs" />
     <Compile Include="ViewModel\PlottingViewModel.cs" />
     <Compile Include="ViewModel\ScadaViewModel.cs" />
@@ -169,8 +170,8 @@
     </Compile>
     <Compile Include="View\Behaviors\ScrollIntoViewBehavior.cs" />
     <Compile Include="View\Converters\BoolToNullableBoolConverter.cs" />
-    <Compile Include="View\ExternalViewUserControl.xaml.cs">
-      <DependentUpon>ExternalViewUserControl.xaml</DependentUpon>
+    <Compile Include="View\AlgorithmsUserControl.xaml.cs">
+      <DependentUpon>AlgorithmsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FlexPlottingUserControl.xaml.cs">
       <DependentUpon>FlexPlottingUserControl.xaml</DependentUpon>
@@ -207,7 +208,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ExternalViewUserControl.xaml">
+    <Page Include="View\AlgorithmsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

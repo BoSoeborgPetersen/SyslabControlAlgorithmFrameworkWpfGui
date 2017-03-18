@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 using SyslabControlAlgorithmFrameworkWpfGui.Controller;
 using System;
 using System.Collections;
@@ -7,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 {
@@ -32,11 +34,14 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         public ObservableCollection<string> ControlNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => !x.Contains("get") && !x.Contains("is") && !x.Contains("has") && !x.Contains("can") && !x.Contains("[") && !x.Contains("notify") && !x.Contains("toString") && !x.Contains("wait")).OrderBy(x => x));
         public string SelectedControlName { get => selectedControlName; set => SetSelectedControlName(value); }
-        public object Control { get { return selectedClient.Resource(SelectedDeviceName, SelectedControlName); } set { SetControl(value); } }
+        public ICommand ControlCommand { get; }
 
         public GenericBasedViewModel()
         {
             SetSelectedClient(clients.FirstOrDefault());
+            RaisePropertyChanged(nameof(SelectedClient));
+
+            ControlCommand = new RelayCommand(Control);
         }
 
         private void SetSelectedClient(GenericBasedClient value)
@@ -46,6 +51,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 selectedClient = value;
                 RaisePropertyChanged(nameof(DeviceNames));
                 SetSelectedDeviceName(DeviceNames.FirstOrDefault());
+                RaisePropertyChanged(nameof(SelectedDeviceName));
             }
         }
 
@@ -75,19 +81,11 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             if (value != null && selectedControlName != value)
             {
                 selectedControlName = value;
-                RaisePropertyChanged(nameof(Control));
             }
         }
-
-        // TODO
-        private void SetControl(object value)
+        private void Control()
         {
-            //if (control != value)
-            //{
-            //    control = value;
-
-            //    selectedClient.Control(SelectedDeviceName, SelectedControlName, value);
-            //}
+            selectedClient.Control(SelectedDeviceName, selectedControlName);
         }
 
         private string PrintObject(object o)
