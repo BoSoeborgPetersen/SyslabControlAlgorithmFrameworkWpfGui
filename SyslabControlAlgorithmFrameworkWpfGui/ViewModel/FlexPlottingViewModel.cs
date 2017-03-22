@@ -19,7 +19,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
     {
         private double time = 0;
 
-        private readonly ExternalViewClient externalViewClient = MyConfiguration.ExternalViewClients().SingleOrDefault(x => x.Hostname.Equals(Dns.GetHostName()) || x.Hostname.Equals("10.42.241.5"));
+        private readonly ExternalViewClient externalViewClient = MyConfiguration.ExternalViewClients().FirstOrDefault(x => x.Hostname.Equals(Dns.GetHostName()) || x.Hostname.Equals("10.42.241.5"));
 
         private readonly IEnumerable<GenericBasedClient> genericBasedClients = MyConfiguration.GenericBasedClients();
         public Dictionary<string, PlotModel> ClientData { get; } = new Dictionary<string, PlotModel>();
