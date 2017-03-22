@@ -5,9 +5,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
@@ -32,8 +35,14 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public string SelectedResourceName { get { return selectedResourceName; } set { SetSelectedResourceName(value); } }
         public object Resource { get { return PrintObject(selectedClient.Resource(SelectedDeviceName, SelectedResourceName)); } }
 
-        public ObservableCollection<string> ControlNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => !x.Contains("get") && !x.Contains("is") && !x.Contains("has") && !x.Contains("can") && !x.Contains("[") && !x.Contains("notify") && !x.Contains("toString") && !x.Contains("wait")).OrderBy(x => x));
+        public ObservableCollection<string> ControlNames => new ObservableCollection<string>(selectedClient.ResourceNames(SelectedDeviceName).Where(x => !x.Contains("get") && !x.Contains("is") && !x.Contains("has") && !x.Contains("can") && !x.Contains("notify") && !x.Contains("toString") && !x.Contains("wait")).OrderBy(x => x));
         public string SelectedControlName { get => selectedControlName; set => SetSelectedControlName(value); }
+
+        private List<Type> parameterTypes;
+        private bool HasParam1 => (selectedControlName?.Contains("[") ?? false);
+        public Visibility Param1Visibility => HasParam1 ? Visibility.Visible : Visibility.Collapsed;
+        private bool HasParam2 => (selectedControlName?.Contains(",") ?? false);
+        public Visibility Param2Visibility => HasParam2 ? Visibility.Visible : Visibility.Collapsed;
         public ICommand ControlCommand { get; }
 
         public GenericBasedViewModel()
@@ -41,7 +50,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             SetSelectedClient(clients.FirstOrDefault());
             RaisePropertyChanged(nameof(SelectedClient));
 
-            ControlCommand = new RelayCommand(Control);
+            ControlCommand = new RelayCommand<string>(Control, CanControl);
         }
 
         private void SetSelectedClient(GenericBasedClient value)
@@ -81,11 +90,48 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             if (value != null && selectedControlName != value)
             {
                 selectedControlName = value;
+                
+                if (selectedControlName.Contains("[") && selectedControlName.Contains("]"))
+                {
+                    var startArrayIndex = selectedControlName.IndexOf("[") + 1;
+                    var endArrayIndex = selectedControlName.IndexOf("]") - 1;
+                    var paramsLength = endArrayIndex - startArrayIndex + 1;
+                    var paramsNames = selectedControlName.Substring(startArrayIndex, paramsLength);
+                    var paramsNamesList = paramsNames.Split(',');
+                    parameterTypes = paramsNamesList.Select(x => GetTypeByName(x)).ToList();
+                }
+
+                RaisePropertyChanged(nameof(Param1Visibility));
+                RaisePropertyChanged(nameof(Param2Visibility));
             }
         }
-        private void Control()
+
+        private bool CanControl(string param1)
         {
-            selectedClient.Control(SelectedDeviceName, selectedControlName);
+            return !selectedControlName?.Contains(",") ?? false;
+        }
+
+        private void Control(string param1)
+        {
+            if (selectedControlName.Contains(",")) return;
+            if (selectedControlName.Contains("[") && string.IsNullOrWhiteSpace(param1)) return;
+
+            if (HasParam1 && !string.IsNullOrWhiteSpace(param1))
+            {
+                if (parameterTypes == null || parameterTypes.Count < 1 || parameterTypes[0] == null) return;
+
+                var value = Convert.ChangeType(param1, parameterTypes[0], CultureInfo.InvariantCulture);
+
+                //var parameters = new List<object>();
+                //parameters.Add(value);
+
+                var newSelectedControlName = selectedControlName.Substring(0, selectedControlName.IndexOf("["));
+                selectedClient.Control(SelectedDeviceName, newSelectedControlName, value);
+            }
+            else
+            {
+                selectedClient.Control(SelectedDeviceName, selectedControlName);
+            }
         }
 
         private string PrintObject(object o)
@@ -94,6 +140,21 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             if (o is ArrayList) return "[" + string.Join(", ", (o as ArrayList).ToArray()) + "]";
             if (o is IEnumerable) return "[" + string.Join(", ", ((IEnumerable<Object>)o).ToArray()) + "]";
             return o == null ? "Null" : o.Equals("") ? "Empty String" : o.ToString();
+        }
+        private static Type GetTypeByName(string className)
+        {
+            foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach(var assemblyType in a.GetTypes())
+                {
+                    if (assemblyType.Name.Equals(className, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        return assemblyType;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

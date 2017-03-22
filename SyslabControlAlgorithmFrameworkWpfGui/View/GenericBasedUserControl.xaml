@@ -32,7 +32,11 @@
                 <ListView ItemsSource="{Binding ControlNames}" SelectedItem="{Binding SelectedControlName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control">
-                <Button Command="{Binding ControlCommand}" Content="Control unit" Width="100" Height="40"/>
+                <StackPanel>
+                    <TextBox Name="ControlParam1" Visibility="{Binding Param1Visibility}"/>
+                    <TextBox Name="ControlParam2" Visibility="{Binding Param2Visibility}"/>
+                    <Button Command="{Binding ControlCommand}" CommandParameter="{Binding ElementName=ControlParam1, Path=Text}" Content="Control unit" Width="100" Height="40"/>
+                </StackPanel>
                 <!--<ScrollViewer>
                     <TextBlock Text="{Binding Control}"/>
                 </ScrollViewer>-->

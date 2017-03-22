@@ -68,7 +68,19 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
             //value = Convert.ChangeType(value, parameterNamesAndTypes[parameterName], CultureInfo.InvariantCulture);
 
-            client.Push("control", deviceName, resourceName, values);
+            client.Push(PackVarargs("control", deviceName, resourceName, values));
+        }
+
+        private object[] PackVarargs(string requestName, string deviceName, string resourceName, object[] args)
+        {
+            var parameters = new object[args.Length + 3];
+            parameters[0] = requestName;
+            parameters[1] = deviceName;
+            parameters[2] = resourceName;
+            for (int i = 0; i < args.Length; i++)
+                parameters[i + 3] = args[i];
+
+            return parameters;
         }
 
         public override string ToString()

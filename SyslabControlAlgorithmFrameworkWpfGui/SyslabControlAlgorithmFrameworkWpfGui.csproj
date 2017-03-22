@@ -160,6 +160,7 @@
     <Compile Include="ViewModel\GenericBasedViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MessageExchangeViewModel.cs" />
+    <Compile Include="ViewModel\Model\DescriptiveName.cs" />
     <Compile Include="ViewModel\Model\Header.cs" />
     <Compile Include="ViewModel\NetworkDiscoveryViewModel.cs" />
     <Compile Include="ViewModel\PlottingViewModel.cs" />

@@ -14,13 +14,10 @@
     <DockPanel>
         <UniformGrid DockPanel.Dock="Top" Rows="1">
             <GroupBox Header="Client Names">
-                <ListView ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Algorithm Names">
-                <ListView ItemsSource="{Binding AlgorithmNames}" SelectedItem="{Binding SelectedAlgorithmName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
-            </GroupBox>
-            <GroupBox Header="Run Interval Millis">
-                <TextBlock Text="{Binding RunIntervalMillis}"/>
+                <ListView ItemsSource="{Binding AlgorithmNames}" SelectedItem="{Binding SelectedAlgorithmName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Algorithm State">
                 <TextBlock Text="{Binding AlgorithmState}"/>
