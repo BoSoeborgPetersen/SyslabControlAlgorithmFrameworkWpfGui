@@ -34,6 +34,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             }
             ClientData.Series.Add(new LineSeries() { Title = "Total" });
 
+            ClientData.LegendPosition = LegendPosition.TopLeft;
             ClientData.LegendBorder = OxyColors.Black;
             ClientData.LegendBackground = OxyColors.White;
 
@@ -60,14 +61,13 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             foreach (var client in genericBasedClients)
             {
                 var activePower = (CompositeMeasurement)client.Resource("", "getACActivePower");
+                activePower = FixPrefix(activePower, client.Hostname);
                 if (activePowers.ContainsKey(client)) activePowers.Remove(client);
                 activePowers.Add(client, activePower);
-                if (activePower != null)
-                {
-                    var series = ClientData.Series[i] as LineSeries;
-                    series.Points.Add(new DataPoint(time, activePower.Value));
-                    if (series.Points.Count > 60) series.Points.RemoveAt(0);
-                }
+
+                var series = ClientData.Series[i] as LineSeries;
+                series.Points.Add(new DataPoint(time, activePower?.Value ?? 0));
+                if (series.Points.Count > 60) series.Points.RemoveAt(0);
 
                 i++;
             }
@@ -77,6 +77,16 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             if (totalSeries.Points.Count > 60) totalSeries.Points.RemoveAt(0);
 
             ClientData.InvalidatePlot(true);
+        }
+
+        private CompositeMeasurement FixPrefix(CompositeMeasurement value, string host)
+        {
+            if (value == null) return null;
+
+            if (host.Equals("10.42.241.5") || host.Equals("10.42.241.16"))
+                value.Value *= -1;
+
+            return value;
         }
     }
 }

@@ -41,10 +41,11 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                     }
                     else
                     {
-                        model.Series.Add(new BarSeries());
+                        //model.Series.Add(new BarSeries());
+                        model.Series.Add(new LineSeries());
                     }
                 }
-                model.Axes.Add(new OxyPlot.Axes.LinearAxis()
+                model.Axes.Add(new LinearAxis()
                 {
                     Position = AxisPosition.Left,
                     MinimumRange = 10,
@@ -85,12 +86,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 var activePower = (CompositeMeasurement)client.Resource("", "getACActivePower");
                 if (activePowers.ContainsKey(client)) activePowers.Remove(client);
                 activePowers.Add(client, activePower);
-                if (activePower != null)
-                {
-                    var series1 = ClientData.ElementAt(i).Value.Series[0] as LineSeries;
-                    series1.Points.Add(new DataPoint(time, activePower.Value));
-                    if (series1.Points.Count > 60) series1.Points.RemoveAt(0);
-                }
+
+                var series1 = ClientData.ElementAt(i).Value.Series[0] as LineSeries;
+                series1.Points.Add(new DataPoint(time, activePower?.Value ?? 0));
+                if (series1.Points.Count > 60) series1.Points.RemoveAt(0);
 
                 if (externalViewClient?.Hostname.Equals("10.42.241.5") ?? false)
                 {
@@ -107,16 +106,31 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                     }
                     else
                     {
-                        double? setpoint = (double?)(externalViewClient.GetControlOutput("FlexibilityAlgorithm", "FLEX_" + client.Hostname));
+                        double? setpoint;
+                        FlexibilityExecutions flex = (FlexibilityExecutions)(externalViewClient.GetControlOutput("FlexibilityAlgorithm", "FLEX_" + client.Hostname));
+                        setpoint = flex?.Duration == 0 ? 0 : 1000 * flex?.Kwh / flex?.Duration;
 
-                        if (setpoint != null)
+                        if (flex != null)
                         {
-                            var series2 = ClientData.ElementAt(i).Value.Series[1] as BarSeries;
-                            series2.Items.Add(new BarItem(setpoint.Value));
-                            if (series2.Items.Count > 60) series2.Items.RemoveAt(0);
+                            //var series2 = ClientData.ElementAt(i).Value.Series[1] as BarSeries;
+                            //series2.Items.Add(new BarItem(setpoint.Value));
+                            var series2 = ClientData.ElementAt(i).Value.Series[1] as LineSeries;
+                            series2.Points.Add(new DataPoint(time, setpoint.Value));
+                            if (series2.Points.Count > 60) series2.Points.RemoveAt(0);
                         }
                     }
                 }
+
+                // Update axis range to have 0 in the middle.
+                var yAxis = ClientData.ElementAt(i).Value.Axes[0] as LinearAxis;
+                if (Math.Abs(yAxis.ActualMaximum) > Math.Abs(yAxis.ActualMinimum))
+                    yAxis.Minimum = (-1) * yAxis.ActualMaximum;
+                else if (Math.Abs(yAxis.ActualMaximum) < Math.Abs(yAxis.ActualMinimum))
+                    yAxis.Maximum = (-1) * yAxis.ActualMinimum;
+                else if (yAxis.DataMinimum < yAxis.Minimum)
+                    yAxis.Minimum = yAxis.DataMinimum - 1;
+                else if (yAxis.DataMaximum > yAxis.Maximum)
+                    yAxis.Maximum = yAxis.DataMaximum + 1;
 
                 ClientData.ElementAt(i).Value.InvalidatePlot(true);
 
