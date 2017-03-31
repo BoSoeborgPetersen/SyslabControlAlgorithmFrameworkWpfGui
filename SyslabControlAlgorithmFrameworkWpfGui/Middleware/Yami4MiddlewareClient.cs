@@ -1,6 +1,7 @@
 ﻿using Inspirel.YAMI;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
 {
@@ -95,12 +96,15 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Middleware
             agent.SendOneWay(serverURI, stringPubSubName, "", null);
         }
 
-        public void SubscribeBinary(Action<byte[]> subscribeCallback)
+        public /*async*/ void SubscribeBinary(Action<byte[]> subscribeCallback)
         {
-            agent.RegisterObject(binaryPubSubName, (object sender, IncomingMessageArgs message) =>
-                subscribeCallback(UnpackBinaryMessage(message.Message)));
+            //await Task.Factory.StartNew(() =>
+            //{
+                agent.RegisterObject(binaryPubSubName, (object sender, IncomingMessageArgs message) =>
+                    subscribeCallback(UnpackBinaryMessage(message.Message)));
 
-            agent.SendOneWay(serverURI, binaryPubSubName, "", null);
+                agent.SendOneWay(serverURI, binaryPubSubName, "", null);
+            //});
         }
 
         public void Shutdown()

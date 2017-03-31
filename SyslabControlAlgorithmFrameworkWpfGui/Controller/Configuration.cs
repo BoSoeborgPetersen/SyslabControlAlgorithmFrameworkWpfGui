@@ -10,7 +10,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
     public static class MyConfiguration
     {
         // Config.
-        private static readonly TestSetupType setupType = TestSetupType.Risø;
+        private static readonly TestSetupType setupType = TestSetupType.LocalOnly;
 
         private static readonly string hostname = Dns.GetHostName();
         private static readonly Tuple<string, int, string> genericBasedConnectionInfoLocalOnly = new Tuple<string, int, string>(hostname, 9000, "Localhost");

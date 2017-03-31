@@ -59,8 +59,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Communication
         {
             try
             {
-                string returnMessage = middlewareClient.Request("MessageRequest:" + message);
-                return returnMessage;
+                return middlewareClient.Request("MessageRequest:" + message);
             }
             catch (Exception e)
             {

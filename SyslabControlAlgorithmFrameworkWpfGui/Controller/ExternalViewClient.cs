@@ -16,7 +16,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         public string Hostname { get; }
         public string Name { get; }
         public string DisplayName { get; }
-        private readonly int port;
+        public int Port { get; }
 
         private readonly Dictionary<string, Type> parameterNamesAndTypes = new Dictionary<string, Type>();
 
@@ -32,8 +32,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         {
             Hostname = hostname;
             Name = name;
-            DisplayName = String.IsNullOrEmpty(name) ? "Client (" + hostname + ":" + port + ")" : name + " (" + hostname + ":" + port + ")";
-            this.port = port;
+            DisplayName = String.IsNullOrEmpty(name) ? "Client (Url: " + hostname + ":" + port + ")" : name + " (Url: " + hostname + ":" + port + ")";
+            this.Port = port;
             this.client = client;
         }
 
