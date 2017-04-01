@@ -16,14 +16,21 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
     {
         private readonly IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
 
-        public Dictionary<Header, IOrderedEnumerable<string>> ClientData
+        public Dictionary<AddressVM, List<AddressVM>> ClientData
         {
             get
             {
-                var data = clients.ToDictionary(x => new Header() { Hostname = x.Hostname, Title = x.DisplayName, Color = Brushes.Purple }, x => x.GetCurrentAddresses().OrderBy(y => y.Equals("Error") ? 1 : int.Parse(y.Substring(y.LastIndexOf(".") + 1))));
+                var data = clients.ToDictionary(
+                    x => new AddressVM() { Hostname = MyConfiguration.TranslateHostname(x.Hostname, x.Port), Name = x.Name, Port = x.Port },
+                    x => x.GetCurrentAddresses().OrderBy(y => y.Equals("Error") ? 1 : int.Parse(y.Substring(y.LastIndexOf(".") + 1))).Select(
+                        y => new AddressVM() { Hostname = y, Name = MyConfiguration.DeviceNameFromHostname(y), Port = MyConfiguration.PortFromHostname(y) }).ToList());
 
                 foreach (var item in data)
-                    item.Key.Color = data.All(x => item.Key.Hostname.Equals(x.Key.Hostname) || item.Value.Any(y => y.Equals(x.Key.Hostname))) ? Brushes.DarkGreen : Brushes.DarkRed;
+                    item.Key.IsKnown = data.All(x => item.Key.Hostname.Equals(x.Key.Hostname) || x.Value.Any(y => y.Hostname.Equals(item.Key.Hostname)));
+
+                foreach (var item in data)
+                    foreach (var valueItem in item.Value)
+                        valueItem.IsKnown = data.Any(x => x.Key.Hostname.Equals(valueItem.Hostname));
 
                 return data;
             }

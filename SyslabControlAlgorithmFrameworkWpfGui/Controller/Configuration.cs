@@ -10,24 +10,38 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
     public static class MyConfiguration
     {
         // Config.
-        private static readonly TestSetupType setupType = TestSetupType.LocalOnly;
+        private static readonly TestSetupType setupType = TestSetupType.Duevej;
 
         private static readonly string hostname = Dns.GetHostName();
         private static readonly Tuple<string, int, string> genericBasedConnectionInfoLocalOnly = new Tuple<string, int, string>(hostname, 9000, "Localhost");
         private static readonly Tuple<string, int, string> externalViewConnectionInfoLocalOnly = new Tuple<string, int, string>(hostname, 5531, "Localhost");
         private static readonly List<Tuple<string, int, string>> genericBasedConnectionInfoDuevejTestSetup = new List<Tuple<string, int, string>>()
         {
-            new Tuple<string, int, string>("185.118.251.66", 9031, "Dell 1"),
-            new Tuple<string, int, string>("185.118.251.66", 9032, "Dell 2"),
-            new Tuple<string, int, string>("185.118.251.66", 9021, "RPi 1"),
-            new Tuple<string, int, string>("185.118.251.66", 9022, "RPi 2")
+            new Tuple<string, int, string>("217.61.216.173", 9031, "Dell 1"),
+            new Tuple<string, int, string>("217.61.216.173", 9032, "Dell 2"),
+            new Tuple<string, int, string>("217.61.216.173", 9021, "RPi 1"),
+            new Tuple<string, int, string>("217.61.216.173", 9022, "RPi 2"),
+            new Tuple<string, int, string>("217.61.216.173", 9041, "BBB 1"),
+            new Tuple<string, int, string>("217.61.216.173", 9042, "BBB 2")
         };
+
         private static readonly List<Tuple<string, int, string>> externalViewConnectionInfoDuevejTestSetup = new List<Tuple<string, int, string>>()
         {
-            new Tuple<string, int, string>("185.118.251.66", 5531, "Dell 1"),
-            new Tuple<string, int, string>("185.118.251.66", 5532, "Dell 2"),
-            new Tuple<string, int, string>("185.118.251.66", 5521, "RPi 1"),
-            new Tuple<string, int, string>("185.118.251.66", 5522, "RPi 2")
+            new Tuple<string, int, string>("217.61.216.173", 5531, "Dell 1"),
+            new Tuple<string, int, string>("217.61.216.173", 5532, "Dell 2"),
+            new Tuple<string, int, string>("217.61.216.173", 5521, "RPi 1"),
+            new Tuple<string, int, string>("217.61.216.173", 5522, "RPi 2"),
+            new Tuple<string, int, string>("217.61.216.173", 5541, "BBB 1"),
+            new Tuple<string, int, string>("217.61.216.173", 5542, "BBB 2")
+        };
+        private static readonly List<Tuple<string, int, string>> internalConnectionInfoDuevejTestSetup = new List<Tuple<string, int, string>>()
+        {
+            new Tuple<string, int, string>("192.168.0.31", 5531, "Dell 1"),
+            new Tuple<string, int, string>("192.168.0.32", 5531, "Dell 2"),
+            new Tuple<string, int, string>("192.168.0.21", 5531, "RPi 1"),
+            new Tuple<string, int, string>("192.168.0.22", 5531, "RPi 2"),
+            new Tuple<string, int, string>("192.168.0.41", 5531, "BBB 1"),
+            new Tuple<string, int, string>("192.168.0.42", 5531, "BBB 2")
         };
         private static readonly List<Tuple<string, int, string>> genericBasedConnectionInfoRisø = new List<Tuple<string, int, string>>()
         {
@@ -110,6 +124,84 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             {
                 yield return Controller.ExternalViewClient.Instance(externalViewConnectionInfoLocalOnly.Item1, externalViewConnectionInfoLocalOnly.Item2, externalViewConnectionInfoLocalOnly.Item3);
             }
+        }
+
+        public static string DeviceNameFromHostname(string hostname)
+        {
+            if (setupType == TestSetupType.Risø)
+            {
+                return externalViewConnectionInfoRisø.Single(x => x.Item1 == hostname).Item3;
+            }
+            else if (setupType == TestSetupType.RisøAndLocal)
+            {
+                return (externalViewConnectionInfoRisø.SingleOrDefault(x => x.Item1 == hostname) ?? externalViewConnectionInfoLocalOnly).Item3;
+            }
+            else if (setupType == TestSetupType.Duevej)
+            {
+                return internalConnectionInfoDuevejTestSetup.Single(x => x.Item1 == hostname).Item3;
+            }
+            else if (setupType == TestSetupType.DuevejAndLocal)
+            {
+                return (internalConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item1 == hostname) ?? externalViewConnectionInfoLocalOnly).Item3;
+            }
+            else if (setupType == TestSetupType.LocalOnly)
+            {
+                return externalViewConnectionInfoLocalOnly.Item3;
+            }
+            return "Unknown";
+        }
+
+        public static int PortFromHostname(string hostname)
+        {
+            if (setupType == TestSetupType.Risø)
+            {
+                return externalViewConnectionInfoRisø.Single(x => x.Item1 == hostname).Item2;
+            }
+            else if (setupType == TestSetupType.RisøAndLocal)
+            {
+                return (externalViewConnectionInfoRisø.SingleOrDefault(x => x.Item1 == hostname) ?? externalViewConnectionInfoLocalOnly).Item2;
+            }
+            else if (setupType == TestSetupType.Duevej)
+            {
+                return internalConnectionInfoDuevejTestSetup.Single(x => x.Item1 == hostname).Item2;
+            }
+            else if (setupType == TestSetupType.DuevejAndLocal)
+            {
+                return (internalConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item1 == hostname) ?? externalViewConnectionInfoLocalOnly).Item2;
+            }
+            else if (setupType == TestSetupType.LocalOnly)
+            {
+                return externalViewConnectionInfoLocalOnly.Item2;
+            }
+            return -1;
+        }
+
+        public static string TranslateHostname(string hostname, int port)
+        {
+            if (setupType == TestSetupType.Risø)
+            {
+                return hostname;
+            }
+            else if (setupType == TestSetupType.RisøAndLocal)
+            {
+                return hostname;
+            }
+            else if (setupType == TestSetupType.Duevej)
+            {
+                var name = externalViewConnectionInfoDuevejTestSetup.Single(x => x.Item1 == hostname && x.Item2 == port).Item3;
+                return internalConnectionInfoDuevejTestSetup.Single(x => x.Item3 == name).Item1;
+            }
+            else if (setupType == TestSetupType.DuevejAndLocal)
+            {
+                if (hostname == MyConfiguration.hostname) return hostname;
+                var name = externalViewConnectionInfoDuevejTestSetup.Single(x => x.Item1 == hostname && x.Item2 == port).Item3;
+                return internalConnectionInfoDuevejTestSetup.Single(x => x.Item3 == name).Item1;
+            }
+            else if (setupType == TestSetupType.LocalOnly)
+            {
+                return hostname;
+            }
+            return hostname;
         }
     }
 

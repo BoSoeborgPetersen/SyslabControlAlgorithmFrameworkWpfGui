@@ -18,8 +18,21 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <GroupBox Header="{Binding Key.Title}" Background="{Binding Key.Color}" BorderBrush="{Binding Key.Color}">
-                    <ListView ItemsSource="{Binding Value}"/>
+                <GroupBox Header="{Binding Key.DisplayName}" Background="{Binding Key.Color}" BorderBrush="{Binding Key.Color}">
+                    <ListView ItemsSource="{Binding Value}">
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsKnown}" Value="True">
+                                        <Setter Property="Foreground" Value="Green" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsKnown}" Value="False">
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
+                    </ListView>
                 </GroupBox>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
