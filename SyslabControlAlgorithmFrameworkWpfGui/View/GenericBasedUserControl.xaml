@@ -13,33 +13,30 @@
     <DockPanel>
         <UniformGrid DockPanel.Dock="Top" Columns="2">
             <GroupBox Header="Client Names">
-                <ComboBox ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox ItemsSource="{Binding Clients, IsAsync=True}" SelectedItem="{Binding SelectedClient, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Device Names">
-                <ComboBox ItemsSource="{Binding DeviceNames}" SelectedItem="{Binding SelectedDeviceName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox ItemsSource="{Binding DeviceNames, IsAsync=True}" SelectedItem="{Binding SelectedDeviceName, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
         </UniformGrid>
         <UniformGrid>
             <GroupBox Header="Resource Names">
-                <ListView ItemsSource="{Binding ResourceNames}" SelectedItem="{Binding SelectedResourceName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView ItemsSource="{Binding ResourceNames, IsAsync=True}" SelectedItem="{Binding SelectedResourceName, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Resource">
                 <ScrollViewer>
-                    <TextBlock Text="{Binding Resource}"/>
+                    <TextBlock Text="{Binding Resource, IsAsync=True}"/>
                 </ScrollViewer>
             </GroupBox>
             <GroupBox Header="Control Names">
-                <ListView ItemsSource="{Binding ControlNames}" SelectedItem="{Binding SelectedControlName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView ItemsSource="{Binding ControlNames, IsAsync=True}" SelectedItem="{Binding SelectedControlName, IsAsync=True, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control">
                 <StackPanel>
-                    <TextBox Name="ControlParam1" Visibility="{Binding Param1Visibility}"/>
-                    <TextBox Name="ControlParam2" Visibility="{Binding Param2Visibility}"/>
-                    <Button Command="{Binding ControlCommand}" CommandParameter="{Binding ElementName=ControlParam1, Path=Text}" Content="Control unit" Width="100" Height="40"/>
+                    <TextBox Name="ControlParam1" Visibility="{Binding Param1Visibility, IsAsync=True}"/>
+                    <TextBox Name="ControlParam2" Visibility="{Binding Param2Visibility, IsAsync=True}"/>
+                    <Button Command="{Binding ControlCommand, IsAsync=True}" CommandParameter="{Binding ElementName=ControlParam1, IsAsync=True, Path=Text}" Content="Control unit" Width="100" Height="40"/>
                 </StackPanel>
-                <!--<ScrollViewer>
-                    <TextBlock Text="{Binding Control}"/>
-                </ScrollViewer>-->
             </GroupBox>
         </UniformGrid>
     </DockPanel>

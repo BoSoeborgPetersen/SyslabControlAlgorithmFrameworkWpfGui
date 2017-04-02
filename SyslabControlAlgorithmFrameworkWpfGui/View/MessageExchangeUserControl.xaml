@@ -18,13 +18,13 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <GroupBox Header="Client">
-                <ComboBox ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox ItemsSource="{Binding Clients, IsAsync=True}" SelectedItem="{Binding SelectedClient1, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Grid.Row="1" Header="Messages">
-                <ListView  ItemsSource="{Binding Messages1}" SelectedItem="{Binding SelectedMessage1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView  ItemsSource="{Binding Messages1, IsAsync=True}" SelectedItem="{Binding SelectedMessage1, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Grid.Row="2" Header="Selected Message">
-                <TextBlock Text="{Binding SelectedFormattedMessage1}"/>
+                <TextBlock Text="{Binding SelectedFormattedMessage1, IsAsync=True}"/>
             </GroupBox>
         </Grid>
         <Grid>
@@ -34,13 +34,13 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <GroupBox Header="Client">
-                <ComboBox ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox ItemsSource="{Binding Clients, IsAsync=True}" SelectedItem="{Binding SelectedClient2, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Grid.Row="1" Header="Messages">
-                <ListView ItemsSource="{Binding Messages2}" SelectedItem="{Binding SelectedMessage2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView ItemsSource="{Binding Messages2, IsAsync=True}" SelectedItem="{Binding SelectedMessage2, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Grid.Row="2" Header="Selected Message">
-                <TextBlock Text="{Binding SelectedFormattedMessage2}"/>
+                <TextBlock Text="{Binding SelectedFormattedMessage2, IsAsync=True}"/>
             </GroupBox>
         </Grid>
     </UniformGrid>

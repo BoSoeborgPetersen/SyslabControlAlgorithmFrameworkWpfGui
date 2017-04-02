@@ -13,9 +13,9 @@
     </UserControl.DataContext>
     <DockPanel>
         <GroupBox DockPanel.Dock="Bottom" Header="Total">
-            <TextBlock Text="{Binding TotalActivePower}"/>
+            <TextBlock Text="{Binding TotalActivePower, IsAsync=True}"/>
         </GroupBox>
-        <ItemsControl ItemsSource="{Binding ClientData}">                           
+        <ItemsControl ItemsSource="{Binding ClientData, IsAsync=True}">                           
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="2" />
@@ -23,8 +23,8 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <GroupBox Header="{Binding Key}">
-                        <oxy:PlotView Model="{Binding Value}"/>
+                    <GroupBox Header="{Binding Key, IsAsync=True}">
+                        <oxy:PlotView Model="{Binding Value, IsAsync=True}"/>
                     </GroupBox>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -10,7 +10,7 @@
     <UserControl.DataContext>
         <ViewModel:ServiceDiscoveryViewModel />
     </UserControl.DataContext>
-    <ItemsControl ItemsSource="{Binding ClientData}">                           
+    <ItemsControl ItemsSource="{Binding ClientData, IsAsync=True}">                           
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <UniformGrid Rows="2" />
@@ -18,16 +18,16 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <GroupBox Header="{Binding Key}">
+                <GroupBox Header="{Binding Key, IsAsync=True}">
                     <DockPanel>
                         <Expander DockPanel.Dock="Top" Header="Services" IsExpanded="True">
-                            <ListView ItemsSource="{Binding Value.Item3}"/>
+                            <ListView ItemsSource="{Binding Value.Item3, IsAsync=True}"/>
                         </Expander>
                         <Expander DockPanel.Dock="Top" Header="Roles">
-                            <ListView ItemsSource="{Binding Value.Item2}"/>
+                            <ListView ItemsSource="{Binding Value.Item2, IsAsync=True}"/>
                         </Expander>
                         <Expander Header="Types" IsExpanded="True">
-                            <ListView ItemsSource="{Binding Value.Item1}"/>
+                            <ListView ItemsSource="{Binding Value.Item1, IsAsync=True}"/>
                         </Expander>
                     </DockPanel>
                 </GroupBox>

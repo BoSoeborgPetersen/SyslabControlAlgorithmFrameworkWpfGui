@@ -27,7 +27,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 Port = x.Port,
                 IsIsolated = x.IsIsolated
             }));
-        public ClientVM SelectedClient { get { return selectedClient; } set { SetSelectedClient(value); } }
+        public ClientVM SelectedClient { get => selectedClient; set => SetSelectedClient(value); }
 
         public ObservableCollection<string> Requests => new ObservableCollection<string>(selectedClient.Client.GetPreviousRequests());
         public string SelectedRequest { get { return selectedRequest; } set { SetSelectedRequest(value); } }

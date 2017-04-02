@@ -12,6 +12,6 @@
         <ViewModel:PlottingViewModel />
     </UserControl.DataContext>
     <GroupBox Header="Active Power">
-        <oxy:PlotView Model="{Binding ClientData}"/>
+        <oxy:PlotView Model="{Binding ClientData, IsAsync=True}"/>
     </GroupBox>
 </UserControl>

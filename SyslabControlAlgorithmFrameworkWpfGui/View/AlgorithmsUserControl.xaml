@@ -15,14 +15,14 @@
     <DockPanel>
         <UniformGrid DockPanel.Dock="Top" Rows="1">
             <GroupBox Header="Client Names">
-                <ListView ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListView ItemsSource="{Binding Clients, IsAsync=True}" SelectedItem="{Binding SelectedClient, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ListView.Resources>
                         <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsIsolated}" Value="False">
+                                <DataTrigger Binding="{Binding IsIsolated, IsAsync=True}" Value="False">
                                     <Setter Property="Foreground" Value="Green" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding IsIsolated}" Value="True">
+                                <DataTrigger Binding="{Binding IsIsolated, IsAsync=True}" Value="True">
                                     <Setter Property="Foreground" Value="Red" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -33,10 +33,10 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding .}"/>
+                                <TextBlock Text="{Binding Path=., IsAsync=True}"/>
                                 <UniformGrid Grid.Column="1" Rows="1">
-                                    <Button Content="Isolate" Command="{Binding IsolateCommand}" Visibility="{Binding IsolateVisibility}"/>
-                                    <Button Content="Unisolate" Command="{Binding UnisolateCommand}" Visibility="{Binding UnisolateVisibility}"/>
+                                    <Button Content="Isolate" Command="{Binding IsolateCommand, IsAsync=True}" Visibility="{Binding IsolateVisibility, IsAsync=True}"/>
+                                    <Button Content="Unisolate" Command="{Binding UnisolateCommand, IsAsync=True}" Visibility="{Binding UnisolateVisibility, IsAsync=True}"/>
                                 </UniformGrid>
                             </Grid>
                         </DataTemplate>
@@ -45,24 +45,24 @@
             </GroupBox>
             <!--<GroupBox Header="Is Isolated">
                 <UniformGrid Columns="1">
-                    <Button Command="{Binding SwitchIsIsolatedCommand}" Content="Switch IsIsolated"/>
+                    <Button Command="{Binding SwitchIsIsolatedCommand, IsAsync=True}" Content="Switch IsIsolated"/>
                 </UniformGrid>
             </GroupBox>-->
             <GroupBox Header="Algorithm Names">
-                <ListView x:Name="AlgorithmsListView" ItemsSource="{Binding Algorithms}" SelectedItem="{Binding SelectedAlgorithm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListView x:Name="AlgorithmsListView" ItemsSource="{Binding Algorithms, IsAsync=True}" SelectedItem="{Binding SelectedAlgorithm, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ListView.Resources>
                         <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding State}" Value="Running">
+                                <DataTrigger Binding="{Binding State, IsAsync=True}" Value="Running">
                                     <Setter Property="Foreground" Value="Green" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding State}" Value="Stopped">
+                                <DataTrigger Binding="{Binding State, IsAsync=True}" Value="Stopped">
                                     <Setter Property="Foreground" Value="Red" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding State}" Value="Paused">
+                                <DataTrigger Binding="{Binding State, IsAsync=True}" Value="Paused">
                                     <Setter Property="Foreground" Value="Orange" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding State}" Value="Initial State">
+                                <DataTrigger Binding="{Binding State, IsAsync=True}" Value="Initial State">
                                     <Setter Property="Foreground" Value="Purple" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -73,13 +73,13 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding .}"/>
+                                <TextBlock Text="{Binding Path=., IsAsync=True}"/>
                                 <UniformGrid Grid.Column="1" Rows="1">
-                                    <Button Content="Start" Command="{Binding StartAlgorithmCommand}" Visibility="{Binding StartAlgorithmVisibility}"/>
-                                    <Button Content="Stop" Command="{Binding StopAlgorithmCommand}" Visibility="{Binding StopAlgorithmVisibility}"/>
-                                    <Button Content="Restart" Command="{Binding RestartAlgorithmCommand}" Visibility="{Binding RestartAlgorithmVisibility}"/>
-                                    <Button Content="Pause" Command="{Binding PauseAlgorithmCommand}" Visibility="{Binding PauseAlgorithmVisibility}"/>
-                                    <Button Content="Resume" Command="{Binding ResumeAlgorithmCommand}" Visibility="{Binding ResumeAlgorithmVisibility}"/>
+                                    <Button Content="Start" Command="{Binding StartAlgorithmCommand, IsAsync=True}" Visibility="{Binding StartAlgorithmVisibility, IsAsync=True}"/>
+                                    <Button Content="Stop" Command="{Binding StopAlgorithmCommand, IsAsync=True}" Visibility="{Binding StopAlgorithmVisibility, IsAsync=True}"/>
+                                    <Button Content="Restart" Command="{Binding RestartAlgorithmCommand, IsAsync=True}" Visibility="{Binding RestartAlgorithmVisibility, IsAsync=True}"/>
+                                    <Button Content="Pause" Command="{Binding PauseAlgorithmCommand, IsAsync=True}" Visibility="{Binding PauseAlgorithmVisibility, IsAsync=True}"/>
+                                    <Button Content="Resume" Command="{Binding ResumeAlgorithmCommand, IsAsync=True}" Visibility="{Binding ResumeAlgorithmVisibility, IsAsync=True}"/>
                                 </UniformGrid>
                             </Grid>
                         </DataTemplate>
@@ -88,41 +88,41 @@
             </GroupBox>
         </UniformGrid>
         <!--<UniformGrid DockPanel.Dock="Top" Rows="1">
-            <Button Content="Start Algorithm" Command="{Binding StartAlgorithmCommand}"/>
-            <Button Content="Stop Algorithm" Command="{Binding StopAlgorithmCommand}"/>
-            <Button Content="Restart Algorithm" Command="{Binding RestartAlgorithmCommand}"/>
-            <Button Content="Pause Algorithm" Command="{Binding PauseAlgorithmCommand}"/>
-            <Button Content="Resume Algorithm" Command="{Binding ResumeAlgorithmCommand}"/>
+            <Button Content="Start Algorithm" Command="{Binding StartAlgorithmCommand, IsAsync=True}"/>
+            <Button Content="Stop Algorithm" Command="{Binding StopAlgorithmCommand, IsAsync=True}"/>
+            <Button Content="Restart Algorithm" Command="{Binding RestartAlgorithmCommand, IsAsync=True}"/>
+            <Button Content="Pause Algorithm" Command="{Binding PauseAlgorithmCommand, IsAsync=True}"/>
+            <Button Content="Resume Algorithm" Command="{Binding ResumeAlgorithmCommand, IsAsync=True}"/>
         </UniformGrid>-->
         <UniformGrid>
             <GroupBox Header="Control Parameter Names">
-                <ListView ItemsSource="{Binding ControlParameterNames}" SelectedItem="{Binding SelectedControlParameterName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView ItemsSource="{Binding ControlParameterNames, IsAsync=True}" SelectedItem="{Binding SelectedControlParameterName, IsAsync=True, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control Parameter">
-                <ContentControl Content="{Binding ControlParameter}">
+                <ContentControl Content="{Binding ControlParameter, IsAsync=True}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type sys:Boolean}" >
-                            <Controls:ToggleSwitchButton IsChecked="{Binding DataContext.ControlParameter, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Center" Margin="5" Padding="5" Width="80"/>
+                            <Controls:ToggleSwitchButton IsChecked="{Binding DataContext.ControlParameter, IsAsync=True, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Center" Margin="5" Padding="5" Width="80"/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type sys:Double}" >
-                            <TextBox Text="{Binding DataContext.ControlParameter, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                            <TextBox Text="{Binding DataContext.ControlParameter, IsAsync=True, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>
-                <!--<TextBox Text="{Binding ControlParameter}"/>-->
+                <!--<TextBox Text="{Binding ControlParameter, IsAsync=True}"/>-->
             </GroupBox>
             <GroupBox Header="Control Output Names">
-                <ListView ItemsSource="{Binding ControlOutputNames}" SelectedItem="{Binding SelectedControlOutputName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView ItemsSource="{Binding ControlOutputNames, IsAsync=True}" SelectedItem="{Binding SelectedControlOutputName, IsAsync=True, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control Output">
-                <ContentControl Content="{Binding ControlOutput}">
+                <ContentControl Content="{Binding ControlOutput, IsAsync=True}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type sys:Boolean}" >
-                            <Controls:ToggleSwitch IsChecked="{Binding .}" HorizontalAlignment="Center" Margin="5" Padding="5" Width="80"/>
+                            <Controls:ToggleSwitch IsChecked="{Binding Path=., IsAsync=True}" HorizontalAlignment="Center" Margin="5" Padding="5" Width="80"/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type sys:Nullable}" >
                             <ScrollViewer>
-                                <TextBlock Text="{Binding .}"/>
+                                <TextBlock Text="{Binding Path=., IsAsync=True}"/>
                             </ScrollViewer>
                         </DataTemplate>
                     </ContentControl.Resources>

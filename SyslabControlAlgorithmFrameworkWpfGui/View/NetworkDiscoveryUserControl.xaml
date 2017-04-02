@@ -10,7 +10,7 @@
     <UserControl.DataContext>
         <ViewModel:NetworkDiscoveryViewModel />
     </UserControl.DataContext>
-    <ItemsControl ItemsSource="{Binding ClientData}">                           
+    <ItemsControl ItemsSource="{Binding ClientData, IsAsync=True}">                           
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <UniformGrid Rows="2" />
@@ -18,15 +18,15 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <GroupBox Header="{Binding Key.DisplayName}" Background="{Binding Key.Color}" BorderBrush="{Binding Key.Color}">
-                    <ListView ItemsSource="{Binding Value}">
+                <GroupBox Header="{Binding Key.DisplayName, IsAsync=True}" Background="{Binding Key.Color, IsAsync=True}" BorderBrush="{Binding Key.Color, IsAsync=True}">
+                    <ListView ItemsSource="{Binding Value, IsAsync=True}">
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsKnown}" Value="True">
+                                    <DataTrigger Binding="{Binding IsKnown, IsAsync=True}" Value="True">
                                         <Setter Property="Foreground" Value="Green" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsKnown}" Value="False">
+                                    <DataTrigger Binding="{Binding IsKnown, IsAsync=True}" Value="False">
                                         <Setter Property="Foreground" Value="Red" />
                                     </DataTrigger>
                                 </Style.Triggers>

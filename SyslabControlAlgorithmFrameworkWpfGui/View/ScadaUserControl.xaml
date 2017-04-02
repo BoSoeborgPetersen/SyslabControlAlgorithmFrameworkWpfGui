@@ -19,10 +19,10 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <GroupBox Header="Client">
-            <ComboBox ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ComboBox ItemsSource="{Binding Clients, IsAsync=True}" SelectedItem="{Binding SelectedClient, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </GroupBox>
         <GroupBox Grid.Row="1" Header="Requests">
-            <ListView  ItemsSource="{Binding Requests}" SelectedItem="{Binding SelectedRequest, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ListView  ItemsSource="{Binding Requests, IsAsync=True}" SelectedItem="{Binding SelectedRequest, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </GroupBox>
         <GroupBox Grid.Row="2" Header="Selected Request">
             <Grid>
@@ -32,13 +32,13 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <GroupBox Header="Head">
-                    <TextBlock Text="{Binding SelectedFormattedRequestHead}"/>
+                    <TextBlock Text="{Binding SelectedFormattedRequestHead, IsAsync=True}"/>
                 </GroupBox>
                 <GroupBox Grid.Column="1" Header="Arguments">
-                    <TextBlock Text="{Binding SelectedFormattedRequestArgs}"/>
+                    <TextBlock Text="{Binding SelectedFormattedRequestArgs, IsAsync=True}"/>
                 </GroupBox>
                 <GroupBox Grid.Column="2" Header="Result">
-                    <TextBlock Text="{Binding SelectedFormattedRequestResult}"/>
+                    <TextBlock Text="{Binding SelectedFormattedRequestResult, IsAsync=True}"/>
                 </GroupBox>
             </Grid>
         </GroupBox>
