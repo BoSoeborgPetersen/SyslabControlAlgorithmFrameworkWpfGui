@@ -16,22 +16,22 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
     {
         private readonly IEnumerable<ExternalViewClient> clients = MyConfiguration.ExternalViewClients();
         private ExternalViewClient selectedClient;
-        private ClientVM selectedClientVM;
+        private ClientControlVM selectedClientVM;
 
         private object controlParameter;
         private AlgorithmVM selectedAlgorithmVM;
         private string selectedControlParameterName;
         private string selectedControlOutputName;
 
-        public ObservableCollection<ClientVM> Clients => new ObservableCollection<ClientVM>(clients.Select(x =>
-            new ClientVM(this) {
+        public ObservableCollection<ClientControlVM> Clients => new ObservableCollection<ClientControlVM>(clients.Select(x =>
+            new ClientControlVM(this) {
                 Client = x,
                 Name = x.Name,
                 Host = x.Hostname,
                 Port = x.Port,
                 IsIsolated = x.IsIsolated
             }));
-        public ClientVM SelectedClient { get { return selectedClientVM; } set { SetSelectedClient(value); } }
+        public ClientControlVM SelectedClient { get { return selectedClientVM; } set { SetSelectedClient(value); } }
 
         public ObservableCollection<AlgorithmVM> Algorithms => new ObservableCollection<AlgorithmVM>(selectedClient.GetControlAlgorithmNames()?.Select(x =>
             new AlgorithmVM(this) {
@@ -68,7 +68,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             ResumeAlgorithmCommand = new RelayCommand(() => ResumeAlgorithm(), CanResumeAlgorithm);
         }
 
-        private void SetSelectedClient(ClientVM value)
+        private void SetSelectedClient(ClientControlVM value)
         {
             if (value != null && selectedClientVM != value)
             {

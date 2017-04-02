@@ -10,18 +10,38 @@
     <UserControl.DataContext>
         <ViewModel:MessageExchangeViewModel />
     </UserControl.DataContext>
-    <ItemsControl ItemsSource="{Binding ClientData}">                           
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <UniformGrid Rows="2" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <GroupBox Header="{Binding Key}">
-                    <ListView ItemsSource="{Binding Value}"/>
-                </GroupBox>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+    <UniformGrid Columns="2">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="Client">
+                <ComboBox ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Header="Messages">
+                <ListView  ItemsSource="{Binding Messages1}" SelectedItem="{Binding SelectedMessage1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
+            <GroupBox Grid.Row="2" Header="Selected Message">
+                <TextBlock Text="{Binding SelectedFormattedMessage1}"/>
+            </GroupBox>
+        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="Client">
+                <ComboBox ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Header="Messages">
+                <ListView ItemsSource="{Binding Messages2}" SelectedItem="{Binding SelectedMessage2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
+            <GroupBox Grid.Row="2" Header="Selected Message">
+                <TextBlock Text="{Binding SelectedFormattedMessage2}"/>
+            </GroupBox>
+        </Grid>
+    </UniformGrid>
 </UserControl>

@@ -12,22 +12,35 @@
     <UserControl.DataContext>
         <ViewModel:ScadaViewModel />
     </UserControl.DataContext>
-    <ItemsControl ItemsSource="{Binding ClientData}">                           
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <UniformGrid Rows="2" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <GroupBox Header="{Binding Key}">
-                    <ListView ItemsSource="{Binding Value}">
-                        <!--<i:Interaction.Behaviors>
-                            <behaviors:ScrollIntoViewBehavior />
-                        </i:Interaction.Behaviors>-->
-                    </ListView>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Client">
+            <ComboBox ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Requests">
+            <ListView  ItemsSource="{Binding Requests}" SelectedItem="{Binding SelectedRequest, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Header="Selected Request">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="Head">
+                    <TextBlock Text="{Binding SelectedFormattedRequestHead}"/>
                 </GroupBox>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+                <GroupBox Grid.Column="1" Header="Arguments">
+                    <TextBlock Text="{Binding SelectedFormattedRequestArgs}"/>
+                </GroupBox>
+                <GroupBox Grid.Column="2" Header="Result">
+                    <TextBlock Text="{Binding SelectedFormattedRequestResult}"/>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+    </Grid>
 </UserControl>
