@@ -8,6 +8,7 @@ using System.Collections;
 using System.Globalization;
 using System.Threading;
 using System.Collections.Concurrent;
+using SyslabControlAlgorithmFrameworkWpfGui.Model;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 {
@@ -19,24 +20,26 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         public string Name { get; }
         public string DisplayName { get; }
         private readonly int port;
+        private readonly bool revertValues;
 
         private readonly ConcurrentDictionary<string, Type> parameterNamesAndTypes = new ConcurrentDictionary<string, Type>();
 
-        public static GenericBasedClient Instance(string hostname, int port, string name)
+        public static GenericBasedClient Instance(string hostname, int port, string name, bool revertValues)
         {
             if (!instances.ContainsKey(hostname + ":" + port))
-                instances.Add(hostname + ":" + port, new GenericBasedClient(hostname, port, name, CommunicationFactory.GetCommunicationClient(MiddlewareType.YAMI4, SerializationType.JsonNewtonsoft, hostname, port)));
+                instances.Add(hostname + ":" + port, new GenericBasedClient(hostname, port, name, revertValues, CommunicationFactory.GetCommunicationClient(MiddlewareType.YAMI4, SerializationType.JsonNewtonsoft, hostname, port)));
 
             return instances[hostname + ":" + port];
         }
 
-        private GenericBasedClient(string hostname, int port, string name, CommunicationClient client)
+        private GenericBasedClient(string hostname, int port, string name, bool revertValues, CommunicationClient client)
         {
             Hostname = hostname;
             Name = name;
             var displayHostname = MyConfiguration.TranslateHostname(hostname, port);
             DisplayName = String.IsNullOrEmpty(name) ? "Client (" + displayHostname + ":" + port + ")" : name + " (" + displayHostname + ":" + port + ")";
             this.port = port;
+            this.revertValues = revertValues;
             this.client = client;
         }
 
@@ -60,6 +63,12 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             
             parameterNamesAndTypes.TryAdd(resourceName, value?.GetType());
 
+            if (value is CompositeMeasurement && revertValues)
+            {
+                CompositeMeasurement val = (value as CompositeMeasurement);
+                val.Value *= -1;
+                return value;
+            }
             return value;
         }
 
