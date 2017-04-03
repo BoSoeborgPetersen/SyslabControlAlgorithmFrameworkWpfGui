@@ -176,6 +176,7 @@
     <Compile Include="View\AlgorithmsUserControl.xaml.cs">
       <DependentUpon>AlgorithmsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Converters\BrushColorConverter.cs" />
     <Compile Include="View\FlexPlottingUserControl.xaml.cs">
       <DependentUpon>FlexPlottingUserControl.xaml</DependentUpon>
     </Compile>

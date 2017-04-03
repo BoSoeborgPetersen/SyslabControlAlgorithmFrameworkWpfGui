@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ViewModel="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.ViewModel"
              xmlns:ViewModelModel="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.ViewModel.Model"
+             xmlns:Converter="clr-namespace:SyslabControlAlgorithmFrameworkWpfGui.View.Converters"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -12,6 +13,9 @@
     <UserControl.DataContext>
         <ViewModel:AlgorithmsViewModel />
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <Converter:BrushColorConverter x:Key="BConverter"/>
+    </UserControl.Resources>
     <DockPanel>
         <UniformGrid DockPanel.Dock="Top" Rows="1">
             <GroupBox Header="Client Names">
@@ -35,8 +39,8 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Path=., IsAsync=True}"/>
                                 <UniformGrid Grid.Column="1" Rows="1">
-                                    <Button Content="Isolate" Command="{Binding IsolateCommand, IsAsync=True}" Visibility="{Binding IsolateVisibility, IsAsync=True}"/>
-                                    <Button Content="Unisolate" Command="{Binding UnisolateCommand, IsAsync=True}" Visibility="{Binding UnisolateVisibility, IsAsync=True}"/>
+                                    <Button Content="Isolate" Command="{Binding IsolateCommand, IsAsync=True}" Visibility="{Binding IsolateVisibility, IsAsync=True}" Style="{StaticResource AccentedSquareButtonStyle}"/>
+                                    <Button Content="Unisolate" Command="{Binding UnisolateCommand, IsAsync=True}" Visibility="{Binding UnisolateVisibility, IsAsync=True}" Style="{StaticResource AccentedSquareButtonStyle}"/>
                                 </UniformGrid>
                             </Grid>
                         </DataTemplate>
@@ -75,11 +79,11 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Path=., IsAsync=True}"/>
                                 <UniformGrid Grid.Column="1" Rows="1">
-                                    <Button Content="Start" Command="{Binding StartAlgorithmCommand, IsAsync=True}" Visibility="{Binding StartAlgorithmVisibility, IsAsync=True}"/>
-                                    <Button Content="Stop" Command="{Binding StopAlgorithmCommand, IsAsync=True}" Visibility="{Binding StopAlgorithmVisibility, IsAsync=True}"/>
-                                    <Button Content="Restart" Command="{Binding RestartAlgorithmCommand, IsAsync=True}" Visibility="{Binding RestartAlgorithmVisibility, IsAsync=True}"/>
-                                    <Button Content="Pause" Command="{Binding PauseAlgorithmCommand, IsAsync=True}" Visibility="{Binding PauseAlgorithmVisibility, IsAsync=True}"/>
-                                    <Button Content="Resume" Command="{Binding ResumeAlgorithmCommand, IsAsync=True}" Visibility="{Binding ResumeAlgorithmVisibility, IsAsync=True}"/>
+                                    <Button Content="Start" Command="{Binding StartAlgorithmCommand, IsAsync=True}" Visibility="{Binding StartAlgorithmVisibility, IsAsync=True}" Style="{StaticResource AccentedSquareButtonStyle}"/>
+                                    <Button Content="Stop" Command="{Binding StopAlgorithmCommand, IsAsync=True}" Visibility="{Binding StopAlgorithmVisibility, IsAsync=True}" Style="{StaticResource AccentedSquareButtonStyle}"/>
+                                    <Button Content="Restart" Command="{Binding RestartAlgorithmCommand, IsAsync=True}" Visibility="{Binding RestartAlgorithmVisibility, IsAsync=True}" Style="{StaticResource AccentedSquareButtonStyle}"/>
+                                    <Button Content="Pause" Command="{Binding PauseAlgorithmCommand, IsAsync=True}" Visibility="{Binding PauseAlgorithmVisibility, IsAsync=True}" Style="{StaticResource AccentedSquareButtonStyle}"/>
+                                    <Button Content="Resume" Command="{Binding ResumeAlgorithmCommand, IsAsync=True}" Visibility="{Binding ResumeAlgorithmVisibility, IsAsync=True}" Style="{StaticResource AccentedSquareButtonStyle}"/>
                                 </UniformGrid>
                             </Grid>
                         </DataTemplate>
@@ -115,18 +119,20 @@
                 <ListView ItemsSource="{Binding ControlOutputNames, IsAsync=True}" SelectedItem="{Binding SelectedControlOutputName, IsAsync=True, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control Output">
-                <ContentControl Content="{Binding ControlOutput, IsAsync=True}">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type sys:Boolean}" >
-                            <Controls:ToggleSwitch IsChecked="{Binding Path=., IsAsync=True}" HorizontalAlignment="Center" Margin="5" Padding="5" Width="80"/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type sys:Nullable}" >
-                            <ScrollViewer>
-                                <TextBlock Text="{Binding Path=., IsAsync=True}"/>
-                            </ScrollViewer>
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
+                <Grid>
+                    <ScrollViewer>
+                        <ContentControl Content="{Binding ControlOutput, IsAsync=True}">
+                            <ContentControl.Resources>
+                                <DataTemplate DataType="{x:Type sys:Boolean}" >
+                                    <Ellipse Fill="{Binding Path=., IsAsync=True, Converter={StaticResource BConverter}}" HorizontalAlignment="Center" Margin="5" Width="50" Height="50" Stroke="Black"/>
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type sys:Nullable}" >
+                                    <TextBox Text="{Binding Path=., IsAsync=True}"/>
+                                </DataTemplate>
+                            </ContentControl.Resources>
+                        </ContentControl>
+                    </ScrollViewer>
+                </Grid>
             </GroupBox>
         </UniformGrid>
     </DockPanel>

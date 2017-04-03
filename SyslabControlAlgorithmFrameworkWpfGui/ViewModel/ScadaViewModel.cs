@@ -23,7 +23,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             {
                 Client = x,
                 Name = x.Name,
-                Host = x.Hostname,
+                Host = MyConfiguration.TranslateHostname(x.Hostname, x.Port),
                 Port = x.Port,
                 IsIsolated = x.IsIsolated
             }));
@@ -54,12 +54,16 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         private string FormatRequestHead(string request)
         {
-            return Regex.Replace(request ?? "", "^([0-9]{2}:[0-9]{2}:[0-9]{2}) - Request \\[hostname: ([0-9\\.]+), deviceName: ([^,]+), resourceName: ([^,]+),.+", "Time: $1\nHostname: $2\nDeviceName: $3\nResourceName: $4");
+            var head = Regex.Replace(request ?? "", "^([0-9]{2}:[0-9]{2}:[0-9]{2}) - Request \\[hostname: ([0-9\\.]+), deviceName: ([^,]+), resourceName: ([^,]+),.+", "Time: $1\nHostname: $2\nDeviceName: $3\nResourceName: $4");
+            if (String.IsNullOrWhiteSpace(head)) return "No head";
+            return head;
         }
 
         private string FormatRequestArgs(string request)
         {
-            return Regex.Replace(request ?? "", ".+, returnValue: (.*), args: \\[(.*)\\]\\]$", "$2");
+            var arguments = Regex.Replace(request ?? "", ".+, returnValue: (.*), args: \\[(.*)\\]\\]$", "$2");
+            if (String.IsNullOrWhiteSpace(arguments)) return "No arguments";
+            return arguments;
         }
 
         private string FormatRequestResult(string request)
@@ -74,7 +78,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 return typeName + "\n[" + contentList.Aggregate("", (l, x) => l + "\n  " + x.Trim() + ",") + "\n]";
             }
             else
+            {
+                if (String.IsNullOrWhiteSpace(result)) return "No result";
                 return result;
+            }
         }
 
         private void SetSelectedClient(ClientVM value)

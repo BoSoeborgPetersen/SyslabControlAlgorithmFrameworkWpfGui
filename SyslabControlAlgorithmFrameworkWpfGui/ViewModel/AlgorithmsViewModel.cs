@@ -27,7 +27,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             new ClientControlVM(this) {
                 Client = x,
                 Name = x.Name,
-                Host = x.Hostname,
+                Host = MyConfiguration.TranslateHostname(x.Hostname, x.Port),
                 Port = x.Port,
                 IsIsolated = x.IsIsolated
             }));
@@ -191,7 +191,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         {
             return o == null ? "Null" :
                 o.Equals("") ? "Empty String" :
-                (o is ArrayList) ? "[" + string.Join(", ", (o as ArrayList).ToArray()) + "]" :
+                (o is ArrayList) ? (o as ArrayList).Count == 0 ? "Array [empty]" : "Array \n[\n  " + string.Join(", \n  ", (o as ArrayList).ToArray()) + "\n]" :
                 o;
         }
     }

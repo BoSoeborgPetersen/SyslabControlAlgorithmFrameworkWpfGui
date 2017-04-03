@@ -128,6 +128,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
         public static string DeviceNameFromHostname(string hostname)
         {
+            if (hostname == "Error") return hostname;
+
             if (setupType == TestSetupType.Risø)
             {
                 return externalViewConnectionInfoRisø.Single(x => x.Item1 == hostname).Item3;
@@ -153,6 +155,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
         public static int PortFromHostname(string hostname)
         {
+            if (hostname == "Error") return -1;
+
             if (setupType == TestSetupType.Risø)
             {
                 return externalViewConnectionInfoRisø.Single(x => x.Item1 == hostname).Item2;
@@ -178,6 +182,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
         public static string TranslateHostname(string hostname, int port)
         {
+            if (hostname == "Error") return hostname;
+
             if (setupType == TestSetupType.Risø)
             {
                 return hostname;
@@ -188,14 +194,31 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             }
             else if (setupType == TestSetupType.Duevej)
             {
-                var name = externalViewConnectionInfoDuevejTestSetup.Single(x => x.Item1 == hostname && x.Item2 == port).Item3;
-                return internalConnectionInfoDuevejTestSetup.Single(x => x.Item3 == name).Item1;
+                if (externalViewConnectionInfoDuevejTestSetup.Any(x => x.Item2 == port))
+                {
+                    var name = externalViewConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item1 == hostname && x.Item2 == port)?.Item3 ?? hostname;
+                    return internalConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item3 == name)?.Item1 ?? hostname;
+                }
+                else
+                {
+                    var name = genericBasedConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item1 == hostname && x.Item2 == port)?.Item3 ?? hostname;
+                    return internalConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item3 == name)?.Item1 ?? hostname;
+                }
             }
             else if (setupType == TestSetupType.DuevejAndLocal)
             {
                 if (hostname == MyConfiguration.hostname) return hostname;
-                var name = externalViewConnectionInfoDuevejTestSetup.Single(x => x.Item1 == hostname && x.Item2 == port).Item3;
-                return internalConnectionInfoDuevejTestSetup.Single(x => x.Item3 == name).Item1;
+
+                if (externalViewConnectionInfoDuevejTestSetup.Any(x => x.Item2 == port))
+                {
+                    var name = externalViewConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item1 == hostname && x.Item2 == port)?.Item3 ?? hostname;
+                    return internalConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item3 == name)?.Item1 ?? hostname;
+                }
+                else
+                {
+                    var name = genericBasedConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item1 == hostname && x.Item2 == port)?.Item3 ?? hostname;
+                    return internalConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item3 == name)?.Item1 ?? hostname;
+                }
             }
             else if (setupType == TestSetupType.LocalOnly)
             {

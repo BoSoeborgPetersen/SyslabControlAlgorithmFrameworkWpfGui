@@ -7,6 +7,7 @@ using SyslabControlAlgorithmFrameworkWpfGui.Serialization;
 using System.Collections;
 using System.Globalization;
 using System.Threading;
+using System.Collections.Concurrent;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 {
@@ -19,7 +20,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         public string DisplayName { get; }
         private readonly int port;
 
-        private readonly Dictionary<string, Type> parameterNamesAndTypes = new Dictionary<string, Type>();
+        private readonly ConcurrentDictionary<string, Type> parameterNamesAndTypes = new ConcurrentDictionary<string, Type>();
 
         public static GenericBasedClient Instance(string hostname, int port, string name)
         {
@@ -33,7 +34,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         {
             Hostname = hostname;
             Name = name;
-            DisplayName = String.IsNullOrEmpty(name) ? "Client (" + hostname + ":" + port + ")" : name + " (" + hostname + ":" + port + ")";
+            var displayHostname = MyConfiguration.TranslateHostname(hostname, port);
+            DisplayName = String.IsNullOrEmpty(name) ? "Client (" + displayHostname + ":" + port + ")" : name + " (" + displayHostname + ":" + port + ")";
             this.port = port;
             this.client = client;
         }
@@ -55,9 +57,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             if (resourceName.Contains("[")) return "Requires Parameters";
 
             object value = client.Request("resource", deviceName, resourceName);
-
-            if (!parameterNamesAndTypes.ContainsKey(resourceName))
-                parameterNamesAndTypes.Add(resourceName, value?.GetType());
+            
+            parameterNamesAndTypes.TryAdd(resourceName, value?.GetType());
 
             return value;
         }

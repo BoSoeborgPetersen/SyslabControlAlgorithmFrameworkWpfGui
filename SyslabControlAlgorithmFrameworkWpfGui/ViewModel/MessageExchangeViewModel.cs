@@ -25,7 +25,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             {
                 Client = x,
                 Name = x.Name,
-                Host = x.Hostname,
+                Host = MyConfiguration.TranslateHostname(x.Hostname, x.Port),
                 Port = x.Port,
                 IsIsolated = x.IsIsolated
             }));
@@ -43,6 +43,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         {
             selectedClient1 = Clients.FirstOrDefault();
             selectedClient2 = Clients.Skip(1).FirstOrDefault();
+            selectedMessage1 = Messages1.FirstOrDefault();
+            selectedMessage2 = Messages2.FirstOrDefault();
 
             new Thread(() =>
             {
@@ -52,6 +54,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 {
                     RaisePropertyChanged(() => Messages1);
                     RaisePropertyChanged(() => Messages2);
+                    RaisePropertyChanged(() => SelectedMessage1);
+                    RaisePropertyChanged(() => SelectedMessage2);
+                    RaisePropertyChanged(() => SelectedFormattedMessage1);
+                    RaisePropertyChanged(() => SelectedFormattedMessage2);
 
                     Thread.Sleep(10000);
                 }

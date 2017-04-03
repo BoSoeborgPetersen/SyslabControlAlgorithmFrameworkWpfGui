@@ -33,8 +33,9 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         {
             Hostname = hostname;
             Name = name;
-            DisplayName = String.IsNullOrEmpty(name) ? "Client (Url: " + hostname + ":" + port + ")" : name + " (Url: " + hostname + ":" + port + ")";
-            this.Port = port;
+            var displayHostname = MyConfiguration.TranslateHostname(hostname, port);
+            DisplayName = String.IsNullOrEmpty(name) ? "Client (Url: " + displayHostname + ":" + port + ")" : name + " (Url: " + displayHostname + ":" + port + ")";
+            Port = port;
             this.client = client;
         }
 
@@ -47,7 +48,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             (string)client.Request("getControlAlgorithmState", algorithmName);
 
         public int GetControlAlgorithmRunIntervalMillis(string algorithmName) =>
-            (int)client.Request("getControlAlgorithmRunIntervalMillis", algorithmName);
+            (int)(client.Request("getControlAlgorithmRunIntervalMillis", algorithmName) ?? -1);
 
         //public Dictionary<string, object> getControlParameters(string algorithmName)
         //{
