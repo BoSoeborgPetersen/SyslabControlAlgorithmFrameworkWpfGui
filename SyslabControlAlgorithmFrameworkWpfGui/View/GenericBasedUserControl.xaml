@@ -29,7 +29,7 @@
                 </ScrollViewer>
             </GroupBox>
             <GroupBox Header="Control Names">
-                <ListView ItemsSource="{Binding ControlNames, IsAsync=True}" SelectedItem="{Binding SelectedControlName, IsAsync=True, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView ItemsSource="{Binding ControlNames, IsAsync=True}" SelectedItem="{Binding SelectedControlName, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control">
                 <StackPanel>

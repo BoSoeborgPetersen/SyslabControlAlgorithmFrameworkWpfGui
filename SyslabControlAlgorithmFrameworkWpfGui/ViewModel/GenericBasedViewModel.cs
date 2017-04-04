@@ -70,8 +70,13 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             {
                 selectedDeviceName = value;
                 RaisePropertyChanged(nameof(ResourceNames));
+
                 selectedResourceName = ResourceNames.FirstOrDefault();
                 RaisePropertyChanged(nameof(SelectedResourceName));
+
+                selectedControlName = ControlNames.FirstOrDefault();
+                RaisePropertyChanged(nameof(SelectedControlName));
+
                 RaisePropertyChanged(nameof(Resource));
             }
         }

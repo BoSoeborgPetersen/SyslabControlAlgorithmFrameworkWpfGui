@@ -42,7 +42,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public AlgorithmVM SelectedAlgorithm { get => selectedAlgorithmVM; set => SetSelectedAlgorithmName(value); }
         public ICommand SwitchIsIsolatedCommand { get; }
 
-        public ObservableCollection<string> ControlParameterNames => new ObservableCollection<string>(selectedClient.GetControlParameterNames(SelectedAlgorithm.Name).OrderBy(x => x));
+        public ObservableCollection<string> ControlParameterNames => SelectedAlgorithm?.Name == null ? null : new ObservableCollection<string>(selectedClient.GetControlParameterNames(SelectedAlgorithm.Name).OrderBy(x => x));
         public string SelectedControlParameterName { get { return selectedControlParameterName; } set { SetSelectedControlParameterName(value); } }
         public object ControlParameter { get { return selectedClient.GetControlParameter(SelectedAlgorithm.Name, SelectedControlParameterName); } set { SetControlParameter(value); } }
 
@@ -75,8 +75,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 selectedClient = value.Client;
                 selectedClientVM = value;
                 RaisePropertyChanged(nameof(Clients));
-                RaisePropertyChanged(nameof(Algorithms));
-                SetSelectedAlgorithmName(Algorithms.FirstOrDefault());
+                UpdateAlgorithms();
             }
         }
 
@@ -94,12 +93,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 selectedAlgorithmVM = value;
                 RaisePropertyChanged(nameof(Algorithms));
                 RaisePropertyChanged(nameof(ControlParameterNames));
-                selectedControlParameterName = ControlParameterNames.FirstOrDefault();
-                RaisePropertyChanged(nameof(SelectedControlParameterName));
+                SelectedControlParameterName = ControlParameterNames.FirstOrDefault();
                 RaisePropertyChanged(nameof(ControlParameter));
                 RaisePropertyChanged(nameof(ControlOutputNames));
-                selectedControlOutputName = ControlOutputNames.FirstOrDefault();
-                RaisePropertyChanged(nameof(SelectedControlOutputName));
+                SelectedControlOutputName = ControlOutputNames.FirstOrDefault();
                 RaisePropertyChanged(nameof(ControlOutput));
             }
         }
@@ -109,6 +106,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             if (value != null && selectedControlParameterName != value)
             {
                 selectedControlParameterName = value;
+                RaisePropertyChanged(nameof(SelectedControlParameterName));
                 RaisePropertyChanged(nameof(ControlParameter));
             }
         }
@@ -118,6 +116,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             if (value != null && selectedControlOutputName != value)
             {
                 selectedControlOutputName = value;
+                RaisePropertyChanged(nameof(SelectedControlOutputName));
                 RaisePropertyChanged(nameof(ControlOutput));
             }
         }
@@ -140,7 +139,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public void StartAlgorithm(string name = null)
         {
             selectedClient.StartAlgorithm(name ?? SelectedAlgorithm.Name);
-            RaisePropertyChanged(nameof(Algorithms));
+            UpdateAlgorithms();
         }
 
         private bool CanStopAlgorithm()
@@ -151,7 +150,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public void StopAlgorithm(string name = null)
         {
             selectedClient.StopAlgorithm(name ?? SelectedAlgorithm.Name);
-            RaisePropertyChanged(nameof(Algorithms));
+            UpdateAlgorithms();
         }
 
         private bool CanRestartAlgorithm()
@@ -162,7 +161,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public void RestartAlgorithm(string name = null)
         {
             selectedClient.RestartAlgorithm(name ?? SelectedAlgorithm.Name);
-            RaisePropertyChanged(nameof(Algorithms));
+            UpdateAlgorithms();
         }
 
         private bool CanPauseAlgorithm()
@@ -173,7 +172,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public void PauseAlgorithm(string name = null)
         {
             selectedClient.PauseAlgorithm(name ?? SelectedAlgorithm.Name);
-            RaisePropertyChanged(nameof(Algorithms));
+            UpdateAlgorithms();
         }
 
         private bool CanResumeAlgorithm()
@@ -184,7 +183,14 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public void ResumeAlgorithm(string name = null)
         {
             selectedClient.ResumeAlgorithm(name ?? SelectedAlgorithm.Name);
-            RaisePropertyChanged(nameof(Algorithms));
+            UpdateAlgorithms();
+        }
+
+        private void UpdateAlgorithms()
+        {
+            SelectedAlgorithm = selectedAlgorithmVM == null ? Algorithms.FirstOrDefault() : 
+                Algorithms.SingleOrDefault(x => x.Name == selectedAlgorithmVM.Name) ?? 
+                Algorithms.FirstOrDefault();
         }
 
         private object PrintObjectIfComplexType(object o)

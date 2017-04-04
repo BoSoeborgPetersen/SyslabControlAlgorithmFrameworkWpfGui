@@ -36,8 +36,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public ObservableCollection<string> Messages2 => new ObservableCollection<string>(FilterMessages(selectedClient2.Client.GetPreviousMessages(), false));
         public string SelectedMessage1 { get { return selectedMessage1; } set { SetSelectedMessage1(value); } }
         public string SelectedMessage2 { get { return selectedMessage2; } set { SetSelectedMessage2(value); } }
-        public string SelectedFormattedMessage1 => FormatMessage(SelectedMessage1);
-        public string SelectedFormattedMessage2 => FormatMessage(SelectedMessage2);
+        public string FormattedMessage1 => FormatMessage(SelectedMessage1);
+        public string FormattedMessage2 => FormatMessage(SelectedMessage2);
 
         public MessageExchangeViewModel()
         {
@@ -54,10 +54,10 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 {
                     RaisePropertyChanged(() => Messages1);
                     RaisePropertyChanged(() => Messages2);
-                    RaisePropertyChanged(() => SelectedMessage1);
-                    RaisePropertyChanged(() => SelectedMessage2);
-                    RaisePropertyChanged(() => SelectedFormattedMessage1);
-                    RaisePropertyChanged(() => SelectedFormattedMessage2);
+                    SelectedMessage1 = Messages1.SingleOrDefault(x => x == selectedMessage1) ?? Messages1.FirstOrDefault();
+                    SelectedMessage2 = Messages2.SingleOrDefault(x => x == selectedMessage2) ?? Messages2.FirstOrDefault();
+                    RaisePropertyChanged(() => FormattedMessage1);
+                    RaisePropertyChanged(() => FormattedMessage2);
 
                     Thread.Sleep(10000);
                 }
@@ -138,7 +138,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             if (value != null && selectedMessage1 != value)
             {
                 selectedMessage1 = value;
-                RaisePropertyChanged(nameof(SelectedFormattedMessage1));
+                RaisePropertyChanged(() => SelectedMessage1);
+                RaisePropertyChanged(nameof(FormattedMessage1));
             }
         }
 
@@ -147,7 +148,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             if (value != null && selectedMessage2 != value)
             {
                 selectedMessage2 = value;
-                RaisePropertyChanged(nameof(SelectedFormattedMessage2));
+                RaisePropertyChanged(() => SelectedMessage2);
+                RaisePropertyChanged(nameof(FormattedMessage2));
             }
         }
     }

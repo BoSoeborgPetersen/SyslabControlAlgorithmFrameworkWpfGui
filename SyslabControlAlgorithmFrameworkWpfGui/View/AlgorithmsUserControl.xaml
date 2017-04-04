@@ -100,7 +100,7 @@
         </UniformGrid>-->
         <UniformGrid>
             <GroupBox Header="Control Parameter Names">
-                <ListView ItemsSource="{Binding ControlParameterNames, IsAsync=True}" SelectedItem="{Binding SelectedControlParameterName, IsAsync=True, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView ItemsSource="{Binding ControlParameterNames, IsAsync=True}" SelectedItem="{Binding SelectedControlParameterName, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control Parameter">
                 <ContentControl Content="{Binding ControlParameter, IsAsync=True}">
@@ -116,7 +116,7 @@
                 <!--<TextBox Text="{Binding ControlParameter, IsAsync=True}"/>-->
             </GroupBox>
             <GroupBox Header="Control Output Names">
-                <ListView ItemsSource="{Binding ControlOutputNames, IsAsync=True}" SelectedItem="{Binding SelectedControlOutputName, IsAsync=True, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView ItemsSource="{Binding ControlOutputNames, IsAsync=True}" SelectedItem="{Binding SelectedControlOutputName, IsAsync=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </GroupBox>
             <GroupBox Header="Control Output">
                 <Grid>

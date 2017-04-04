@@ -38,6 +38,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public ScadaViewModel()
         {
             selectedClient = Clients.FirstOrDefault();
+            selectedRequest = Requests.FirstOrDefault();
 
             new Thread(() =>
             {
@@ -46,6 +47,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 while (true)
                 {
                     RaisePropertyChanged(() => Requests);
+                    SelectedRequest = Requests.SingleOrDefault(x => x == selectedRequest) ?? Requests.FirstOrDefault();
 
                     Thread.Sleep(10000);
                 }
