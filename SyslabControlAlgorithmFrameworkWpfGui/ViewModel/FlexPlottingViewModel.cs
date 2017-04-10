@@ -25,7 +25,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public Dictionary<string, PlotModel> ClientData { get; } = new Dictionary<string, PlotModel>();
 
         private readonly Dictionary<GenericBasedClient, CompositeMeasurement> activePowers = new Dictionary<GenericBasedClient, CompositeMeasurement>();
-        public double TotalActivePower => activePowers.Sum(x => x.Value?.Value ?? 0);
+        public double TotalActivePower => activePowers.ToList().Sum(x => x.Value?.Value ?? 0);
 
         public FlexPlottingViewModel()
         {

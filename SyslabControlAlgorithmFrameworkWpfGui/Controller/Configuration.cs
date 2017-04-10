@@ -10,7 +10,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
     public static class MyConfiguration
     {
         // Config.
-        private static readonly TestSetupType setupType = TestSetupType.Duevej;
+        private static readonly TestSetupType setupType = TestSetupType.Risø;
 
         private static readonly string hostname = Dns.GetHostName();
         private static readonly Tuple<string, int, string, bool> genericBasedConnectionInfoLocalOnly = new Tuple<string, int, string, bool>(hostname, 9000, "Localhost", false);
@@ -132,7 +132,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
             if (setupType == TestSetupType.Risø)
             {
-                return externalViewConnectionInfoRisø.Single(x => x.Item1 == hostname).Item3;
+                return externalViewConnectionInfoRisø.SingleOrDefault(x => x.Item1 == hostname)?.Item3 ?? hostname;
             }
             else if (setupType == TestSetupType.RisøAndLocal)
             {
@@ -140,7 +140,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             }
             else if (setupType == TestSetupType.Duevej)
             {
-                return internalConnectionInfoDuevejTestSetup.Single(x => x.Item1 == hostname).Item3;
+                return internalConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item1 == hostname)?.Item3 ?? hostname;
             }
             else if (setupType == TestSetupType.DuevejAndLocal)
             {
@@ -159,7 +159,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
             if (setupType == TestSetupType.Risø)
             {
-                return externalViewConnectionInfoRisø.Single(x => x.Item1 == hostname).Item2;
+                return externalViewConnectionInfoRisø.SingleOrDefault(x => x.Item1 == hostname)?.Item2 ?? -1;
             }
             else if (setupType == TestSetupType.RisøAndLocal)
             {
@@ -167,7 +167,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             }
             else if (setupType == TestSetupType.Duevej)
             {
-                return internalConnectionInfoDuevejTestSetup.Single(x => x.Item1 == hostname).Item2;
+                return internalConnectionInfoDuevejTestSetup.SingleOrDefault(x => x.Item1 == hostname)?.Item2 ?? -1;
             }
             else if (setupType == TestSetupType.DuevejAndLocal)
             {

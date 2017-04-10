@@ -15,7 +15,7 @@
         <GroupBox DockPanel.Dock="Bottom" Header="Total">
             <TextBlock Text="{Binding TotalActivePower, IsAsync=True}"/>
         </GroupBox>
-        <ItemsControl ItemsSource="{Binding ClientData, IsAsync=True}">                           
+        <ItemsControl ItemsSource="{Binding ClientData}">                           
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="2" />
