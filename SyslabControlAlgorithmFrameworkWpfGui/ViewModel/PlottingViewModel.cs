@@ -61,7 +61,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             foreach (var client in genericBasedClients)
             {
                 var activePower = (CompositeMeasurement)client.Resource("", "getACActivePower");
-                activePower = FixPrefix(activePower, client.Hostname);
                 if (activePowers.ContainsKey(client)) activePowers.Remove(client);
                 activePowers.Add(client, activePower);
 
@@ -77,16 +76,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             if (totalSeries.Points.Count > 60) totalSeries.Points.RemoveAt(0);
 
             ClientData.InvalidatePlot(true);
-        }
-
-        private CompositeMeasurement FixPrefix(CompositeMeasurement value, string host)
-        {
-            if (value == null) return null;
-
-            if (host.Equals("10.42.241.5") || host.Equals("10.42.241.16"))
-                value.Value *= -1;
-
-            return value;
         }
     }
 }

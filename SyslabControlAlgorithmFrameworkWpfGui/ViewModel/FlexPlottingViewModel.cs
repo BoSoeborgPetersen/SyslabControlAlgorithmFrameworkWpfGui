@@ -95,7 +95,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 {
                     if (client.Hostname.Equals("10.42.241.5"))
                     {
-                        double? setpoint = (double?)(externalViewClient.GetControlOutput("DumploadControlAlgorithm", "setP_10.42.241.5"));
+                        double? setpoint = -1 * (double?)(externalViewClient.GetControlOutput("DumploadControlAlgorithm", "setP_10.42.241.5"));
                         
                         if (setpoint != null)
                         {

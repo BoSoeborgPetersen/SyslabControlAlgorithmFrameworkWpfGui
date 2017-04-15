@@ -42,7 +42,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
         public MessageExchangeViewModel()
         {
             selectedClient1 = Clients.FirstOrDefault();
-            selectedClient2 = Clients.Skip(1).FirstOrDefault();
+            selectedClient2 = Clients.Skip(1).FirstOrDefault() ?? Clients.FirstOrDefault();
             selectedMessage1 = Messages1.FirstOrDefault();
             selectedMessage2 = Messages2.FirstOrDefault();
 

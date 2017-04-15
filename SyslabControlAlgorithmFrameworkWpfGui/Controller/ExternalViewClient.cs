@@ -43,7 +43,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
             (Boolean)client.Request("isIsolated");
 
         public List<string> GetControlAlgorithmNames() =>
-            ((ArrayList)client.Request("getControlAlgorithmNames")).Cast<string>().ToList();
+            ((ArrayList)client.Request("getControlAlgorithmNames"))?.Cast<string>()?.ToList() ?? new List<string>();
         public string GetControlAlgorithmState(string algorithmName) =>
             (string)client.Request("getControlAlgorithmState", algorithmName);
 
