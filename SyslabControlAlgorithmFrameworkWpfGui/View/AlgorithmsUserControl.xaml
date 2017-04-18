@@ -69,6 +69,9 @@
                                 <DataTrigger Binding="{Binding State, IsAsync=True}" Value="Initial State">
                                     <Setter Property="Foreground" Value="Purple" />
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding State, IsAsync=True}" Value="Error">
+                                    <Setter Property="Foreground" Value="DarkRed" />
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                         <DataTemplate DataType="{x:Type ViewModelModel:AlgorithmVM}" >
