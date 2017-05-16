@@ -27,7 +27,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel.Model
         public ICommand PauseAlgorithmCommand { get; }
         public ICommand ResumeAlgorithmCommand { get; }
 
-        public Visibility StartAlgorithmVisibility => (State == "Initial State" || State == "Stopped") ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility StartAlgorithmVisibility => (State == "Initial State" || State == "Stopped" || State == "Error") ? Visibility.Visible : Visibility.Collapsed;
         public Visibility StopAlgorithmVisibility => State == "Running" ? Visibility.Visible : Visibility.Collapsed;
         public Visibility RestartAlgorithmVisibility => State == "Running" ? Visibility.Visible : Visibility.Collapsed;
         public Visibility PauseAlgorithmVisibility => State == "Running" ? Visibility.Visible : Visibility.Collapsed;

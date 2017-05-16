@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -133,7 +134,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
 
         private bool CanStartAlgorithm()
         {
-            return SelectedAlgorithm.State == "Initial State" || SelectedAlgorithm.State == "Stopped";
+            return SelectedAlgorithm.State == "Initial State" || SelectedAlgorithm.State == "Stopped" || SelectedAlgorithm.State == "Error";
         }
 
         public void StartAlgorithm(string name = null)

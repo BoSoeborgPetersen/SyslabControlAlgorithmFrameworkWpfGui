@@ -14,7 +14,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 {
     public class GenericBasedClient
     {
-        private static readonly Dictionary<string, GenericBasedClient> instances = new Dictionary<string, GenericBasedClient>();
+        private static readonly ConcurrentDictionary<string, GenericBasedClient> instances = new ConcurrentDictionary<string, GenericBasedClient>();
         private readonly CommunicationClient client;
         public string Hostname { get; }
         public string Name { get; }
@@ -27,7 +27,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         public static GenericBasedClient Instance(string hostname, int port, string name, bool revertValues)
         {
             if (!instances.ContainsKey(hostname + ":" + port))
-                instances.Add(hostname + ":" + port, new GenericBasedClient(hostname, port, name, revertValues, CommunicationFactory.GetCommunicationClient(MiddlewareType.YAMI4, SerializationType.JsonNewtonsoft, hostname, port)));
+                instances.TryAdd(hostname + ":" + port, new GenericBasedClient(hostname, port, name, revertValues, CommunicationFactory.GetCommunicationClient(MiddlewareType.YAMI4, SerializationType.JsonNewtonsoft, hostname, port)));
 
             return instances[hostname + ":" + port];
         }

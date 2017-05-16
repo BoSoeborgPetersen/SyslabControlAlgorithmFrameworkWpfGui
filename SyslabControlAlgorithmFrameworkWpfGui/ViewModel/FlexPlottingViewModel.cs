@@ -19,7 +19,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
     {
         private double time = 0;
 
-        private readonly ExternalViewClient externalViewClient = MyConfiguration.ExternalViewClients().FirstOrDefault(x => x.Hostname.Equals(Dns.GetHostName()) || x.Hostname.Equals("10.42.241.5"));
+        private readonly IEnumerable<ExternalViewClient> externalViewClients = MyConfiguration.ExternalViewClients();
 
         private readonly IEnumerable<GenericBasedClient> genericBasedClients = MyConfiguration.GenericBasedClients();
         public Dictionary<string, PlotModel> ClientData { get; } = new Dictionary<string, PlotModel>();
@@ -33,18 +33,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             {
                 var model = new PlotModel();
                 model.Series.Add(new LineSeries());
-                if ((externalViewClient?.Hostname.Equals(Dns.GetHostName()) ?? false) || (externalViewClient?.Hostname.Equals("10.42.241.5") ?? false))
-                {
-                    if (x.Hostname.Equals("10.42.241.5"))
-                    {
-                        model.Series.Add(new LineSeries());
-                    }
-                    else
-                    {
-                        //model.Series.Add(new BarSeries());
-                        model.Series.Add(new LineSeries());
-                    }
-                }
+                model.Series.Add(new LineSeries());
                 model.Axes.Add(new LinearAxis()
                 {
                     Position = AxisPosition.Left,
@@ -80,47 +69,56 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
             //genericBasedClients.Single(x => x.Hostname.Equals("10.42.241.10")).Control("-", "setPacLimit", 10);
             //genericBasedClients.Single(x => x.Hostname.Equals("10.42.241.24")).Control("-", "setPacLimit", 10);
 
-            int i = 0;
+            int j = 0;
             foreach (var client in genericBasedClients)
             {
                 var activePower = (CompositeMeasurement)client.Resource("", "getACActivePower");
                 if (activePowers.ContainsKey(client)) activePowers.Remove(client);
                 activePowers.Add(client, activePower);
 
-                var series1 = ClientData.ElementAt(i).Value.Series[0] as LineSeries;
+                var series1 = ClientData.ElementAt(j).Value.Series[0] as LineSeries;
                 series1.Points.Add(new DataPoint(time, activePower?.Value ?? 0));
                 if (series1.Points.Count > 60) series1.Points.RemoveAt(0);
 
-                if (externalViewClient?.Hostname.Equals("10.42.241.5") ?? false)
-                {
-                    if (client.Hostname.Equals("10.42.241.5"))
-                    {
-                        double? setpoint = -1 * (double?)(externalViewClient.GetControlOutput("DumploadControlAlgorithm", "setP_10.42.241.5"));
-                        
-                        if (setpoint != null)
-                        {
-                            var series2 = ClientData.ElementAt(i).Value.Series[1] as LineSeries;
-                            series2.Points.Add(new DataPoint(time, setpoint.Value));
-                            if (series2.Points.Count > 60) series2.Points.RemoveAt(0);
-                        }
-                    }
-                    else
-                    {
-                        double? setpoint;
-                        FlexibilityExecutions flex = (FlexibilityExecutions)(externalViewClient.GetControlOutput("FlexibilityAlgorithm", "FLEX_" + client.Hostname));
-                        setpoint = flex?.Duration == 0 ? 0 : 1000 * flex?.Kwh / flex?.Duration;
+                j++;
+            }
 
-                        if (flex != null)
-                        {
-                            //var series2 = ClientData.ElementAt(i).Value.Series[1] as BarSeries;
-                            //series2.Items.Add(new BarItem(setpoint.Value));
-                            var series2 = ClientData.ElementAt(i).Value.Series[1] as LineSeries;
-                            series2.Points.Add(new DataPoint(time, setpoint.Value));
-                            if (series2.Points.Count > 60) series2.Points.RemoveAt(0);
-                        }
+            j = 0;
+            foreach (var client in externalViewClients)
+            {
+                if (client.Hostname.Equals("10.42.241.5"))
+                {
+                    double? setpoint = -1 * (double?)(client.GetControlOutput("DumploadControlAlgorithm", "setP_10.42.241.5"));
+
+                    if (setpoint != null)
+                    {
+                        var series2 = ClientData.ElementAt(j).Value.Series[1] as LineSeries;
+                        series2.Points.Add(new DataPoint(time, setpoint.Value));
+                        if (series2.Points.Count > 60) series2.Points.RemoveAt(0);
+                    }
+                }
+                else
+                {
+                    double? setpoint;
+                    FlexibilityExecutions flex = (FlexibilityExecutions)(client.GetControlOutput("FlexibilityDecentrilizedMEAlgorithm", "FlexibilityExecution"));
+                    setpoint = flex?.Duration == 0 ? 0 : 1000 * flex?.Kwh / flex?.Duration;
+
+                    if (flex != null)
+                    {
+                        //var series2 = ClientData.ElementAt(i).Value.Series[1] as BarSeries;
+                        //series2.Items.Add(new BarItem(setpoint.Value));
+                        var series2 = ClientData.ElementAt(j).Value.Series[1] as LineSeries;
+                        series2.Points.Add(new DataPoint(time, setpoint.Value));
+                        if (series2.Points.Count > 60) series2.Points.RemoveAt(0);
                     }
                 }
 
+                j++;
+            }
+
+
+            for(int i = 0; i < genericBasedClients.Count(); i++)
+            {
                 // Update axis range to have 0 in the middle.
                 var yAxis = ClientData.ElementAt(i).Value.Axes[0] as LinearAxis;
                 if (Math.Abs(yAxis.ActualMaximum) > Math.Abs(yAxis.ActualMinimum))
@@ -133,8 +131,6 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                     yAxis.Maximum = yAxis.DataMaximum + 1;
 
                 ClientData.ElementAt(i).Value.InvalidatePlot(true);
-
-                i++;
             }
         }
     }

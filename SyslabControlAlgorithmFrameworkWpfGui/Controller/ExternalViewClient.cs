@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -40,7 +41,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         }
 
         public Boolean IsIsolated =>
-            (Boolean)client.Request("isIsolated");
+            (Boolean)(client.Request("isIsolated") ?? false);
 
         public List<string> GetControlAlgorithmNames() =>
             ((ArrayList)client.Request("getControlAlgorithmNames"))?.Cast<string>()?.ToList() ?? new List<string>();
@@ -102,6 +103,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 
         public void SwitchIsIsolated()
         {
+            File.AppendAllText("IsIsolated.txt", Hostname + ", isIsolated: " + !IsIsolated + ", time: " + DateTime.UtcNow.ToLongTimeString() + ", timestamp: " + DateTimeOffset.Now.ToUnixTimeSeconds() + "\n");
             client.Push("switchIsIsolated");
         }
 

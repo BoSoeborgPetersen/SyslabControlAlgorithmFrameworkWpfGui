@@ -54,8 +54,8 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.ViewModel
                 {
                     RaisePropertyChanged(() => Messages1);
                     RaisePropertyChanged(() => Messages2);
-                    SelectedMessage1 = Messages1.SingleOrDefault(x => x == selectedMessage1) ?? Messages1.FirstOrDefault();
-                    SelectedMessage2 = Messages2.SingleOrDefault(x => x == selectedMessage2) ?? Messages2.FirstOrDefault();
+                    SelectedMessage1 = Messages1.FirstOrDefault(x => x == selectedMessage1) ?? Messages1.FirstOrDefault();
+                    SelectedMessage2 = Messages2.FirstOrDefault(x => x == selectedMessage2) ?? Messages2.FirstOrDefault();
                     RaisePropertyChanged(() => FormattedMessage1);
                     RaisePropertyChanged(() => FormattedMessage2);
 
