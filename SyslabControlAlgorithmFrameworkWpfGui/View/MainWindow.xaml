@@ -10,29 +10,29 @@
         <ViewModel:MainViewModel />
     </Window.DataContext>
     <TabControl>
-        <TabItem Header="Algorithms">
+        <TabItem Header="Algorithms" Visibility="{Binding CAFEnabled}">
             <View:AlgorithmsUserControl/>
         </TabItem>
-        <TabItem Header="Network Discovery">
+        <TabItem Header="Network Discovery" Visibility="{Binding CAFEnabled}">
             <View:NetworkDiscoveryUserControl/>
         </TabItem>
-        <TabItem Header="Service Discovery">
+        <TabItem Header="Service Discovery" Visibility="{Binding CAFEnabled}">
             <View:ServiceDiscoveryUserControl/>
         </TabItem>
-        <TabItem Header="Message Exchange">
+        <TabItem Header="Message Exchange" Visibility="{Binding CAFEnabled}">
             <View:MessageExchangeUserControl/>
         </TabItem>
-        <TabItem Header="SCADA">
+        <TabItem Header="SCADA" Visibility="{Binding CAFEnabled}">
             <View:ScadaUserControl/>
         </TabItem>
-        <TabItem Header="Generic Based">
+        <!--<TabItem Header="Generic Based">
             <View:GenericBasedUserControl/>
-        </TabItem>
-        <TabItem Header="Plotting">
+        </TabItem>-->
+        <TabItem Header="Plotting" Visibility="{Binding CAFEnabled}">
             <View:PlottingUserControl/>
         </TabItem>
-        <TabItem Header="Flex Plotting">
+        <!--<TabItem Header="Flex Plotting" Visibility="{Binding CAFEnabled}">
             <View:FlexPlottingUserControl/>
-        </TabItem>
+        </TabItem>-->
     </TabControl>
 </Controls:MetroWindow>

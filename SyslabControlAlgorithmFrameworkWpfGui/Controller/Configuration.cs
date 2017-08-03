@@ -4,13 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
 {
     public static class MyConfiguration
     {
         // Config.
-        private static readonly TestSetupType setupType = TestSetupType.Risø;
+        private static readonly bool cafEnabled = true;
+        private static readonly TestSetupType setupType = TestSetupType.LocalOnly;
 
         private static readonly string hostname = Dns.GetHostName();
         private static readonly Tuple<string, int, string, bool> genericBasedConnectionInfoLocalOnly = new Tuple<string, int, string, bool>(hostname, 9000, "Localhost", false);
@@ -45,24 +47,24 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
         };
         private static readonly List<Tuple<string, int, string, bool>> genericBasedConnectionInfoRisø = new List<Tuple<string, int, string, bool>>()
         {
-            new Tuple<string, int, string, bool>("10.42.241.2", 9000, "Diesel", false),
-            new Tuple<string, int, string, bool>("10.42.241.3", 9000, "Gaia", false),
-            new Tuple<string, int, string, bool>("10.42.241.5", 9000, "Dumpload", true),
+            //new Tuple<string, int, string, bool>("10.42.241.2", 9000, "Diesel", false),
+            //new Tuple<string, int, string, bool>("10.42.241.3", 9000, "Gaia", false),
+            //new Tuple<string, int, string, bool>("10.42.241.5", 9000, "Dumpload", true),
             new Tuple<string, int, string, bool>("10.42.241.7", 9000, "PV 117", false),
             new Tuple<string, int, string, bool>("10.42.241.10", 9000, "PV 715", false),
-            new Tuple<string, int, string, bool>("10.42.241.12", 9000, "Vanadium Battery", false),
-            new Tuple<string, int, string, bool>("10.42.241.16", 9000, "Mobile Load 1", true),
+            //new Tuple<string, int, string, bool>("10.42.241.12", 9000, "Vanadium Battery", false),
+            //new Tuple<string, int, string, bool>("10.42.241.16", 9000, "Mobile Load 1", true),
             new Tuple<string, int, string, bool>("10.42.241.24", 9000, "PV 319", false)
         };
         private static readonly List<Tuple<string, int, string, bool>> externalViewConnectionInfoRisø= new List<Tuple<string, int, string, bool>>()
         {
-            new Tuple<string, int, string, bool>("10.42.241.2", 5531, "Diesel", false),
-            new Tuple<string, int, string, bool>("10.42.241.3", 5531, "Gaia", false),
-            new Tuple<string, int, string, bool>("10.42.241.5", 5531, "Dumpload", true),
+            //new Tuple<string, int, string, bool>("10.42.241.2", 5531, "Diesel", false),
+            //new Tuple<string, int, string, bool>("10.42.241.3", 5531, "Gaia", false),
+            //new Tuple<string, int, string, bool>("10.42.241.5", 5531, "Dumpload", true),
             new Tuple<string, int, string, bool>("10.42.241.7", 5531, "PV 117", false),
             new Tuple<string, int, string, bool>("10.42.241.10", 5531, "PV 715", false),
-            new Tuple<string, int, string, bool>("10.42.241.12", 5531, "Vanadium Battery", false),
-            new Tuple<string, int, string, bool>("10.42.241.16", 5531, "Mobile Load 1", true),
+            //new Tuple<string, int, string, bool>("10.42.241.12", 5531, "Vanadium Battery", false),
+            //new Tuple<string, int, string, bool>("10.42.241.16", 5531, "Mobile Load 1", true),
             new Tuple<string, int, string, bool>("10.42.241.24", 5531, "PV 319", false)
         };
 
@@ -225,6 +227,11 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
                 return hostname;
             }
             return hostname;
+        }
+
+        public static bool IsCAFEnabled()
+        {
+            return cafEnabled;
         }
     }
 
