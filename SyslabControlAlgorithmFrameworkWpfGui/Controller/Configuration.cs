@@ -12,7 +12,7 @@ namespace SyslabControlAlgorithmFrameworkWpfGui.Controller
     {
         // Config.
         private static readonly bool cafEnabled = true;
-        private static readonly TestSetupType setupType = TestSetupType.LocalOnly;
+        private static readonly TestSetupType setupType = TestSetupType.Risø;
 
         private static readonly string hostname = Dns.GetHostName();
         private static readonly Tuple<string, int, string, bool> genericBasedConnectionInfoLocalOnly = new Tuple<string, int, string, bool>(hostname, 9000, "Localhost", false);
